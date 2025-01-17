@@ -1,100 +1,87 @@
-# Estructura para el informe
+# Blueprint para la automatización de los informes de cierre
 
-## 1. Introducción
-- Breve descripción del programa y su objetivo general.
-- Resumen de las áreas clave cubiertas: optimización operativa, calidad del producto, gestión de talento humano, prácticas gerenciales, financiación y comercialización.
+## 1. Optimización operativa
 
----
+### Indicadores de eficiencia y productividad
+- **Indicador de eficiencia**: Rendimiento operacional y cumplimiento de metas de producción.
+- **Tasa de unidades defectuosas**: Evaluación de la calidad en producción y áreas de mejora.
 
-## 2. Optimización operativa: proceso productivo y calidad del producto
+### Gestión del espacio y procesos
+- **Balanceo de planta**: Implementación de metodologías para optimizar flujos de trabajo.
+- **Distribución del espacio**:
+  - Áreas de trabajo bien demarcadas y transitables.
+  - Adecuación de zonas peligrosas y demarcación para seguridad.
+- **Flujo de materiales**: Optimización en la secuencia y manejo de insumos.
 
-### 2.1 Indicadores de eficiencia
-- **Eficiencia inicial y final**: Porcentaje de unidades productivas que alcanzan niveles óptimos de producción.
-- **Cálculo de tiempo estándar**: Porcentaje de adopción (Cúcuta: incluido).
-
-### 2.2 Calidad del proceso productivo
-- **Unidades defectuosas**: Cambios en la proporción inicial y final.
-- **Preparación de máquinas y control de tiempo**: Tasa de adopción inicial y final.
-- **Balanceo de planta**: Incrementos en la adopción de prácticas estándar.
-
-### 2.3 Distribución y uso del espacio
-- **Percepción de espacio adecuado**: Cambios en la percepción de capacidad suficiente para manejo de materiales.
-- **Demarcación y adecuación**: Tasa de adopción de medidas específicas.
+### Mejora en procesos
+- **Cálculo de tiempos estándar**: Adopción y precisión en la gestión del tiempo.
+- **Preparación de maquinaria**: Aumentar eficiencia y reducir tiempos muertos.
 
 ---
 
-## 3. Mayor calidad del producto
+## 2. Calidad del producto y documentación técnica
 
-### 3.1 Controles de calidad
-- **Materias primas, productos en proceso y productos finales**: Porcentaje de adopción inicial y final.
-- **Técnicas de muestreo y contramuestreo**: Cambios en la frecuencia de aplicación (Cúcuta: incluido).
+### Controles de calidad
+- **Materias primas, productos en proceso y terminados**: Métodos implementados para garantizar estándares.
+- **Muestreo y contramuestra**: Estrategias para verificar calidad consistente.
 
-### 3.2 Documentación técnica
-- **Uso de fichas técnicas**: Porcentaje inicial y final.
-- **Conservación de diseños**: Inclusión de patrones y registros históricos.
+### Documentación técnica
+- **Uso de fichas técnicas**: Formalización y estandarización en el diseño de productos.
+- **Conservación de patrones**: Preservación de estándares y consistencia en producción.
 
-### 3.3 Empaque y presentación
-- **Tipo de empaque utilizado**: Genérico, funcional o que exalta marca (solo Medellín).
-- **Cambios en el enfoque del empaque**: Datos de adopción.
-
-### 3.4 Uso de tecnología en diseño
-- **Software de diseño**: Tasa de adopción inicial y final.
+### Tecnología y empaque
+- **Software especializado**: Adopción y uso de herramientas digitales para diseño.
+- **Empaque del producto**: Funcionalidad y presentación para diferenciarse en el mercado.
 
 ---
 
-## 4. Gestión de talento humano
+## 3. Gestión de talento humano
 
-### 4.1 Estructura salarial
-- **Líderes empresariales con salario fijo**: Porcentaje inicial y final.
-- **Promedio y mediana salarial**: Cambios antes y después del programa.
+### Estructura salarial
+- **Formalización**: Incremento en la proporción de líderes con salario fijo.
+- **Niveles de salario**: Promedio y mediana salarial de los líderes empresariales.
 
-### 4.2 Estabilidad del empleo
-- **Promedio y mediana de empleados por unidad**: Cambios antes y después.
-
----
-
-## 5. Buenas prácticas gerenciales y estrategias comerciales
-
-### 5.1 Fijación de precios
-- **Sistemas ideales, aceptables y riesgosos**: Cambios en las proporciones.
-
-### 5.2 Conocimiento empresarial
-- **Márgenes de ganancia**: Porcentaje de líderes que conocen este indicador.
-- **Capacidad máxima de producción y periodicidad de ventas**: Tasa de adopción inicial y final.
+### Estabilidad del personal
+- **Promedio y mediana de empleados**: Evaluación de crecimiento en la plantilla laboral.
+- **Formalización del empleo**: Avances hacia relaciones laborales más estables.
 
 ---
 
-## 6. Financiación y comercialización
+## 4. Buenas prácticas gerenciales
 
-### 6.1 Desempeño en ventas
-- **Mediana de ingresos**: Comparación inicial y final.
-- **Tasa de crecimiento promedio**: Incrementos en ventas globales.
-
-### 6.2 Participación en eventos
-- **Ruedas comerciales**: Porcentaje de participación y efectividad (ambos informes).
-- **Ruedas financieras**: Porcentaje de participación y efectividad.
-
----
-
-## 7. Gestión financiera
-
-### 7.1 Métodos de contabilidad
-- **Niveles bajo, medio y alto**: Cambios en las proporciones.
-- **Uso de software contable**: Adopción inicial y final.
-
-### 7.2 Control de inventarios
-- **Prácticas de inventario**: Cambios en la proporción de unidades con control ocasional, constante o sin control.
+### Gestión de precios y costos
+- **Sistemas de fijación de precios**: Análisis de métodos ideales, aceptables y riesgosos.
+- **Conocimiento empresarial**:
+  - Margen de ganancia y costos operativos.
+  - Capacidad máxima de producción y periodicidad de ventas.
+- **Desglose de costos**: Materiales, mano de obra y gastos generales.
 
 ---
 
-## 8. Conclusiones y recomendaciones
-- Resumen de logros clave y áreas de mejora.
-- Recomendaciones para futuras intervenciones basadas en los resultados.
+## 5. Comercialización y financiamiento
+
+### Participación en eventos
+- **Ruedas comerciales**: Conexiones generadas y efectividad para generar oportunidades.
+- **Ruedas financieras**: Resultados concretos en acceso a crédito y networking financiero.
+
+### Desempeño comercial
+- **Ingresos generados**: Análisis de promedios, medianas y tendencias de crecimiento.
+- **Estrategias de ventas**: Evaluación de su impacto en el mercado.
+
+### Financiamiento
+- **Acceso al crédito**: Proporción de unidades con apoyo financiero formal.
+- **Gestión bancaria**: Separación de cuentas personales y empresariales.
 
 ---
 
-### Resolución de conflictos entre los PDFs
-1. **Empaque y Presentación**: Solo incluido cuando se menciona (Medellín).
-2. **Técnicas específicas de calidad (muestreo y contramuestreo)**: Presentes solo en Cúcuta.
-3. **Balanceo de planta**: Más detalle en Medellín; adoptado como estándar.
-4. **Financiación y Ruedas**: Ambas cohortes las reportan, pero las diferencias en efectividad se incluyen como observaciones.
+## 6. Gestión financiera y de inventarios
+
+### Métodos de contabilidad
+- **Nivel de sofisticación**: Manual, intermedio (Excel) y avanzado (software especializado).
+- **Herramientas tecnológicas**: Adopción para mejorar precisión y eficiencia.
+
+### Control de inventarios
+- **Prácticas de gestión**: Métodos efectivos para asegurar el abastecimiento óptimo.
+- **Frecuencia de control**: Adopción de sistemas constantes y sistemáticos.
+
+---
