@@ -11,13 +11,13 @@ class VariableData(BaseModel):
     """Variable data model."""
     variable: str = Field(..., description="Name of the variable.")
     description: str = Field(..., description="Description of the variable.")
-    value_before_intervention: float = Field(
+    value_initial_intervention: float = Field(
         ..., description="Average value before the intervention."
     )
-    value_after_intervention: float = Field(
+    value_final_intervention: float = Field(
         ..., description="Average value after the intervention."
     )
-    percentage_change: float = Field(
+    percentage_change: str = Field(
         ..., description="Percentage change from before to after the intervention."
     )
 

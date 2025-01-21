@@ -18,8 +18,8 @@ async def call_openai_api(
         {
             "variable": data.variable,
             "description": data.description,
-            "value_before_intervention": data.value_before_intervention,
-            "value_after_intervention": data.value_after_intervention,
+            "value_before_intervention": data.value_initial_intervention,
+            "value_after_intervention": data.value_final_intervention,
             "percentage_change": data.percentage_change,
         }
         for data in section.variables.values()
@@ -29,7 +29,6 @@ async def call_openai_api(
     logfire.info(f"Calling OpenAI API with prompt: {prompt}")
 
     try:
-        # Use OpenAI's library to call the API
         response = await asyncio.to_thread(
             client.chat.completions.create,
             model="gpt-3.5-turbo",  # Using the cheapest GPT model

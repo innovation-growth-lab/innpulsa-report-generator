@@ -22,23 +22,38 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSectio
             variable_data[variable] = VariableData(
                 variable=variable,
                 description=f"This variable captures the {variable} data.",
-                value_before_intervention=df.get(
-                    f"{variable}_before", pd.Series([])
-                ).mean(),
-                value_after_intervention=df.get(
-                    f"{variable}_after", pd.Series([])
-                ).mean(),
+                value_initial_intervention=round(
+                    df.get(f"{variable}_initial", pd.Series([])).mean(), 2
+                ),
+                value_final_intervention=round(
+                    df.get(f"{variable}_final", pd.Series([])).mean(), 2
+                ),
                 percentage_change=(
-                    (
-                        (
-                            df.get(f"{variable}_after", pd.Series([])).mean()
-                            - df.get(f"{variable}_before", pd.Series([])).mean()
-                        )
-                        / df.get(f"{variable}_before", pd.Series([])).mean()
+                    str(
+                        round(
+                            (
+                                (
+                                    (
+                                        df.get(
+                                            f"{variable}_final", pd.Series([])
+                                        ).mean()
+                                        - df.get(
+                                            f"{variable}_initial", pd.Series([])
+                                        ).mean()
+                                    )
+                                    / df.get(
+                                        f"{variable}_initial", pd.Series([])
+                                    ).mean()
+                                )
+                                * 100
+                                if df.get(f"{variable}_initial", pd.Series([])).mean()
+                                != 0
+                                else 0
+                            ),
+                            1,
+                        ),
                     )
-                    * 100
-                    if df.get(f"{variable}_before", pd.Series([])).mean() != 0
-                    else 0
+                    + "%"
                 ),
             )
 
@@ -67,8 +82,8 @@ def generate_json_output(
             "variables": {
                 var: {
                     "description": data.description,
-                    "value_before_intervention": data.value_before_intervention,
-                    "value_after_intervention": data.value_after_intervention,
+                    "value_initial_intervention": data.value_initial_intervention,
+                    "value_final_intervention": data.value_final_intervention,
                     "percentage_change": data.percentage_change,
                 }
                 for var, data in section.variables.items()
@@ -76,8 +91,8 @@ def generate_json_output(
         }
 
     json_output = json.dumps(report_data, indent=4)
-    
+
     with open(output_filename, "w", encoding="utf-8") as json_file:
         json_file.write(json_output)
-    
+
     return json_output
