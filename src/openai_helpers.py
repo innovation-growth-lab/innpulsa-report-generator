@@ -1,4 +1,5 @@
 """Asynchronous functions to generate content for the report sections using the OpenAI API."""
+
 import asyncio
 from typing import List
 from src.models import ReportSection
@@ -11,7 +12,7 @@ from src.prompts_config import (
 
 
 async def generate_section_contents(
-    sections: List[ReportSection], cohort_info: str
+    sections: List[ReportSection], cohort_info: str, model_name: str
 ) -> None:
     """Generate content for each section asynchronously using the OpenAI API."""
     tasks = []
@@ -20,7 +21,7 @@ async def generate_section_contents(
         if prompt_template:
             # Include cohort details in the prompt
             prompt_template = prompt_template.replace("{cohort_details}", cohort_info)
-            tasks.append(call_openai_api(section, prompt_template))
+            tasks.append(call_openai_api(section, prompt_template, model_name))
     responses = await asyncio.gather(*tasks)
 
     for section, response in zip(sections, responses):
@@ -32,7 +33,7 @@ async def generate_section_contents(
 
 
 async def generate_executive_summary(
-    contentful_sections: List[ReportSection], cohort_info: str
+    contentful_sections: List[ReportSection], cohort_info: str, model_name: str
 ) -> str:
     """Generate an executive summary using the OpenAI API."""
     content = "\n".join(
@@ -42,7 +43,7 @@ async def generate_executive_summary(
     prompt_template = executive_summary_prompt.replace("{cohort_details}", cohort_info)
     prompt_template = prompt_template.replace("{sections_content}", content)
 
-    response = await call_openai_api(None, prompt_template)
+    response = await call_openai_api(None, prompt_template, model_name)
 
     return (
         response.data.get("content", "Error generando el contenido.")
@@ -51,14 +52,14 @@ async def generate_executive_summary(
     )
 
 
-async def edit_report_sections(sections: List[ReportSection]) -> str:
+async def edit_report_sections(sections: List[ReportSection], model_name: str) -> str:
     """Edit the content of all sections for consistency and logical flow."""
     sections_content = "\n\n".join(
         [f"{section.title}\n{section.content}" for section in sections]
     )
     prompt = final_edit_prompt.format(sections_content=sections_content)
 
-    response = await call_openai_api(None, prompt)
+    response = await call_openai_api(None, prompt, model_name)
 
     edited_content = (
         response.data.get("content", "Error editing content.")

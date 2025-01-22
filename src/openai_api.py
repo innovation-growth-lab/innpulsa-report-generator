@@ -11,7 +11,7 @@ client = OpenAI()
 
 
 async def call_openai_api(
-    section: ReportSection, prompt_template: str
+    section: ReportSection, prompt_template: str, model_name: str
 ) -> Union[APIResponse, None]:
     """Asynchronously call the OpenAI API to generate content for a given report section."""
     if section:
@@ -35,7 +35,7 @@ async def call_openai_api(
     try:
         response = await asyncio.to_thread(
             client.chat.completions.create,
-            model="gpt-3.5-turbo",  # Using the cheapest GPT model
+            model=model_name,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": prompt},
@@ -53,7 +53,7 @@ async def call_openai_api(
             # continue generating content
             continuation_response = await asyncio.to_thread(
                 client.chat.completions.create,
-                model="gpt-3.5-turbo",
+                model=model_name,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": prompt},

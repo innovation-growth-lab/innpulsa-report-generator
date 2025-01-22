@@ -1,6 +1,4 @@
-"""
-Toma.
-"""
+"""Pydantic models for the ZASCA report generation API."""
 
 from datetime import datetime
 from typing import List, Optional, Dict
@@ -9,6 +7,7 @@ from pydantic import BaseModel, Field
 
 class VariableData(BaseModel):
     """Variable data model."""
+
     variable: str = Field(..., description="Name of the variable.")
     description: str = Field(..., description="Description of the variable.")
     value_initial_intervention: float = Field(
@@ -43,8 +42,7 @@ class ReportSection(BaseModel):
         description="Timestamp when the section was created.",
     )
     cohort_details: Optional[str] = Field(
-        None,
-        description="Details about the ZASCA cohort."
+        None, description="Details about the ZASCA cohort."
     )
 
     class Config:
@@ -56,7 +54,7 @@ class ReportSection(BaseModel):
                 "content": "This section introduces the topic.",
                 "variables": ["variable1", "variable2"],
                 "created_at": "2025-01-17T16:13:20+01:00",
-                "cohort_details": "ZASCA Bucaramanga 2024-Q1"
+                "cohort_details": "ZASCA Bucaramanga 2024-Q1",
             }
         }
 

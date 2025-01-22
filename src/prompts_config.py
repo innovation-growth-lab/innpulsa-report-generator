@@ -111,7 +111,7 @@ section_prompts = {
 
             ### Estructura Salarial del Líder Empresarial
             Se evidenció un incremento en la proporción de líderes empresariales que reciben un sueldo fijo del negocio, pasando de un %pct% a un %pct%. Este cambio no solo mejora la estabilidad financiera de los líderes, sino que también refleja una estructura de compensación más formal y equitativa.
-            Además, el sueldo fijo promedio de estos líderes casi incrementó, pasando de \$%num% a \$%num%, mejorando sustancialmente su compensación y alineándola con las responsabilidades y el rendimiento.
+            Además, el sueldo fijo promedio de estos líderes casi incrementó, pasando de \\$%num% a \\$%num%, mejorando sustancialmente su compensación y alineándola con las responsabilidades y el rendimiento.
             
             ### Estabilidad en el Personal
             La cantidad total de empleados se mantuvo estable, con un leve incremento en el promedio de trabajadores por unidad productiva, de %num% a %num%, y de %num% a %num% en la mediana. Esta estabilidad es un indicador de que las mejoras en compensación y beneficios no han comprometido la sostenibilidad de empleo en las unidades productivas.
@@ -152,23 +152,22 @@ Gestión financiera y formalización: Explica cómo el programa ha promovido pr�
 
 Calidad del producto: Detalla las mejoras en los estándares de calidad, la digitalización de procesos, y cómo esto ha contribuido a productos más uniformes y competitivos.
 
-Al redactar el resumen, utiliza un tono positivo, claro y enfocado en los resultados tangibles, como crecimiento en ventas, mejora en la calidad de los productos, y mayor formalización. Proporciona datos numéricos relevantes si están disponibles (por ejemplo, incrementos porcentuales en ventas o adopción de prácticas contables). Concluye con una visión optimista sobre cómo el programa está sentando las bases para un desarrollo sostenible y competitivo en el sector.
+Al redactar el resumen, utiliza un tono claro y enfocado en los resultados tangibles, como crecimiento en ventas, mejora en la calidad de los productos, y mayor formalización. Proporciona algunos datos numéricos relevantes si están disponibles. Concluye con una visión realista sobre cómo el programa está sentando las bases para un desarrollo sostenible y competitivo en el sector.
 
 Detalles de la convocatoria:
 {cohort_details}
 
 Para ayudarte con el estilo y formato, a continuación se incluye un ejemplo de un centro ZASCA en Bucaramanga, centrado en la manufactura textil, y especificamente moda. Destacar el estilo verbose del resumen ejecutivo, sin subtitulos, y secciones, simplemente una serie de parágrafos resumiendo las secciones identificadas. Ejemplo:
     '''
-    El programa ZASCA Bucaramanga Manufactura - Sistema Moda ha marcado un antes y un después en la optimización operativa y la calidad del producto en las empresas participantes. Gracias a las iniciativas implementadas, la mayoría de las unidades productivas ahora operan con una eficiencia cercana al nivel óptimo, lo cual se traduce en menos unidades defectuosas, un flujo de trabajo mejor organizado y un uso optimizado del espacio en planta. Esto no solo ha mejorado la productividad, sino que ha generado entornos de trabajo más seguros y ordenados, con áreas de tránsito adecuadas y zonas de trabajo mejor demarcadas.
-    En términos de gestión financiera, el programa promovió una formalización significativa, con la adopción de herramientas accesibles como Excel para la contabilidad. Hoy, todas las empresas cuentan con algún mecanismo contable, lo que refleja un avance hacia prácticas más estructuradas y un mayor control de sus operaciones financieras. Además, la adopción de indicadores clave para monitorear el desempeño ha aumentado notablemente, lo cual facilita que los empresarios puedan tomar decisiones más informadas y fundamentadas.
-    La calidad del producto ha sido otra área de mejora importante. Las empresas han incorporado controles de calidad más consistentes y están estandarizando procesos, lo que asegura que los productos finales sean más uniformes y de mayor calidad. Además, la digitalización en el diseño ha crecido, y muchas empresas ahora registran sus diseños en fichas técnicas, lo cual reduce la dependencia de métodos informales y facilita la replicabilidad en futuras colecciones.
-    En el ámbito comercial, el impacto también ha sido positivo. Las empresas participantes han logrado un crecimiento promedio del 37% en ventas en el primer trimestre de 2024 comparado con el mismo período en 2023. Este incremento se atribuye en parte a su participación en eventos comerciales, aunque las ruedas financieras todavía presentan un área de oportunidad para generar más conexiones significativas.
-    El programa también ha puesto un fuerte énfasis en mejorar la estructura laboral de las empresas, asegurando condiciones de trabajo más estables y equitativas. Se ha incrementado el número de líderes empresariales que reciben un sueldo fijo, y un
-    mayor número de empleados ahora cuenta con beneficios de seguridad social, lo cual contribuye a la formalización del empleo en el sector.
-    En conclusión, el programa ZASCA Bucaramanga Manufactura ha logrado mejoras tangibles en eficiencia, calidad y profesionalización de la gestión en el sector de la moda. Estos avances no solo fortalecen la capacidad de las empresas para competir en el mercado, sino que también establecen una base sólida para el crecimiento sostenido y el desarrollo a largo plazo de las empresas beneficiadas en el Sistema Moda.
+    El programa ZASCA %ciudad% %sector% - %subsector% ha marcado un antes y un después en la optimización operativa y la calidad del producto en las empresas participantes. Gracias a las iniciativas implementadas, la mayoría de las unidades productivas ahora operan con una eficiencia ...
+    En términos de gestión financiera, el programa promovió una formalización significativa, con la adopción de herramientas accesibles como Excel para la contabilidad. Hoy, todas las empresas cuentan con algún mecanismo contable...
+    La calidad del producto ha sido otra área de mejora importante. Las empresas han incorporado controles de calidad más consistentes y están estandarizando procesos...
+    En el ámbito comercial, el impacto también ha sido positivo. Las empresas participantes han logrado un crecimiento promedio del %pct% en ventas en el primer trimestre de 2024 comparado...
+    El programa también ha puesto un fuerte énfasis en mejorar la estructura laboral de las empresas, asegurando condiciones de trabajo más estables...
+    En conclusión, el programa ZASCA %ciudad% %sector% ha logrado mejoras tangibles en eficiencia, calidad y profesionalización de la gestión en el %subsector%. Estos avances...
     '''
 
-A continuación tienes el contenido de las secciones que deberías incluir en tu resumen ejecutivo:
+Lo de arriba era un ejemplo. A continuación tienes el contenido de las secciones que deberías incluir en el resumen ejecutivo que escribas tu. Asegurate de no dejar ningún placeholder.
 {sections_content}
 """
 
