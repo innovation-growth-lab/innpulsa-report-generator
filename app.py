@@ -1,5 +1,4 @@
 import asyncio
-import requests
 import streamlit as st
 from src.sections_config import sections_config
 from src.utils import load_data, aggregate_data, generate_json_output
@@ -24,22 +23,30 @@ st.markdown(
     <hr style="margin: 20px 0;">
     <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
         <p>
-            Esta herramienta está diseñada para ayudar a <strong>INNPULSA</strong> a crear los informes de cierre de los centros <strong>ZASCA</strong> que apoyan la estrategia de reindustrialización en Colombia.
+            Esta herramienta está diseñada para ayudar a <strong>INNPULSA</strong> a 
+            crear los informes de cierre de los centros <strong>ZASCA</strong> que 
+            apoyan la estrategia de reindustrialización en Colombia.
         </p>
         <hr>
         <p>
-            Con esta aplicación, puedes cargar tus datos de un centro ZASCA en formato <strong>XLSX</strong>, proporcionar detalles específicos sobre la cohorte y el centro ZASCA, 
-            y generar un informe completo que incluye un <strong>resumen ejecutivo</strong>. Por el momento, este no crea el reporte PDF, sino únicamente el contenido.
+            Con esta aplicación, puedes cargar tus datos de un centro ZASCA en formato 
+            <strong>XLSX</strong>, proporcionar detalles específicos sobre la cohorte y 
+            el centro ZASCA, y generar un informe completo que incluye un <strong>resumen 
+            ejecutivo</strong>. Por el momento, este no crea el reporte PDF, sino 
+            únicamente el contenido.
         </p>
         <hr>
         <p>
-            Además, tienes la opción de seleccionar el modelo de <strong>OpenAI</strong> que prefieras utilizar para generar el contenido del informe. 
+            Además, tienes la opción de seleccionar el modelo de <strong>OpenAI</strong> 
+            que prefieras utilizar para generar el contenido del informe. 
             Los modelos disponibles son <b>gpt-3.5-turbo</b> y <b>gpt-4o-2024-08-06</b>. 
-            Elige el modelo que mejor se adapte a tus necesidades y preferencias una vez hayas cargado los datos, en el menú de la izquierda.
+            Elige el modelo que mejor se adapte a tus necesidades y preferencias una vez 
+            hayas cargado los datos, en el menú de la izquierda.
         </p>
         <hr>
         <p>
-            Una vez generado el informe, podrás descargarlo en formato <strong>JSON</strong> y visualizar el contenido editado directamente en la página.
+            Una vez generado el informe, podrás descargarlo en formato <strong>JSON</strong> 
+            y visualizar el contenido editado directamente en la página.
         </p>
     </div>
     """,
@@ -49,7 +56,9 @@ st.markdown(
 # File Upload Section
 st.sidebar.markdown("### 📂 Subir un archivo de datos")
 with st.container():
-    uploaded_file = st.sidebar.file_uploader("Carga tu conjunto de datos (XLSX)", type="xlsx")
+    uploaded_file = st.sidebar.file_uploader(
+        "Carga tu conjunto de datos (XLSX)", type="xlsx"
+    )
     if uploaded_file:
         st.session_state.uploaded_file = uploaded_file
         df = load_data(st.session_state.uploaded_file)
