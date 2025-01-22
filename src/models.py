@@ -42,6 +42,10 @@ class ReportSection(BaseModel):
         default_factory=datetime.utcnow,
         description="Timestamp when the section was created.",
     )
+    cohort_details: Optional[str] = Field(
+        None,
+        description="Details about the ZASCA cohort."
+    )
 
     class Config:
         """Pydantic model configuration."""
@@ -52,6 +56,7 @@ class ReportSection(BaseModel):
                 "content": "This section introduces the topic.",
                 "variables": ["variable1", "variable2"],
                 "created_at": "2025-01-17T16:13:20+01:00",
+                "cohort_details": "ZASCA Bucaramanga 2024-Q1"
             }
         }
 

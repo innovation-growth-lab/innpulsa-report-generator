@@ -3,9 +3,10 @@
 import json
 from typing import List
 import pandas as pd
+import streamlit as st
 from src.models import ReportSection, VariableData
 
-
+@st.cache_data
 def load_data(uploaded_file) -> pd.DataFrame:
     """Load and return the dataset from the uploaded CSV file."""
     return pd.read_excel(uploaded_file, engine="openpyxl")
