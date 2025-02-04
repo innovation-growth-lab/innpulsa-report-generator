@@ -3,172 +3,329 @@
 
 section_prompts = {
     "Optimización operativa": (
-        """A continuación, se presentan los datos relacionados con la productividad de las unidades productivas antes y después de la intervención realizada en el marco del programa. Estos datos incluyen información sobre la eficiencia operativa, la utilización del espacio, el cumplimiento de normas de seguridad y organización, la gestión de inventarios, y el uso de indicadores clave de desempeño.
+        """A continuación, se presentan las interpretaciones de los cambios observados en la productividad y eficiencia operativa de las unidades productivas, antes y después de la intervención del programa:
 
-        Tu tarea es analizar esta información y elaborar un análisis que describa los cambios observados, identificando mejoras y vinculándolas con las acciones del programa. El análisis debe ser claro, fundamentado en los datos proporcionados, y estructurado de manera profesional. Evita realizar suposiciones no basadas en los datos. Si los cambios porcentuales son pequeños, no hagas incapié en ellos.
+        {interpretations}
+
+        Tu tarea es elaborar un análisis estructurado que integre estas interpretaciones, siguiendo la estructura del ejemplo proporcionado. El análisis debe enfocarse en dos aspectos principales:
+        - Las mejoras en el proceso productivo, incluyendo eficiencia operativa y uso del espacio
+        - Los factores que explican los incrementos de eficiencia, como el seguimiento de indicadores y la gestión de inventarios
 
         Características específicas de la cohorte y centro ZASCA:
         {cohort_details}
 
-        Los datos:
-        {variables}
-        
-        A continuación, se incluye un ejemplo que ilustra el estilo y la estructura esperada en el análisis. La respuesta debería ser similar en longitud y estilo, pero adaptada al detalle a los datos aportados arriba y a las características de la cohorte y centro ZASCA en particular. Observa placeholders para cambios porcentuales, cambios en puntos procentuales, y valores numéricos. El ejemplo en cuestión: 
+        Guía para la elaboración del análisis:
+        - Mantén la estructura del ejemplo proporcionado abajo, con los mismos títulos de sección. Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
+        - Integra las interpretaciones de manera fluida y coherente
+        - Al reportar cambios:
+          * Verifica cuidadosamente si el cambio es un aumento o disminución
+          * Si un valor baja (ej: de 10.17 a 6.78), descríbelo como una disminución o reducción
+          * Si un valor sube (ej: de 6.78 a 10.17), descríbelo como un aumento o incremento
+          * Limita los cambios porcentuales a un máximo de 100% (si el cambio es mayor, usa "más que duplicó" o "más que se duplicó")
+          * Para disminuciones, usa el porcentaje real (ej: "disminuyó un 33%")
+        - Enfatiza las mejoras más significativas y sus implicaciones, usa porcentajes solo cuando estos son relevantes
+        - Establece conexiones lógicas entre los diferentes indicadores
+        - Evita repetir los datos de forma aislada; en su lugar, construye una narrativa que muestre la evolución integral
+        - Si los cambios porcentuales son pequeños, descártalos o menciónalos brevemente sin darles énfasis especial
+
+        A continuación se incluye un ejemplo del formato y estilo esperado:
         '''
             ## OPTIMIZACIÓN OPERATIVA: MEJORAS EN EL PROCESO PRODUCTIVO Y LA CALIDAD DEL PRODUCTO
-            En el marco del programa de ZASCA Bucaramanga Manufactura Sistema Moda, se implementaron varias iniciativas para optimizar la eficiencia operativa y elevar los estándares de calidad. Los resultados obtenidos demuestran avances significativos, evidenciados en los indicadores clave y métricas de éxito.
+            En el marco del programa de ZASCA {{ciudad}} {{sector}} {{subsector}}, se implementaron varias iniciativas para optimizar la eficiencia operativa y elevar los estándares de calidad. Los resultados obtenidos demuestran avances significativos, evidenciados en los indicadores clave y métricas de éxito.
 
             ### Mejoras en el proceso productivo
-            Al inicio del programa, las empresas se encontraban en un rango de eficiencia de %pct% a %pct%, con algunas operando cerca del nivel óptimo, pero muchas aún por debajo de su potencial. Al cierre del programa, la mayoría ha alcanzado una eficiencia entre X y Y, con más de %num% empresas logrando niveles cercanos o superiores al %pct%, lo que evidencia una optimización significativa en sus procesos productivos.
+            Al inicio del programa, las empresas se encontraban en un rango de eficiencia de {{pct}} a {{pct}}, con algunas operando cerca del nivel óptimo, pero muchas aún por debajo de su potencial. Al cierre del programa, la mayoría ha alcanzado una eficiencia entre X y Y, con más de {{pct}} empresas logrando niveles cercanos o superiores al {{pct}}, lo que evidencia una optimización significativa en sus procesos productivos.
 
             Estos avances en productividad están relacionados con mejoras en la distribución y utilización del espacio de planta, influyendo notablemente en la capacidad de las unidades productivas para alcanzar sus metas de producción exactamente como fueron planeadas. Esta correlación sugiere que una gestión más eficiente del espacio no solo optimiza los recursos disponibles, sino que también contribuye a una mayor conformidad con el balanceo de planta, lo que se refleja directamente en los resultados de producción.
 
-            Inicialmente, el %pct% de las plantas presentaba congestión debido a una deficiente utilización del espacio, al finalizar el programa hubo una este porcentaje se redujo al %pct%, indicando que las empresas han logrado optimizar el uso del espacio a lo largo del programa.
+            Inicialmente, el {{pct}} de las plantas presentaba congestión debido a una deficiente utilización del espacio, al finalizar el programa hubo una este porcentaje se redujo al {{pct}}, indicando que las empresas han logrado optimizar el uso del espacio a lo largo del programa.
 
-            Al finalizar el programa, se observa una mejora integral en las condiciones de seguridad y organización en las plantas beneficiarias. Las zonas de tránsito, áreas de trabajo y tránsito están ahora completamente adecuadas y demarcadas, alcanzando el %pct% de cumplimiento. Además, la acumulación de materiales en proceso ha sido controlada, y se ha optimizado la secuencia y longitud del flujo de proceso, lo que facilita un desplazamiento más eficiente del personal y materiales. Cada planta cuenta ahora con espacios específicos para guardar elementos personales y un aislamiento completo de áreas peligrosas, contribuyendo a un entorno más seguro. Asimismo, se han instalado advertencias de peligro en todos los puestos de trabajo, logrando un ambiente laboral más seguro y organizado.
+            Al finalizar el programa, se observa una mejora integral en las condiciones de seguridad y organización en las plantas beneficiarias. Las zonas de tránsito, áreas de trabajo y tránsito están ahora completamente adecuadas y demarcadas, alcanzando el {{pct}} de cumplimiento. Además, la acumulación de materiales en proceso ha sido controlada, y se ha optimizado la secuencia y longitud del flujo de proceso, lo que facilita un desplazamiento más eficiente del personal y materiales. Cada planta cuenta ahora con espacios específicos para guardar elementos personales y un aislamiento completo de áreas peligrosas, contribuyendo a un entorno más seguro. Asimismo, se han instalado advertencias de peligro en todos los puestos de trabajo, logrando un ambiente laboral más seguro y organizado.
 
             ### ¿A qué se deben los incrementos de eficiencia? Las unidades productivas mejoraron en el seguimiento de indicadores clave y la gestión de inventarios
-            En el ámbito de la gestión de inventarios se evidenció una evolución positiva. La proporción de empresas que realizan inventarios de manera constante creció del %pct% al %pct%.
+            En el ámbito de la gestión de inventarios se evidenció una evolución positiva. La proporción de empresas que realizan inventarios de manera constante creció del {{pct}} al {{pct}}.
 
-            Además, se registró un aumento en el conocimiento sobre los niveles óptimos de inventario, que pasó del %pct% al %pct%, reflejando una gestión más efectiva y un mejor control de los recursos disponibles.
+            Además, se registró un aumento en el conocimiento sobre los niveles óptimos de inventario, que pasó del {{pct}} al {{pct}}, reflejando una gestión más efectiva y un mejor control de los recursos disponibles.
             
             Estos resultados en el manejo de inventarios pueden mejorar la eficiencia operativa y la capacidad de respuesta al mercado de las unidades productivas.
 
-            Por su parte, el cálculo del tiempo estándar para la producción demostró un aumento significativo, del %pct% al %pct%. Este aumento indica una mayor precisión en la planificación, y una asignación de tiempos y recursos más eficaz, aspectos cruciales para mejorar la eficiencia operativa de la unidad productiva.
+            Por su parte, el cálculo del tiempo estándar para la producción demostró un aumento significativo, del {{pct}} al {{pct}}. Este aumento indica una mayor precisión en la planificación, y una asignación de tiempos y recursos más eficaz, aspectos cruciales para mejorar la eficiencia operativa de la unidad productiva.
 
-            Por otro lado, las mejoras en eficiencia y productividad también pueden ser resultado de un avance notable en la adopción de indicadores clave para mejorar el proceso productivo. De hecho, el porcentaje de unidades productivas que tienen indicador de eficiencia aumentó de un %pct% a un %pct%; aquellas que tenían indicadores de productividad experimentaron un incremento aún más impresionante, pasando de un %pct% a un %pct%. Este cambio indica una mayor eficacia en las operaciones de producción.
+            Por otro lado, las mejoras en eficiencia y productividad también pueden ser resultado de un avance notable en la adopción de indicadores clave para mejorar el proceso productivo. De hecho, el porcentaje de unidades productivas que tienen indicador de eficiencia aumentó de un {{pct}} a un {{pct}}; aquellas que tenían indicadores de productividad experimentaron un incremento aún más impresionante, pasando de un {{pct}} a un {{pct}}. Este cambio indica una mayor eficacia en las operaciones de producción.
 
-            Como resultado, en términos globales, el porcentaje de unidades productivas que usan indicadores presentó un incremento de %pct_points%. Al inicio de la intervención el %pct% de las unidades productivas contaban con algún tipo de indicador, mientras que, al cierre del programa este porcentaje aumentó al %pct%. Esto evidencia una creciente utilización de los indicadores para mejorar el proceso productivo. Las unidades productivas son más conscientes de la importancia de llevar periódicamente indicadores de desempeño.
+            Como resultado, en términos globales, el porcentaje de unidades productivas que usan indicadores presentó un incremento de {{pct_points}}. Al inicio de la intervención el {{pct}} de las unidades productivas contaban con algún tipo de indicador, mientras que, al cierre del programa este porcentaje aumentó al {{pct}}. Esto evidencia una creciente utilización de los indicadores para mejorar el proceso productivo. Las unidades productivas son más conscientes de la importancia de llevar periódicamente indicadores de desempeño.
         '''
-        - Asegurate de responder únicamente con el contenido en texto. 
-        - No incluyas tablas, gráficos u otros elementos visuales.
-        - No alteres los títulos de las secciones ni la estructura del ejemplo.
-        - Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
-        - Asegurate de que ambas secciones en el ejemplo están en la respuesta, diferenciando variables e índices. 
-        - Integra las variables en el texto de manera coherente y estructurada.
         """
     ),
     "Mayor Calidad del Producto": (
-        """A continuación, se presentan los datos relacionados con la calidad del producto obtenida durante la intervención del programa. Estos datos incluyen información sobre la implementación y mejora de controles de calidad, la preparación de máquinas, la documentación y estandarización de diseños, el empaque de los productos, y el uso de tecnología en los procesos de diseño.
+        """A continuación, se presentan las interpretaciones de los cambios observados en la calidad del producto y los procesos de control, antes y después de la intervención del programa:
 
-        Tu tarea es analizar esta información y elaborar un análisis que describa los cambios observados, destacando las mejoras logradas en las métricas clave y vinculándolas con las acciones realizadas durante el programa. El análisis debe ser claro, profesional y basado exclusivamente en los datos proporcionados. Si los cambios porcentuales son mínimos, no es necesario enfatizarlos de forma destacada.
-        
+        {interpretations}
+
+        Tu tarea es elaborar un análisis estructurado que integre estas interpretaciones, siguiendo la estructura del ejemplo proporcionado. El análisis debe enfocarse en cuatro aspectos principales:
+        - La implementación y mejora de controles de calidad
+        - La documentación y estandarización de diseños
+        - El empaque y presentación del producto
+        - El uso de tecnología en los procesos de diseño
+
         Características específicas de la cohorte y centro ZASCA:
         {cohort_details}
 
-        Los datos:
-        {variables}
-        
-        A continuación, se incluye un ejemplo que ilustra el estilo y la estructura esperada en el análisis. La respuesta debería ser similar en longitud y estilo, pero adaptada al detalle a los datos aportados arriba y a las características de la cohorte y centro ZASCA en particular. Observa placeholders para cambios porcentuales, cambios en puntos porcentuales, y valores numéricos. El ejemplo en cuestión: 
-        
+        Guía para la elaboración del análisis:
+        - Mantén la estructura del ejemplo proporcionado abajo, con los mismos títulos de sección. Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
+        - Integra las interpretaciones de manera fluida y coherente
+        - Al reportar cambios:
+          * Verifica cuidadosamente si el cambio es un aumento o disminución
+          * Si un valor baja (ej: de 10.17 a 6.78), descríbelo como una disminución o reducción
+          * Si un valor sube (ej: de 6.78 a 10.17), descríbelo como un aumento o incremento
+          * Limita los cambios porcentuales a un máximo de 100% (si el cambio es mayor, usa "más que duplicó" o "más que se duplicó")
+          * Para disminuciones, usa el porcentaje real (ej: "disminuyó un 33%")
+        - Enfatiza las mejoras más significativas y sus implicaciones, usa porcentajes solo cuando estos son relevantes
+        - Establece conexiones lógicas entre los diferentes indicadores
+        - Evita repetir los datos de forma aislada; en su lugar, construye una narrativa que muestre la evolución integral
+        - Si los cambios porcentuales son pequeños, descártalos o menciónalos brevemente sin darles énfasis especial
+
+        A continuación se incluye un ejemplo del formato y estilo esperado. Tu respuesta debe seguir una estructura similar, pero utilizando las interpretaciones proporcionadas arriba:
+
         '''
             ## MAYOR CALIDAD DEL PRODUCTO
             Paralelamente, las métricas de calidad en el producto mostraron mejoras en relación con los controles de calidad, la preparación de máquinas y el manejo de tiempos, así como la estandarización y digitalización de procesos de diseño.
             
             ### Implementación y Mejora de Controles de Calidad
-            Inicialmente, el %pct% de las unidades productivas aplicaban algún tipo de control de calidad. Al cierre del programa, este porcentaje alcanzó el %pct%, demostrando un compromiso con la calidad.
-            Los controles específicos de calidad en materias primas y productos finales mejoraron del %pct% al %pct%. De igual manera, la capacidad de las unidades para preparar adecuadamente las máquinas y controlar los tiempos de producción mejoró drásticamente, pasando del %pct% al %pct%. Estos cambios aseguran una consistencia mayor en los productos finales y una reducción de errores y defectos.
+            Inicialmente, el {{pct}} de las unidades productivas aplicaban algún tipo de control de calidad. Al cierre del programa, este porcentaje alcanzó el {{pct}}, demostrando un compromiso con la calidad.
+            Los controles específicos de calidad en materias primas y productos finales mejoraron del {{pct}} al {{pct}}. De igual manera, la capacidad de las unidades para preparar adecuadamente las máquinas y controlar los tiempos de producción mejoró drásticamente, pasando del {{pct}} al {{pct}}. Estos cambios aseguran una consistencia mayor en los productos finales y una reducción de errores y defectos.
             
             ### Documentación y Estándares de Diseño 
-            Por su parte, también se observaron avances significativos en la documentación y estandarización de nuevos diseños. El porcentaje de empresas que elaboran fichas técnicas para registrar diseños aumentó del %pct% al %pct%. Además, el porcentaje de unidades productivas que presentaban dependencia de procesos verbales disminuyó en %pct_points% p.p, al pasar de %pct% a %pct% al cierre de la intervención.
+            Por su parte, también se observaron avances significativos en la documentación y estandarización de nuevos diseños. El porcentaje de empresas que elaboran fichas técnicas para registrar diseños aumentó del {{pct}} al {{pct}}. Además, el porcentaje de unidades productivas que presentaban dependencia de procesos verbales disminuyó en {{pct_points}} p.p, al pasar de {{pct}} a {{pct}} al cierre de la intervención.
             Por consiguiente, las empresas han migrado a métodos más estructurados y replicables para el seguimiento de sus diseños.
             
             ### Empaque y Presentación del Producto
-            El empaque del producto ha evolucionado para reflejar mejor la marca y sus valores. El uso de empaques genéricos disminuyó del %pct% al %pct% a favor de un aumento en el empaque estandarizado que aumentó del %pct% al %pct%. Esto muestra un área de mejora considerable en la identidad y presentación visual de los productos.
+            El empaque del producto ha evolucionado para reflejar mejor la marca y sus valores. El uso de empaques genéricos disminuyó del {{pct}} al {{pct}} a favor de un aumento en el empaque estandarizado que aumentó del {{pct}} al {{pct}}. Esto muestra un área de mejora considerable en la identidad y presentación visual de los productos.
 
             ### Uso de Tecnología en Diseño
-            Por último, el uso de software especializado para el diseño de productos ha visto un crecimiento considerable, la proporción de empresas que cuentan con software pasó del %pct% al %pct%. Esto facilita la precisión en los diseños y mejora la capacidad de personalización de productos.
-            Además, la digitalización de patrones aumentó (al inicio del programa el %pct% de las unidades productivas tenían digitalizado su proceso de diseño, mientras que al cierre del programa el %pct% de las empresas contaban con esto).
-            De igual manera, el porcentaje de unidades productivas que conservan los patrones de colecciones anteriores pasó del %pct% al %pct%, lo cual mejora la eficiencia y la capacidad de referencia histórica para el desarrollo de nuevos productos.        
+            Por último, el uso de software especializado para el diseño de productos ha visto un crecimiento considerable, la proporción de empresas que cuentan con software pasó del {{pct}} al {{pct}}. Esto facilita la precisión en los diseños y mejora la capacidad de personalización de productos.
+            Además, la digitalización de patrones aumentó (al inicio del programa el {{pct}} de las unidades productivas tenían digitalizado su proceso de diseño, mientras que al cierre del programa el {{pct}} de las empresas contaban con esto).
+            De igual manera, el porcentaje de unidades productivas que conservan los patrones de colecciones anteriores pasó del {{pct}} al {{pct}}, lo cual mejora la eficiencia y la capacidad de referencia histórica para el desarrollo de nuevos productos.        
         '''
-        - Asegurate de responder únicamente con el contenido en texto. 
-        - No incluyas tablas, gráficos u otros elementos visuales.
-        - No alteres los títulos de las secciones ni la estructura del ejemplo.
-        - Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
-        - Asegurate de que ambas secciones en el ejemplo están en la respuesta, diferenciando variables e índices. 
-        - Integra las variables en el texto de manera coherente y estructurada.
     """
     ),
-    "Talento humano": (
-        """A continuación, se presentan los datos relacionados con la gestión de talento humano en las unidades productivas antes y después de la intervención del programa. Estos datos incluyen información sobre la cobertura de seguridad social, la proporción de líderes empresariales que reciben un salario fijo, el salario promedio de los líderes empresariales, y la cantidad de empleados en las unidades productivas.
+    "Talento Humano": (
+        """A continuación, se presentan las interpretaciones de los cambios observados en la gestión del talento humano, antes y después de la intervención del programa:
 
-        Tu tarea es analizar esta información y elaborar un análisis que describa los cambios observados, destacando las mejoras logradas en las métricas clave y vinculándolas con las acciones realizadas durante el programa. El análisis debe ser claro, profesional y basado exclusivamente en los datos proporcionados. Si los cambios porcentuales son mínimos, no es necesario enfatizarlos de forma destacada.
+        {interpretations}
+
+        Tu tarea es elaborar un análisis estructurado que integre estas interpretaciones, siguiendo la estructura del ejemplo proporcionado. El análisis debe enfocarse en tres aspectos principales:
+        - La estructura salarial y beneficios de los trabajadores
+        - La estructura salarial del líder empresarial
+        - La estabilidad y evolución del personal
 
         Características específicas de la cohorte y centro ZASCA:
         {cohort_details}
 
-        Los datos:
-        {variables}
-        
-        A continuación, se incluye un ejemplo que ilustra el estilo y la estructura esperada en el análisis. La respuesta debería ser similar en longitud y estilo, pero adaptada al detalle a los datos aportados arriba y a las características de la cohorte y centro ZASCA en particular. Observa placeholders para cambios porcentuales, cambios en puntos porcentuales, y valores numéricos. El ejemplo en cuestión: 
+        Guía para la elaboración del análisis:
+        - Mantén la estructura del ejemplo proporcionado abajo, con los mismos títulos de sección. Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
+        - Integra las interpretaciones de manera fluida y coherente
+        - Al reportar cambios:
+          * Verifica cuidadosamente si el cambio es un aumento o disminución
+          * Si un valor baja (ej: de 10.17 a 6.78), descríbelo como una disminución o reducción
+          * Si un valor sube (ej: de 6.78 a 10.17), descríbelo como un aumento o incremento
+          * Limita los cambios porcentuales a un máximo de 100% (si el cambio es mayor, usa "más que duplicó" o "más que se duplicó")
+          * Para disminuciones, usa el porcentaje real (ej: "disminuyó un 33%")
+        - Enfatiza las mejoras más significativas y sus implicaciones, usa porcentajes solo cuando estos son relevantes
+        - Establece conexiones lógicas entre los diferentes indicadores
+        - Evita repetir los datos de forma aislada; en su lugar, construye una narrativa que muestre la evolución integral
+        - Si los cambios porcentuales son pequeños, descártalos o menciónalos brevemente sin darles énfasis especial
+
+        A continuación se incluye un ejemplo del formato y estilo esperado. Tu respuesta debe seguir una estructura similar, pero utilizando las interpretaciones proporcionadas arriba:
+
         '''
             ## GESTIÓN DE TALENTO HUMANO
-
-            ### Estructura Salarial y Beneficios
             En ZASCA Manufactura, el enfoque hacia la mejora de las condiciones laborales y la formalización de las relaciones de trabajo ha llevado a cambios visibles en la cobertura de seguridad social de los trabajadores.   
-            Inicialmente, la situación en muchas unidades productivas reflejaba una preocupante concentración en el %pct% de afiliación, con %num% empresas sin formalización laboral alguna. Esto evidenciaba una carencia generalizada de acceso a beneficios básicos para los trabajadores, lo que subrayaba la urgencia de la intervención.
-            Al finalizar la intervención, si bien el número de empresas con %pct% de afiliación se mantuvo, se evidenció un avance en los rangos intermedios, particularmente entre el %pct% y el %pct%, donde más empresas lograron aumentar su nivel de formalización. Sin embargo, el número de empresas con una proporción del %pct% disminuyó ligeramente de %num% a %num%, lo que indica un retroceso marginal en la formalización completa. Estos resultados reflejan un progreso parcial, pero también dejan claro que se requieren estrategias más específicas para incluir a las empresas menos formalizadas y consolidar los avances hacia la formalización total.
+            Inicialmente, la situación en muchas unidades productivas reflejaba una preocupante concentración en el {{pct}} de afiliación, con {{pct}} empresas sin formalización laboral alguna. Esto evidenciaba una carencia generalizada de acceso a beneficios básicos para los trabajadores, lo que subrayaba la urgencia de la intervención.
+            Al finalizar la intervención, si bien el número de empresas con {{pct}} de afiliación se mantuvo, se evidenció un avance en los rangos intermedios, particularmente entre el {{pct}} y el {{pct}}, donde más empresas lograron aumentar su nivel de formalización. Sin embargo, el número de empresas con una proporción del {{pct}} disminuyó ligeramente de {{pct}} a {{pct}}, lo que indica un retroceso marginal en la formalización completa. Estos resultados reflejan un progreso parcial, pero también dejan claro que se requieren estrategias más específicas para incluir a las empresas menos formalizadas y consolidar los avances hacia la formalización total.
 
             ### Estructura Salarial del Líder Empresarial
-            Se evidenció un incremento en la proporción de líderes empresariales que reciben un sueldo fijo del negocio, pasando de un %pct% a un %pct%. Este cambio no solo mejora la estabilidad financiera de los líderes, sino que también refleja una estructura de compensación más formal y equitativa.
-            Además, el sueldo fijo promedio de estos líderes casi incrementó, pasando de \\$%num% a \\$%num%, mejorando sustancialmente su compensación y alineándola con las responsabilidades y el rendimiento.
+            Se evidenció un incremento en la proporción de líderes empresariales que reciben un sueldo fijo del negocio, pasando de un {{pct}} a un {{pct}}. Este cambio no solo mejora la estabilidad financiera de los líderes, sino que también refleja una estructura de compensación más formal y equitativa.
+            Además, el sueldo fijo promedio de estos líderes casi incrementó, pasando de \\${{pct}} a \\${{pct}}, mejorando sustancialmente su compensación y alineándola con las responsabilidades y el rendimiento.
             
             ### Estabilidad en el Personal
-            La cantidad total de empleados se mantuvo estable, con un leve incremento en el promedio de trabajadores por unidad productiva, de %num% a %num%, y de %num% a %num% en la mediana. Esta estabilidad es un indicador de que las mejoras en compensación y beneficios no han comprometido la sostenibilidad de empleo en las unidades productivas.
-    	'''
-        - Asegurate de responder únicamente con el contenido en texto. 
-        - No incluyas tablas, gráficos u otros elementos visuales. 
-        - No alteres los títulos de las secciones ni la estructura del ejemplo.
-        - Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
-        - Asegurate de que ambas secciones en el ejemplo están en la respuesta, diferenciando variables e índices. 
-        - Integra las variables en el texto de manera coherente y estructurada.
+            La cantidad total de empleados se mantuvo estable, con un leve incremento en el promedio de trabajadores por unidad productiva, de {{pct}} a {{pct}}, y de {{pct}} a {{pct}} en la mediana. Esta estabilidad es un indicador de que las mejoras en compensación y beneficios no han comprometido la sostenibilidad de empleo en las unidades productivas.
+        '''
     """
     ),
-    "Financiero": (
-        "Evaluate the financial performance based on the following data:\n"
-        "{variables}\n"
-        "Example: 'Sales increased from X to Y, leading to a profit margin of Z%.'"
+    "Practicas Gerenciales": (
+        """A continuación, se presentan las interpretaciones de los cambios observados en las prácticas gerenciales de las unidades productivas, antes y después de la intervención del programa:
+
+        {interpretations}
+
+        Tu tarea es elaborar un análisis estructurado que integre estas interpretaciones, siguiendo la estructura del ejemplo proporcionado. El análisis debe enfocarse en tres aspectos principales:
+        - Los sistemas de fijación de precios y costos
+        - El conocimiento y seguimiento de indicadores clave del negocio
+        - La implementación de sistemas de costeo y control
+
+        Características específicas de la cohorte y centro ZASCA:
+        {cohort_details}
+
+        Guía para la elaboración del análisis:
+        - Mantén la estructura del ejemplo proporcionado abajo, con los mismos títulos de sección. Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
+        - Integra las interpretaciones de manera fluida y coherente
+        - Al reportar cambios:
+          * Verifica cuidadosamente si el cambio es un aumento o disminución
+          * Si un valor baja (ej: de 10.17 a 6.78), descríbelo como una disminución o reducción
+          * Si un valor sube (ej: de 6.78 a 10.17), descríbelo como un aumento o incremento
+          * Limita los cambios porcentuales a un máximo de 100% (si el cambio es mayor, usa "más que duplicó" o "más que se duplicó")
+          * Para disminuciones, usa el porcentaje real (ej: "disminuyó un 33%")
+        - Enfatiza las mejoras más significativas y sus implicaciones, usa porcentajes solo cuando estos son relevantes
+        - Establece conexiones lógicas entre los diferentes indicadores
+        - Evita repetir los datos de forma aislada; en su lugar, construye una narrativa que muestre la evolución integral
+        - Si los cambios porcentuales son pequeños, descártalos o menciónalos brevemente sin darles énfasis especial
+
+        A continuación se incluye un ejemplo del formato y estilo esperado. Tu respuesta debe seguir una estructura similar, pero utilizando las interpretaciones proporcionadas arriba:
+
+        '''
+            ## PRÁCTICAS GERENCIALES: MEJORAS EN LA GESTIÓN Y TOMA DE DECISIONES
+
+            La intervención del programa ha generado avances significativos en la profesionalización de las prácticas gerenciales, evidenciados en una mejor comprensión y aplicación de herramientas de gestión empresarial.
+
+            ### Sistemas de Fijación de Precios y Control de Costos
+            Al inicio del programa, la mayoría de las unidades productivas carecían de un sistema estructurado para la fijación de precios, con solo un {{pct}}% utilizando métodos basados en costos. La intervención logró que este porcentaje aumentara al {{pct}}%, indicando una transición hacia prácticas más profesionales de pricing.
+
+            ### Conocimiento y Control del Negocio
+            Se observaron mejoras sustanciales en el conocimiento de aspectos clave del negocio. La proporción de empresarios que conocen sus costos de producción aumentó del {{pct}}% al {{pct}}%, mientras que aquellos que manejan información detallada sobre sus márgenes de ganancia pasó del {{pct}}% al {{pct}}%. Este incremento en el conocimiento financiero permite una toma de decisiones más informada y estratégica.
+
+            ### Implementación de Sistemas de Costeo
+            En cuanto al cálculo de costos, se logró una mayor sofisticación en los métodos utilizados. El porcentaje de empresas que incluyen materiales directos en sus cálculos aumentó del {{pct}}% al {{pct}}%, mientras que la consideración de mano de obra directa se incrementó del {{pct}}% al {{pct}}%. Particularmente notable fue el aumento en la inclusión de gastos generales de fabricación, que pasó del {{pct}}% al {{pct}}%, demostrando una comprensión más integral de la estructura de costos.
+        '''
+        """
     ),
-    "Practicas gerenciales": (
-        "Assess the management practices:\n"
-        "{variables}\n"
-        "Example: 'Management practices shifted from X to Y, resulting in improved team dynamics.'"
+    "Financiero": (
+        """A continuación, se presentan las interpretaciones de los cambios observados en el desempeño financiero de las unidades productivas, antes y después de la intervención del programa:
+
+        {interpretations}
+
+        Tu tarea es elaborar un análisis estructurado que integre estas interpretaciones, siguiendo la estructura del ejemplo proporcionado. El análisis debe enfocarse en tres aspectos principales:
+        - El desempeño en ventas y crecimiento comercial
+        - La participación en ruedas comerciales y financieras
+        - La formalización bancaria y sistemas contables
+
+        Características específicas de la cohorte y centro ZASCA:
+        {cohort_details}
+
+        Guía para la elaboración del análisis:
+        - Mantén la estructura del ejemplo proporcionado abajo, con los mismos títulos de sección. Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
+        - Integra las interpretaciones de manera fluida y coherente
+        - Al reportar cambios:
+          * Verifica cuidadosamente si el cambio es un aumento o disminución
+          * Si un valor baja (ej: de 10.17 a 6.78), descríbelo como una disminución o reducción
+          * Si un valor sube (ej: de 6.78 a 10.17), descríbelo como un aumento o incremento
+          * Limita los cambios porcentuales a un máximo de 100% (si el cambio es mayor, usa "más que duplicó" o "más que se duplicó")
+          * Para disminuciones, usa el porcentaje real (ej: "disminuyó un 33%")
+        - Enfatiza las mejoras más significativas y sus implicaciones, usa porcentajes solo cuando estos son relevantes
+        - Establece conexiones lógicas entre los diferentes indicadores
+        - Evita repetir los datos de forma aislada; en su lugar, construye una narrativa que muestre la evolución integral
+        - Si los cambios porcentuales son pequeños, descártalos o menciónalos brevemente sin darles énfasis especial
+
+        A continuación se incluye un ejemplo del formato y estilo esperado. Tu respuesta debe seguir una estructura similar, pero utilizando las interpretaciones proporcionadas arriba:
+
+        '''
+            ## DESEMPEÑO FINANCIERO Y COMERCIAL
+
+            ### Evolución de las Ventas
+            El análisis del desempeño en ventas muestra una tendencia positiva. Comparando el primer trimestre de 2024 con el mismo período de 2023, se observa un crecimiento del {{pct}}% en las ventas promedio. El valor promedio mensual de ventas durante 2024 se ha mantenido en {{value}} millones de pesos, reflejando una estabilización en los niveles de ingreso.
+
+            ### Conexiones Comerciales y Financieras
+            La participación en ruedas comerciales y financieras ha sido un catalizador importante para el crecimiento. El {{pct}}% de las unidades productivas participaron en ruedas comerciales, de las cuales el {{pct}}% lograron establecer conexiones efectivas. En el ámbito financiero, la participación fue del {{pct}}%, con un {{pct}}% de empresas generando vínculos con entidades financieras, ampliando sus opciones de financiamiento.
+
+            ### Formalización Financiera
+            Se evidencia un avance significativo en la formalización financiera de las empresas. La proporción de unidades productivas con cuenta bancaria aumentó del {{pct}}% al {{pct}}%, facilitando sus transacciones comerciales y acceso a servicios financieros. En cuanto a los sistemas contables, se observa una evolución desde métodos manuales hacia herramientas más sofisticadas: el uso de Excel para contabilidad creció del {{pct}}% al {{pct}}%, mientras que la adopción de software contable pasó del {{pct}}% al {{pct}}%.
+        '''
+        """
     ),
     "Asociatividad": (
-        "Review the associativity metrics:\n"
-        "{variables}\n"
-        "Example: 'Associativity levels rose from X to Y, enhancing collaboration.'"
+        """A continuación, se presentan las interpretaciones de los cambios observados en las prácticas asociativas de las unidades productivas, antes y después de la intervención del programa:
+
+        {interpretations}
+
+        Tu tarea es elaborar un análisis estructurado que integre estas interpretaciones, siguiendo la estructura del ejemplo proporcionado. El análisis debe enfocarse en dos aspectos principales:
+        - El conocimiento y capacidad de establecer mecanismos de asociatividad
+        - Los diferentes propósitos y logros de la asociatividad (capacitaciones, maquinaria, insumos, mercados)
+
+        Características específicas de la cohorte y centro ZASCA:
+        {cohort_details}
+
+        Guía para la elaboración del análisis:
+        - Mantén la estructura del ejemplo proporcionado abajo, con los mismos títulos de sección. Evita listados de variables o subsecciones, la respuesta debería ser una serie de parágrafos conectados. 
+        - Integra las interpretaciones de manera fluida y coherente
+        - Al reportar cambios:
+          * Verifica cuidadosamente si el cambio es un aumento o disminución
+          * Si un valor baja (ej: de 10.17 a 6.78), descríbelo como una disminución o reducción
+          * Si un valor sube (ej: de 6.78 a 10.17), descríbelo como un aumento o incremento
+          * Limita los cambios porcentuales a un máximo de 100% (si el cambio es mayor, usa "más que duplicó" o "más que se duplicó")
+          * Para disminuciones, usa el porcentaje real (ej: "disminuyó un 33%")
+        - Enfatiza las mejoras más significativas y sus implicaciones, usa porcentajes solo cuando estos son relevantes
+        - Establece conexiones lógicas entre los diferentes indicadores
+        - Evita repetir los datos de forma aislada; en su lugar, construye una narrativa que muestre la evolución integral
+        - Si los cambios porcentuales son pequeños, descártalos o menciónalos brevemente sin darles énfasis especial
+
+        A continuación se incluye un ejemplo del formato y estilo esperado. Tu respuesta debe seguir una estructura similar, pero utilizando las interpretaciones proporcionadas arriba:
+
+        '''
+            ## ASOCIATIVIDAD Y COLABORACIÓN EMPRESARIAL
+
+            ### Capacidad y Conocimiento Asociativo
+            El programa ha logrado fortalecer significativamente la comprensión y capacidad de las unidades productivas para establecer mecanismos de asociatividad empresarial. El porcentaje de líderes que conocen cómo establecer y formalizar diferentes mecanismos de asociatividad aumentó del {{pct}}% al {{pct}}%, sentando una base sólida para futuras colaboraciones.
+
+            ### Implementación de Prácticas Asociativas
+            Este conocimiento se ha traducido en acciones concretas de colaboración. La proporción de empresas que se han asociado para tomar capacitaciones grupales creció del {{pct}}% al {{pct}}%, mientras que la colaboración para adquirir maquinaria y equipos modernos aumentó del {{pct}}% al {{pct}}%. Particularmente notable ha sido el incremento en la asociatividad para la compra conjunta de insumos, que pasó del {{pct}}% al {{pct}}%, permitiendo reducir costos operativos.
+
+            Las unidades productivas también han mostrado avances en formas más sofisticadas de colaboración. La asociatividad para acceder a nuevos mercados aumentó del {{pct}}% al {{pct}}%, y la colaboración en procesos logísticos y de distribución se incrementó del {{pct}}% al {{pct}}%. Es importante notar que el porcentaje de empresas que no participan en ninguna forma de asociatividad se redujo del {{pct}}% al {{pct}}%, evidenciando un cambio cultural significativo hacia prácticas más colaborativas.
+        '''
+        """
     ),
 }
 
 executive_summary_prompt = """
-Quiero que escribas un resumen ejecutivo de una página en español, que sea claro, profesional y persuasivo, resaltando los logros e impacto de un programa específico. Este programa, parte de la estrategia ZASCA, busca fortalecer la productividad, la gestión operativa y comercial, así como la formalización de las empresas participantes.
+A continuación, se presentan las interpretaciones detalladas de los cambios observados en las unidades productivas, organizadas por sección. Tu tarea es elaborar un resumen ejecutivo que sintetice los hallazgos más relevantes del programa:
 
-El resumen debe cubrir los siguientes puntos:
+{sections_content}
 
-Optimización operativa y mejora de la productividad: Describe cómo el programa ha optimizado los procesos operativos, reducido defectos, mejorado el flujo de trabajo, y creado entornos más seguros y eficientes.
-
-Gestión financiera y formalización: Explica cómo el programa ha promovido prácticas contables más estructuradas, el uso de herramientas tecnológicas, y la formalización de las empresas.
-
-Calidad del producto: Detalla las mejoras en los estándares de calidad, la digitalización de procesos, y cómo esto ha contribuido a productos más uniformes y competitivos.
-
-Al redactar el resumen, utiliza un tono claro y enfocado en los resultados tangibles, como crecimiento en ventas, mejora en la calidad de los productos, y mayor formalización. Proporciona algunos datos numéricos relevantes si están disponibles. Concluye con una visión realista sobre cómo el programa está sentando las bases para un desarrollo sostenible y competitivo en el sector.
-
-Detalles de la convocatoria:
+Características específicas de la cohorte y centro ZASCA:
 {cohort_details}
 
-Para ayudarte con el estilo y formato, a continuación se incluye un ejemplo de un centro ZASCA en Bucaramanga, centrado en la manufactura textil, y especificamente moda. Destacar el estilo verbose del resumen ejecutivo, sin subtitulos, y secciones, simplemente una serie de parágrafos resumiendo las secciones identificadas. Ejemplo:
-    '''
-    El programa ZASCA %ciudad% %sector% - %subsector% ha marcado un antes y un después en la optimización operativa y la calidad del producto en las empresas participantes. Gracias a las iniciativas implementadas, la mayoría de las unidades productivas ahora operan con una eficiencia ...
-    En términos de gestión financiera, el programa promovió una formalización significativa, con la adopción de herramientas accesibles como Excel para la contabilidad. Hoy, todas las empresas cuentan con algún mecanismo contable...
-    La calidad del producto ha sido otra área de mejora importante. Las empresas han incorporado controles de calidad más consistentes y están estandarizando procesos...
-    En el ámbito comercial, el impacto también ha sido positivo. Las empresas participantes han logrado un crecimiento promedio del %pct% en ventas en el primer trimestre de 2024 comparado...
-    El programa también ha puesto un fuerte énfasis en mejorar la estructura laboral de las empresas, asegurando condiciones de trabajo más estables...
-    En conclusión, el programa ZASCA %ciudad% %sector% ha logrado mejoras tangibles en eficiencia, calidad y profesionalización de la gestión en el %subsector%. Estos avances...
-    '''
+El resumen ejecutivo debe:
+1. Presentar una visión integral del impacto del programa
+2. Destacar las mejoras más significativas en:
+   - Optimización operativa y productividad
+   - Calidad del producto y estandarización
+   - Gestión del talento humano
+   - Prácticas gerenciales y financieras
+   - Asociatividad empresarial
+3. Enfocarse en cambios porcentuales relevantes y mejoras cualitativas importantes
+4. Mantener un tono profesional y persuasivo
+5. Evitar detalles excesivos o cambios porcentuales menores
 
-Lo de arriba era un ejemplo. A continuación tienes el contenido de las secciones que deberías incluir en el resumen ejecutivo que escribas tu. Asegurate de no dejar ningún placeholder.
-{sections_content}
+Guía para la elaboración:
+- Escribe un texto fluido de 4-5 párrafos sin subtítulos ni listados
+- Comienza con una introducción que contextualice el programa
+- Al reportar cambios:
+  * Verifica la dirección del cambio (aumento vs. disminución)
+  * Para aumentos mayores al 100%, usa "más que duplicó" en lugar de porcentajes
+  * Para disminuciones, reporta el porcentaje real de reducción
+  * Asegúrate de que la narrativa refleje correctamente si un cambio es positivo o negativo
+- Desarrolla los logros más significativos en orden de importancia
+- Concluye con una visión del impacto general y perspectivas futuras
+- Usa porcentajes solo cuando sean realmente significativos
+- Evita repetir datos específicos que no sean cruciales
+
+A continuación se incluye un ejemplo del estilo y estructura esperados:
+
+'''
+El programa ZASCA {{ciudad}} {{sector}} - {{subsector}} ha generado un impacto significativo en la optimización operativa y la calidad del producto de las empresas participantes. Las unidades productivas han logrado mejoras sustanciales en su eficiencia operativa, evidenciadas por reducciones en tiempos de producción y mejor aprovechamiento del espacio. Particularmente notable ha sido el incremento en el uso de indicadores de gestión, que ahora son implementados por más del {{pct}}% de las empresas, permitiendo un control más efectivo de sus procesos.
+En términos de calidad y estandarización, se observan avances importantes en la implementación de controles de calidad y la documentación de procesos. La proporción de empresas que utilizan fichas técnicas para el registro de diseños se ha duplicado, mientras que la adopción de empaques estandarizados y distintivos refleja una mayor profesionalización en la presentación de productos.
+La gestión del talento humano muestra mejoras significativas en la formalización laboral y la estructura salarial. El {{pct}}% de los líderes empresariales ahora reciben un sueldo fijo, y la cobertura de seguridad social ha aumentado considerablemente. En el ámbito financiero, la adopción de herramientas contables estructuradas y la participación en ruedas comerciales han fortalecido la capacidad de gestión y el acceso a nuevos mercados.
+Las prácticas gerenciales han evolucionado hacia métodos más profesionales, con un incremento notable en el uso de sistemas de costeo y fijación de precios basados en datos. La asociatividad empresarial también ha mostrado avances significativos, con más empresas participando en iniciativas colaborativas para capacitación, compra de insumos y acceso a mercados.
+En conclusión, el programa ZASCA {{ciudad}} {{sector}} ha catalizado una transformación integral en las unidades productivas participantes, sentando bases sólidas para su crecimiento sostenible. Los avances en eficiencia operativa, calidad, gestión del talento humano y prácticas empresariales posicionan a estas empresas para competir más efectivamente en sus respectivos mercados.
+'''
 """
 
 

@@ -12,18 +12,35 @@ from src.prompts_config import (
 
 
 async def generate_section_contents(
-    sections: List[ReportSection], cohort_info: str, model_name: str
+    sections: List[ReportSection], cohort_info: str, model_name: str, progress_bar=None
 ) -> None:
     """Generate content for each section asynchronously using the OpenAI API."""
     tasks = []
+    total_sections = len([s for s in sections if section_prompts.get(s.title)])
+    completed = 0
+    
+    if progress_bar:
+        progress_bar.progress(0, f"Iniciando generación de {total_sections} secciones...")
+
     for section in sections:
         prompt_template = section_prompts.get(section.title)
         if prompt_template:
             # Include cohort details in the prompt
             prompt_template = prompt_template.replace("{cohort_details}", cohort_info)
             tasks.append(call_openai_api(section, prompt_template, model_name))
-    responses = await asyncio.gather(*tasks)
+    
+    responses = []
+    for task in asyncio.as_completed(tasks):
+        response = await task
+        responses.append(response)
+        completed += 1
+        if progress_bar:
+            progress_bar.progress(
+                completed / total_sections,
+                f"Completadas {completed} de {total_sections} secciones..."
+            )
 
+    # Match responses back to sections
     for section, response in zip(sections, responses):
         section.content = (
             response.data.get("content", "Error generando el contenido.")
@@ -52,14 +69,14 @@ async def generate_executive_summary(
     )
 
 
-async def edit_report_sections(sections: List[ReportSection], model_name: str) -> str:
+async def edit_report_sections(sections: List[ReportSection]) -> str:
     """Edit the content of all sections for consistency and logical flow."""
     sections_content = "\n\n".join(
         [f"{section.title}\n{section.content}" for section in sections]
     )
     prompt = final_edit_prompt.format(sections_content=sections_content)
 
-    response = await call_openai_api(None, prompt, model_name)
+    response = await call_openai_api(None, prompt, "gpt-4o-2024-08-06")
 
     edited_content = (
         response.data.get("content", "Error editing content.")

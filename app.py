@@ -95,21 +95,46 @@ with st.container():
             "Generar Reporte",
             help="Haz clic para generar el reporte basado en los datos y detalles proporcionados",
         ):
-            st.info("Generando el reporte...")
-            report_sections = aggregate_data(df, sections_config)
-            asyncio.run(
-                generate_section_contents(report_sections, COHORT_INFO_STR, model_name)
-            )
-            resumen_ejecutivo = asyncio.run(
-                generate_executive_summary(report_sections, COHORT_INFO_STR, model_name)
-            )
-            edited_output = asyncio.run(
-                edit_report_sections(report_sections, model_name)
-            )
-            raw_json_output = generate_json_output(report_sections, resumen_ejecutivo)
+            # Create containers for progress information
+            progress_container = st.container()
+            with progress_container:
+                st.info("🚀 Iniciando generación del reporte...")
+
+                # Progress bar for sections
+                progress_bar = st.progress(0)
+                status_text = st.empty()
+
+                # Generate sections
+                report_sections = aggregate_data(df, sections_config)
+                asyncio.run(
+                    generate_section_contents(
+                        report_sections, COHORT_INFO_STR, model_name, progress_bar
+                    )
+                )
+
+                # Update status for executive summary
+                status_text.info("📝 Generando resumen ejecutivo...")
+                resumen_ejecutivo = asyncio.run(
+                    generate_executive_summary(
+                        report_sections, COHORT_INFO_STR, model_name
+                    )
+                )
+
+                # Update status for final edits
+                status_text.info("✍️ Realizando edición final...")
+                edited_output = asyncio.run(edit_report_sections(report_sections))
+
+                # Generate JSON
+                status_text.info("💾 Preparando archivo JSON...")
+                raw_json_output = generate_json_output(
+                    report_sections, resumen_ejecutivo
+                )
+
+                # Clear progress indicators and show success
+                progress_container.empty()
+                st.success("🎉 ¡Reporte generado exitosamente!")
 
             # Success Message and Download Options
-            st.success("\U0001F389 ¡Reporte generado exitosamente!")
             st.download_button(
                 label="Descargar Reporte en JSON",
                 data=edited_output.replace("\n", "<br>"),

@@ -1,7 +1,7 @@
 """Pydantic models for the ZASCA report generation API."""
 
 from datetime import datetime
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Union
 from pydantic import BaseModel, Field
 
 
@@ -9,15 +9,18 @@ class VariableData(BaseModel):
     """Variable data model."""
 
     variable: str = Field(..., description="Name of the variable.")
-    description: str = Field(..., description="Description of the variable.")
-    value_initial_intervention: float = Field(
-        ..., description="Average value before the intervention."
+    description: str = Field(..., description="Description of what the variable measures.")
+    value_initial_intervention: Optional[Union[float, Dict[str, float]]] = Field(
+        None, description="Initial value - either average or category percentages."
     )
-    value_final_intervention: float = Field(
-        ..., description="Average value after the intervention."
+    value_final_intervention: Union[float, Dict[str, float]] = Field(
+        ..., description="Final value - either average or category percentages."
     )
-    percentage_change: str = Field(
-        ..., description="Percentage change from before to after the intervention."
+    percentage_change: Optional[Union[str, Dict[str, str]]] = Field(
+        None, description="Percentage change - either overall or per category."
+    )
+    interpretation: str = Field(
+        ..., description="Human-readable interpretation of the results."
     )
 
 
@@ -35,7 +38,7 @@ class ReportSection(BaseModel):
     content: str = Field(..., description="Content generated for the report section.")
     variables: Dict[str, VariableData] = Field(
         ...,
-        description="Mapping of variable names to their before and after average values.",
+        description="Variables and their data in this section.",
     )
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
