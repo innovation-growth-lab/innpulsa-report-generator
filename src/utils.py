@@ -24,10 +24,7 @@ logger = logging.getLogger(__name__)
 @st.cache_data
 def load_data(uploaded_file) -> pd.DataFrame:
     """Load and return the dataset from the uploaded CSV file."""
-    # df = pd.read_excel(uploaded_file, engine="openpyxl")
-    df = pd.read_excel(
-        "~/projects/innpulsa/8_Bases/zm-cuc-bd-maestra-c1.xlsx", engine="openpyxl"
-    )  # DEBUG
+    df = pd.read_excel(uploaded_file, engine="openpyxl")
     # Filter for complete diagnostics only
     filtered_df = df[
         (df["Diagnostico"].str.lower() == "complete")
@@ -369,7 +366,7 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSectio
                     variable_data_obj.percentage_change,
                 )
 
-            except Exception as e:
+            except Exception as e:  # pylint: disable=broad-except
                 logger.error("Error processing variable %s: %s", var_pair, str(e))
                 continue
 
