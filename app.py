@@ -2,6 +2,7 @@ import asyncio
 import streamlit as st
 from src.sections_config import sections_config
 from src.utils import load_data, aggregate_data, generate_json_output
+from src.feedback import save_suggestion
 from src.openai_helpers import (
     generate_section_contents,
     generate_executive_summary,
@@ -16,8 +17,8 @@ st.image("assets/zasca_logo.png")
 # Application Title
 st.title("\U0001F4DA Generador de Reportes ZASCA")
 
-tab1, tab2, tab3 = st.tabs(
-    ["📝 Descripción General", "📋 Proceso de Uso", "⚠️ Consideraciones"]
+tab1, tab2, tab3, tab4 = st.tabs(
+    ["📝 Descripción General", "📋 Proceso de Uso", "⚠️ Consideraciones", "💡 Sugerencias"]
 )
 
 with tab1:
@@ -177,6 +178,41 @@ with tab3:
     """,
         unsafe_allow_html=True,
     )
+
+with tab4:
+    st.markdown("### Sugerencias y Solicitudes")
+    st.markdown(
+        """
+        <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
+            <p>¿Tienes alguna sugerencia para mejorar la herramienta o necesitas alguna funcionalidad adicional?
+            Compártela con nosotros.</p>
+        </div>
+    """,
+        unsafe_allow_html=True,
+    )
+
+    category = st.selectbox(
+        "Categoría",
+        ["Mejora de funcionalidad", "Nueva característica", "Reporte de error", "Otro"],
+    )
+
+    suggestion = st.text_area(
+        "Sugerencia", placeholder="Describe tu sugerencia o solicitud..."
+    )
+
+    details = st.text_area(
+        "Detalles adicionales",
+        placeholder="Proporciona cualquier detalle adicional que nos ayude a entender mejor tu solicitud...",
+    )
+
+    if st.button("Enviar sugerencia"):
+        if suggestion.strip():
+            save_suggestion(suggestion, category, details)
+            st.success("¡Gracias por tu sugerencia! El equipo de IGL la revisará pronto.")
+        else:
+            st.error("Por favor, escribe una sugerencia antes de enviar.")
+
+
 
 # File Upload Section
 st.sidebar.markdown("### 📂 Subir un archivo de datos")
