@@ -1,3 +1,4 @@
+# Imports
 import asyncio
 import streamlit as st
 from src.sections_config import sections_config
@@ -8,7 +9,21 @@ from src.openai_helpers import (
     generate_executive_summary,
     edit_report_sections,
 )
+import json
+from typing import List
 
+# Initialize session state
+if 'report_generated' not in st.session_state:
+    st.session_state.report_generated = False
+    st.session_state.report_finalized = False
+    st.session_state.json_str = None
+    st.session_state.markdown_content = None
+    st.session_state.resumen_ejecutivo = None
+    st.session_state.edited_output = None
+    st.session_state.report_sections = None
+    st.session_state.success_message = None
+
+# Page config
 st.set_page_config(
     layout="centered", page_title="Generador de Reportes ZASCA", page_icon="📊"
 )
@@ -18,7 +33,12 @@ st.image("assets/zasca_logo.png")
 st.title("\U0001F4DA Generador de Reportes ZASCA")
 
 tab1, tab2, tab3, tab4 = st.tabs(
-    ["📝 Descripción General", "📋 Proceso de Uso", "⚠️ Consideraciones", "💡 Sugerencias"]
+    [
+        "📝 Descripción General",
+        "📋 Proceso de Uso",
+        "⚠️ Consideraciones",
+        "💡 Sugerencias",
+    ]
 )
 
 with tab1:
@@ -208,10 +228,11 @@ with tab4:
     if st.button("Enviar sugerencia"):
         if suggestion.strip():
             save_suggestion(suggestion, category, details)
-            st.success("¡Gracias por tu sugerencia! El equipo de IGL la revisará pronto.")
+            st.success(
+                "¡Gracias por tu sugerencia! El equipo de IGL la revisará pronto."
+            )
         else:
             st.error("Por favor, escribe una sugerencia antes de enviar.")
-
 
 
 # File Upload Section
@@ -223,48 +244,46 @@ with st.container():
     if uploaded_file:
         st.session_state.uploaded_file = uploaded_file
         df = load_data(st.session_state.uploaded_file)
-        
-        data_tab1, data_tab2, data_tab3 = st.tabs([
-            "📋 Detalles del Reporte",
-            "📊 Vista previa de datos", 
-            "📑 Variables por sección",
-        ])
-        
+
+        data_tab1, data_tab2, data_tab3 = st.tabs(
+            [
+                "📋 Detalles del Reporte",
+                "📊 Vista previa de datos",
+                "📑 Variables por sección",
+            ]
+        )
+
         with data_tab1:
             st.markdown("### Información del Centro ZASCA")
             cohort_details = {
                 "centro": st.text_input(
-                    "Nombre del Centro ZASCA", 
-                    placeholder="Ej.: Ciudad Bolívar"
+                    "Nombre del Centro ZASCA", placeholder="Ej.: Ciudad Bolívar"
                 ),
                 "cohorte": st.text_input(
-                    "Número de la Cohorte", 
-                    placeholder="Ej.: Primera Cohorte"
+                    "Número de la Cohorte", placeholder="Ej.: Primera Cohorte"
                 ),
                 "sector": st.text_input(
-                    "Sector", 
-                    placeholder="Ej.: Textiles, Manufactura, Servicios"
+                    "Sector", placeholder="Ej.: Textiles, Manufactura, Servicios"
                 ),
                 "informacion_adicional": st.text_input(
-                    "Información adicional", 
-                    placeholder="Ej.: Fechas"
+                    "Información adicional", placeholder="Ej.: Fechas"
                 ),
             }
             COHORT_INFO_STR = ", ".join(
                 f"{key}: {value}" for key, value in cohort_details.items() if value
             )
-        
+
         with data_tab2:
             st.markdown("### Vista previa de los datos cargados")
             st.dataframe(df, use_container_width=True)
-        
+
         with data_tab3:
             for section_title, variables in sections_config.items():
                 with st.expander(f"### {section_title}"):
                     for var_config in variables:
                         var_pair, var_type, metadata = var_config
                         initial, final = var_pair
-                        
+
                         # Format the variable names
                         if isinstance(initial, list):
                             initial_str = ", ".join(initial)
@@ -272,15 +291,15 @@ with st.container():
                             initial_str = "N/A"
                         else:
                             initial_str = initial
-                        
+
                         st.markdown(
                             f"- **{metadata['description']}**\n"
                             f"  - Inicial: `{initial_str}`\n"
                             f"  - Final: `{final}`\n"
                             f"  - Tipo: `{var_type}`"
                         )
-        
-        # Sidebar now only has model selection and generate button
+
+        # Sidebar controls
         st.sidebar.markdown("---")
         model_name = st.sidebar.selectbox(
             "Modelo de OpenAI", 
@@ -295,11 +314,10 @@ with st.container():
             use_container_width=True,
         )
 
+        # Report Generation Process
         if generate_report:
             # Create progress indicators in sidebar
             with st.sidebar:
-                st.markdown("---")
-                st.info("🚀 Iniciando generación del reporte...")
                 progress_bar = st.progress(0)
                 status_text = st.empty()
 
@@ -339,44 +357,71 @@ with st.container():
             )
 
             with st.sidebar:
-                status_text.info("�� Preparando archivo JSON...")
-            raw_json_output = generate_json_output(report_sections, resumen_ejecutivo)
+                status_text.info("💾 Preparando archivo JSON...")
+            json_str = generate_json_output(report_sections, resumen_ejecutivo)
 
             # Show success in sidebar and clear progress
             with st.sidebar:
                 status_text.empty()
                 progress_bar.empty()
-                st.success("🎉 ¡Reporte generado exitosamente!")
+                st.session_state.success_message = "🎉 ¡Reporte generado exitosamente!"
 
-            # Create tabs for different views
-            result_tab1, result_tab2 = st.tabs([
-                "📝 Reporte Final Editado",
-                "🔄 Secciones Sin Editar"
-            ])
+            # Store in session state at the end
+            st.session_state.report_generated = True
+            st.session_state.report_finalized = True
+            st.session_state.json_str = json_str
+            st.session_state.resumen_ejecutivo = resumen_ejecutivo
+            st.session_state.edited_output = edited_output
+            st.session_state.report_sections = report_sections
+            st.session_state.markdown_content = f"""# Reporte ZASCA\n\n## Resumen Ejecutivo\n{resumen_ejecutivo}\n\n{edited_output}"""
 
-            with result_tab1:
-                st.markdown("### Reporte Final")
-                st.markdown("#### Resumen Ejecutivo")
-                st.markdown(resumen_ejecutivo)
-                st.markdown(edited_output)
-                st.download_button(
-                    label="Descargar Reporte en JSON",
-                    data=edited_output.replace("\n", "<br>"),
-                    file_name="reporte_zasca.json",
-                    mime="application/json",
-                    help="Descarga el reporte generado como un archivo JSON",
-                )
+    # Display download buttons and results (outside generate_report block)
+    if st.session_state.report_finalized:
+        # Show persistent success message
+        if st.session_state.success_message:
+            st.sidebar.success(st.session_state.success_message)
+        
+        # Download buttons
+        st.sidebar.markdown("### 💾 Descargar Reporte")
+        col1, col2 = st.sidebar.columns(2)
+        with col1:
+            st.download_button(
+                label="📊 Sin Editar - JSON",
+                data=st.session_state.json_str,
+                file_name="reporte_zasca.json",
+                mime="application/json",
+                help="Descarga el reporte sin editar en formato JSON",
+            )
+        with col2:
+            st.download_button(
+                label="📝 Editado - Markdown",
+                data=st.session_state.markdown_content,
+                file_name="reporte_zasca.md",
+                mime="text/markdown",
+                help="Descarga el reporte editado en formato Markdown",
+            )
 
-            with result_tab2:
-                st.markdown("### Contenido Sin Editar por Sección")
-                for section in report_sections:
-                    with st.expander(f"📑 {section.title}"):
-                        st.markdown("#### Contenido generado")
-                        st.markdown(section.content)
-                        st.markdown("#### Variables procesadas")
-                        for var_name, var_data in section.variables.items():
-                            st.markdown(f"**{var_data.description}**: {var_data.interpretation}")
-                            st.markdown("---")
+        # Results display
+        result_tab1, result_tab2 = st.tabs(
+            ["📝 Reporte Final Editado", "🔄 Secciones Sin Editar"]
+        )
+
+        with result_tab1:
+            st.markdown("### Reporte Final")
+            st.markdown("#### Resumen Ejecutivo")
+            st.markdown(st.session_state.resumen_ejecutivo)
+            st.markdown(st.session_state.edited_output)
+
+        with result_tab2:
+            st.markdown("### Contenido Sin Editar por Sección")
+            for section in st.session_state.report_sections:
+                with st.expander(f"📑 {section.title}"):
+                    st.markdown("#### Contenido generado")
+                    st.markdown(section.content)
+                    st.markdown("#### Variables procesadas")
+                    for var_name, var_data in section.variables.items():
+                        st.markdown(f"**{var_data.description}**: {var_data.interpretation}")
+                        st.markdown("---")
 
 
 # Footer with Logos
