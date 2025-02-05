@@ -1,8 +1,8 @@
 """Utility functions for data loading, aggregation, and JSON output generation."""
 
-import logging
 import json
-from typing import List, Dict, Any, Tuple, Union
+import logging
+from typing import List, Dict, Tuple, Union
 import pandas as pd
 import numpy as np
 import streamlit as st
@@ -52,7 +52,22 @@ def calculate_percentage_change(initial: float, final: float) -> str:
 def process_numeric_variable(
     df: pd.DataFrame, var_pair: Tuple[Union[str, List[str], None], str], metadata: Dict
 ) -> VariableData:
-    """Process numeric variables."""
+    """Process numeric variables from the dataset and calculate their changes.
+
+    Handles both single measurements and time series data, calculating averages and percentage changes.
+    For time series, it averages across all available periods.
+
+    Args:
+        df: DataFrame containing the measurements
+        var_pair: Tuple of (initial_column(s), final_column) where initial can be None, str, or list
+        metadata: Dictionary containing variable description and any additional metadata
+
+    Returns:
+        VariableData object containing initial/final values, percentage change and interpretation
+
+    Raises:
+        ValueError: If required columns are not found in the DataFrame
+    """
     initial_cols, final_col = var_pair
     description = metadata["description"]
 
@@ -113,7 +128,22 @@ def process_numeric_variable(
 def process_boolean_variable(
     df: pd.DataFrame, var_pair: Tuple[Union[str, None], str], metadata: Dict
 ) -> VariableData:
-    """Process boolean variables."""
+    """Process boolean variables from the dataset and calculate percentage of positive responses.
+
+    Converts 'Sí'/'No' responses to percentages and calculates the change between periods.
+    Can handle cases with only final measurements (initial_col = None).
+
+    Args:
+        df: DataFrame containing the measurements
+        var_pair: Tuple of (initial_column, final_column) where initial can be None
+        metadata: Dictionary containing variable description and any additional metadata
+
+    Returns:
+        VariableData object containing percentage of positive responses and their change
+
+    Raises:
+        ValueError: If required columns are not found in the DataFrame
+    """
     initial_col, final_col = var_pair
     description = metadata["description"]
 
@@ -158,7 +188,22 @@ def process_boolean_variable(
 def process_dummy_variable(
     df: pd.DataFrame, var_pair: Tuple[str, str], metadata: Dict
 ) -> VariableData:
-    """Process dummy variables (any non-NaN/non-'.' value to 'Sí', NaN/'.' to 'No')."""
+    """Process dummy variables where any non-empty value indicates a positive response.
+
+    Treats any non-NaN and non-'.' value as a positive response ('Sí'). Empty values, NaN, and '.'
+    are treated as negative responses ('No'). Calculates percentages of positive responses.
+
+    Args:
+        df: DataFrame containing the measurements
+        var_pair: Tuple of (initial_column, final_column)
+        metadata: Dictionary containing variable description and any additional metadata
+
+    Returns:
+        VariableData object containing percentage of positive responses and their change
+
+    Raises:
+        ValueError: If required columns are not found in the DataFrame
+    """
     initial_col, final_col = var_pair
     description = metadata["description"]
 
@@ -200,7 +245,22 @@ def process_dummy_variable(
 def process_categorical_variable(
     df: pd.DataFrame, var_pair: Tuple[str, str], metadata: Dict
 ) -> VariableData:
-    """Process categorical variables."""
+    """Process categorical variables and calculate distribution changes across categories.
+
+    Calculates the percentage distribution across predefined categories and their changes between
+    periods. Requires a mapping of valid categories in metadata.
+
+    Args:
+        df: DataFrame containing the measurements
+        var_pair: Tuple of (initial_column, final_column)
+        metadata: Dictionary containing categories mapping and description
+
+    Returns:
+        VariableData object containing category distributions and their changes
+
+    Raises:
+        ValueError: If required columns are not found or metadata lacks category mapping
+    """
     initial_col, final_col = var_pair
     description = metadata["description"]
 
@@ -257,7 +317,22 @@ def process_categorical_variable(
 def process_array_variable(
     df: pd.DataFrame, var_pair: Tuple[str, str], metadata: Dict
 ) -> VariableData:
-    """Process array variables."""
+    """Process semicolon-separated multiple-choice variables.
+
+    Handles variables where responses can include multiple options separated by semicolons.
+    Calculates the percentage of respondents selecting each option and their changes.
+
+    Args:
+        df: DataFrame containing the measurements
+        var_pair: Tuple of (initial_column, final_column)
+        metadata: Dictionary containing variable description and any additional metadata
+
+    Returns:
+        VariableData object containing option selection percentages and their changes
+
+    Raises:
+        ValueError: If required columns are not found in the DataFrame
+    """
     initial_col, final_col = var_pair
     description = metadata["description"]
 
@@ -320,7 +395,22 @@ def process_array_variable(
 
 
 def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSection]:
-    """Aggregate data into report sections based on the predefined configuration."""
+    """Aggregate data into report sections based on configuration.
+
+    Processes all variables defined in sections_config according to their types and organizes them
+    into report sections. Handles errors for individual variables without failing the entire process.
+
+    Args:
+        df: DataFrame containing all measurements
+        sections_config: Dictionary defining sections and their variables with processing instructions
+
+    Returns:
+        List of ReportSection objects containing processed variables and their interpretations
+
+    Logs:
+        INFO: Processing progress and variable results
+        ERROR: Individual variable processing failures
+    """
     report_sections = []
 
     for section_title, variables in sections_config.items():
