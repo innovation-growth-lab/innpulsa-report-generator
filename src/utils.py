@@ -76,7 +76,7 @@ def process_numeric_variable(
 
     # Handle case where we only have final value
     if initial_cols is None:
-        final_value = round(df[final_col].mean(), 2)
+        final_value = int(round(df[final_col].mean(), 2))
         interpretation = f"Para {description}, el valor promedio es {final_value}"
 
         return VariableData(
@@ -93,13 +93,13 @@ def process_numeric_variable(
         valid_cols = [col for col in initial_cols if col in df.columns]
         if not valid_cols:
             raise ValueError(f"None of the columns {initial_cols} found in dataframe")
-        initial_value = round(df[valid_cols].apply(np.mean, axis=1).mean(), 2)
+        initial_value = int(round(df[valid_cols].apply(np.mean, axis=1).mean(), 2))
     else:
         if initial_cols not in df.columns:
             raise ValueError(f"Column {initial_cols} not found in dataframe")
-        initial_value = round(df[initial_cols].mean(), 2)
+        initial_value = int(round(df[initial_cols].mean(), 2))
 
-    final_value = round(df[final_col].mean(), 2)
+    final_value = int(round(df[final_col].mean(), 2))
     pct_change = calculate_percentage_change(initial_value, final_value)
 
     # Create interpretation after we have all values
@@ -394,33 +394,42 @@ def process_array_variable(
     )
 
 
-def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSection]:
+def aggregate_data(df: pd.DataFrame, sections_config: dict) -> Tuple[List[ReportSection], List[str]]:
     """Aggregate data into report sections based on configuration.
 
     Processes all variables defined in sections_config according to their types and organizes them
-    into report sections. Handles errors for individual variables without failing the entire process.
+    into report sections. Skips variables with missing columns instead of defaulting to zero.
 
     Args:
         df: DataFrame containing all measurements
         sections_config: Dictionary defining sections and their variables with processing instructions
 
     Returns:
-        List of ReportSection objects containing processed variables and their interpretations
-
-    Logs:
-        INFO: Processing progress and variable results
-        ERROR: Individual variable processing failures
+        Tuple containing:
+        - List of ReportSection objects containing processed variables and their interpretations
+        - List of missing variable names for reporting
     """
     report_sections = []
+    missing_variables = []
 
     for section_title, variables in sections_config.items():
         variable_data = {}
         for var_config in variables:
-            logger.info("Processing variable: %s", var_config)
             var_pair, var_type, metadata = var_config
-
-            if var_pair[1] == "indicadores_eficienciac":
-                logger.info("Processing variable: %s", var_config)
+            
+            # Check if columns exist before processing
+            initial_col, final_col = var_pair
+            if isinstance(initial_col, list):
+                if not any(col in df.columns for col in initial_col):
+                    missing_variables.append(f"{section_title}: {initial_col}")
+                    continue
+            elif initial_col and initial_col not in df.columns:
+                missing_variables.append(f"{section_title}: {initial_col}")
+                continue
+            
+            if final_col not in df.columns:
+                missing_variables.append(f"{section_title}: {final_col}")
+                continue
 
             try:
                 if var_type == "numeric":
@@ -430,34 +439,28 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSectio
                 elif var_type == "dummy":
                     variable_data_obj = process_dummy_variable(df, var_pair, metadata)
                 elif var_type == "categorical":
-                    variable_data_obj = process_categorical_variable(
-                        df, var_pair, metadata
-                    )
+                    variable_data_obj = process_categorical_variable(df, var_pair, metadata)
                 elif var_type == "array":
                     variable_data_obj = process_array_variable(df, var_pair, metadata)
                 else:
                     raise ValueError(f"Unknown variable type: {var_type}")
 
-                # Use base name as key for multi-period variables
+                # Use base name as key
                 cierre_var = var_pair[1]
-                dict_key = (
-                    cierre_var[0].rsplit("1", 1)[0]
-                    if isinstance(cierre_var, list)
-                    else cierre_var
-                )
+                dict_key = cierre_var[0].rsplit("1", 1)[0] if isinstance(cierre_var, list) else cierre_var
                 variable_data[dict_key] = variable_data_obj
 
-                # Log the numeric results
                 logger.info(
-                    "Variable %s: initial=%s, final=%s, change=%s",
+                    "Variable %s processed successfully: initial=%s, final=%s, change=%s",
                     cierre_var,
                     variable_data_obj.value_initial_intervention,
                     variable_data_obj.value_final_intervention,
                     variable_data_obj.percentage_change,
                 )
 
-            except Exception as e:  # pylint: disable=broad-except
+            except Exception as e:
                 logger.error("Error processing variable %s: %s", var_pair, str(e))
+                missing_variables.append(f"{section_title}: {var_pair} (Error: {str(e)})")
                 continue
 
         report_sections.append(
@@ -468,7 +471,7 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSectio
             )
         )
 
-    return report_sections
+    return report_sections, missing_variables
 
 
 def generate_json_output(
