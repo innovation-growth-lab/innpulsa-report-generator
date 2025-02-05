@@ -1,82 +1,132 @@
-# Innpulsa Report Generator
+# Generador de Reportes ZASCA
 
-This project is a Streamlit application that generates a JSON report based on data from an uploaded Excel file. The report is divided into predefined sections, and the content for each section is generated using the OpenAI API.
+Esta aplicación Streamlit genera reportes estructurados para los centros ZASCA de INNPULSA, analizando datos de diagnóstico y cierre para evaluar el impacto del programa en las unidades productivas participantes.
 
-## Features
+## Características Principales
 
-- Upload an Excel file containing your dataset.
-- Aggregate data into predefined sections.
-- Generate content for each section using the OpenAI API.
-- Download the generated JSON report.
-- View the JSON report in a collapsible box within the Streamlit app.
+- Carga y procesamiento de archivos Excel con datos de diagnóstico y cierre
+- Análisis automático de variables clave en seis dimensiones:
+  * Optimización operativa
+  * Calidad del producto
+  * Gestión del talento humano
+  * Prácticas gerenciales
+  * Desempeño financiero
+  * Asociatividad empresarial
+- Generación de interpretaciones basadas en datos
+- Creación de contenido narrativo usando IA
+- Exportación de resultados en formato JSON
 
-## Installation
+## Requisitos Previos
 
-1. Clone the repository:
+- Python 3.13.1 o superior
+- Cuenta de OpenAI con API key
+- Acceso a los datos de diagnóstico y cierre de ZASCA
+
+## Instalación
+
+1. Clonar el repositorio:
     ```sh
-    git clone https://github.com/yourusername/innpulsa-report-generator.git
-    cd innpulsa-report-generator
+    git clone https://github.com/innpulsa/zasca-report-generator.git
+    cd zasca-report-generator
     ```
 
-2. Create a virtual environment and activate it:
+2. Crear y activar el entorno virtual:
     ```sh
     conda create --name .innpulsa python=3.13.1
     conda activate .innpulsa
     ```
 
-3. Install the required dependencies:
+3. Instalar dependencias:
     ```sh
     pip install -r requirements.txt
     ```
 
-4. Set up your OpenAI API key:
+4. Configurar la API key de OpenAI:
     ```sh
-    export OPENAI_API_KEY='your-openai-api-key'  # On Windows, use `set OPENAI_API_KEY=your-openai-api-key`. In Linux, I use direnv.
+    # Linux/Mac
+    export OPENAI_API_KEY='tu-api-key'
+    
+    # Windows
+    set OPENAI_API_KEY=tu-api-key
     ```
 
-## Usage
+## Uso
 
-1. Run the Streamlit app:
-    ```sh
-    streamlit run app.py
-    ```
+1. Acceder a la aplicación:
+   - Versión en producción: [innpulsa-igl.dap-tools.uk](https://innpulsa-igl.dap-tools.uk)
+   - Versión local (desarrollo): 
+     ```sh
+     streamlit run app.py
+     ```
+     Luego acceder a través del navegador: `http://localhost:8501`
 
-2. Open your web browser and go to `http://localhost:8501`.
+2. Cargar el archivo Excel con los datos de diagnóstico y cierre
 
-3. Upload your dataset (Excel file) using the file uploader.
+3. Completar la información del centro ZASCA:
+   - Nombre del centro
+   - Número de cohorte
+   - Sector productivo
+   - Información adicional relevante
 
-4. Click the "Generate Report" button to generate the JSON report.
+4. Seleccionar el modelo de OpenAI a utilizar
 
-5. Download the generated JSON report or view it in the collapsible box.
+5. Generar el reporte
 
-## Project Structure
+## Estructura del Proyecto
 
-- `app.py`: Main Streamlit application file.
-- `src/models.py`: Data models for the report sections and variables.
-- `src/openai_api.py`: Module to interact with the OpenAI API.
-- `src/prompts_config.py`: Configuration file for the prompts used to generate content.
-- `src/sections_config.py`: Configuration file for the sections and their corresponding variables.
-- `src/utils.py`: Utility functions for data loading, aggregation, and JSON output generation.
+```
+zasca-report-generator/
+├── app.py                 # Aplicación principal Streamlit
+├── src/
+│   ├── models.py         # Modelos de datos
+│   ├── openai_api.py     # Integración con OpenAI
+│   ├── prompts_config.py # Configuración de prompts
+│   ├── sections_config.py # Configuración de secciones
+│   └── utils.py          # Funciones auxiliares
+├── assets/               # Recursos gráficos
+└── requirements.txt      # Dependencias del proyecto
+```
 
-## Configuration
+## Tipos de variables
 
-- `sections_config.py`: Define the variables to consider for each section.
-- `prompts_config.py`: Define the prompts used to generate content for each section.
+- **numeric**: Variables numéricas con valores antes/después
+- **boolean**: Variables Sí/No
+- **dummy**: Variables con respuestas múltiples
+- **categorical**: Variables con categorías predefinidas
+- **array**: Variables con múltiples opciones separadas por punto y coma
 
-## Example
+## Configuración de variables
 
-Here is an example of the `sections_config.py` file:
+El archivo `sections_config.py` define las variables a analizar en cada sección. Ejemplo:
 
 ```python
 sections_config = {
-    "Productividad": ["productivity_before", "productivity_after"],
-    "Talento humano": ["talent_before", "talent_after"],
-    "Financiero": ["sales_before", "sales_after", "profits_before", "profits_after"],
-    "Practicas gerenciales": ["management_practices_before", "management_practices_after"],
-    "Asociatividad": ["associativity_before", "associativity_after"]
+    "Optimización operativa": [
+        (("produccion_antes", "produccion_despues"), "numeric", 
+         {"description": "producción mensual"}),
+        (("eficiencia_antes", "eficiencia_despues"), "numeric", 
+         {"description": "eficiencia operativa"}),
+    ],
+    # ... otras secciones
 }
 ```
 
-## License
+## Contribuciones
 
-This project is licensed under the MIT License.
+Para contribuir al proyecto:
+
+1. Fork del repositorio
+2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit de tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir un Pull Request
+
+## Licencia
+
+Este proyecto es propiedad del Innovation Growth Lab. Todos los derechos reservados.
+
+## Soporte
+
+Para soporte técnico o consultas, contactar a:
+- Data and Technology Unit at the Innovation Growth Lab
+- Email: [innovationgrowthlab@nesta.org.uk](mailto:innovationgrowthlab@nesta.org.uk)
