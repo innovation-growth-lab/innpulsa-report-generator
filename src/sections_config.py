@@ -344,7 +344,7 @@ sections_config = {
             {"description": "Se ha asociado para realizar: Sí, para comprar insumos y así reducir costos"},
         ],
         [
-            ("association_use_machinery_nobu", "association_use_machinery_nobuc"),
+            ("association_use_machinery_nobuy", "association_use_machinery_nobuyc"),
             DUMMY,
             {"description": "Se ha asociado para realizar: Sí, para utilizar maquinaria sin tener que comprarla"},
         ],
