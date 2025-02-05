@@ -458,7 +458,7 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> Tuple[List[Report
                     variable_data_obj.percentage_change,
                 )
 
-            except Exception as e:
+            except Exception as e: # pylint: disable=broad-exception-caught
                 logger.error("Error processing variable %s: %s", var_pair, str(e))
                 missing_variables.append(f"{section_title}: {var_pair} (Error: {str(e)})")
                 continue
