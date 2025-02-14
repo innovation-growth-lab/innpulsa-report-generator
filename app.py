@@ -1,6 +1,8 @@
 # Imports
+import io
 import asyncio
 import streamlit as st
+from docx import Document
 from src.config.sections import sections_config
 from src.data.process import aggregate_data
 from src.data.loaders import load_data
@@ -13,7 +15,7 @@ from src.services.openai_helpers import (
 )
 
 # Initialize session state
-if 'report_generated' not in st.session_state:
+if "report_generated" not in st.session_state:
     st.session_state.report_generated = False
     st.session_state.report_finalized = False
     st.session_state.json_str = None
@@ -302,9 +304,7 @@ with st.container():
         # Sidebar controls
         st.sidebar.markdown("---")
         model_name = st.sidebar.selectbox(
-            "Modelo de OpenAI", 
-            ["gpt-3.5-turbo", "gpt-4o-2024-08-06"], 
-            index=0
+            "Modelo de OpenAI", ["gpt-3.5-turbo", "gpt-4o-2024-08-06"], index=0
         )
 
         st.sidebar.markdown("<br>", unsafe_allow_html=True)
@@ -380,25 +380,125 @@ with st.container():
         # Show persistent success message
         if st.session_state.success_message:
             st.sidebar.success(st.session_state.success_message)
-        
+
+        # Create Word document
+        def create_word_doc(edited=True):
+            """Create a Word document with the report content"""
+            doc = Document()
+
+            # Add title
+            title = doc.add_heading("Reporte ZASCA", 0)
+            title.alignment = 1  # Center alignment
+
+            # Add executive summary
+            doc.add_heading("Resumen Ejecutivo", level=1)
+            doc.add_paragraph(st.session_state.resumen_ejecutivo)
+
+            def process_paragraph_text(text):
+                """Process a paragraph text to handle markdown bold"""
+                parts = text.split('**')
+                if len(parts) <= 1:  # No bold markers
+                    return doc.add_paragraph(text)
+                
+                p = doc.add_paragraph()
+                for i, part in enumerate(parts):
+                    if not part:  # Skip empty strings between consecutive **
+                        continue
+                    # Even indices (0, 2, 4, ...) are normal text, odd indices are bold
+                    run = p.add_run(part)
+                    run.bold = (i % 2) == 1
+
+            if edited:
+                # Process edited content by splitting into lines and handling headers
+                lines = st.session_state.edited_output.split('\n')
+                current_paragraph = []
+                
+                for line in lines:
+                    if line.startswith('###'):
+                        # If we have accumulated text, add it as a paragraph
+                        if current_paragraph:
+                            process_paragraph_text('\n\n'.join(current_paragraph))
+                            current_paragraph = []
+                        
+                        # Add ### header as level 3
+                        doc.add_heading(line.replace('###', '').strip(), level=3)
+                    elif line.startswith('##'):
+                        # If we have accumulated text, add it as a paragraph
+                        if current_paragraph:
+                            process_paragraph_text('\n\n'.join(current_paragraph))
+                            current_paragraph = []
+                        
+                        # Add ## header as level 2
+                        doc.add_heading(line.replace('##', '').strip(), level=2)
+                    else:
+                        # Accumulate non-header lines
+                        if line.strip():  # Only add non-empty lines
+                            current_paragraph.append(line)
+                
+                # Add any remaining text as final paragraph
+                if current_paragraph:
+                    process_paragraph_text('\n\n'.join(current_paragraph))
+            else:
+                # Add unedited content with variables subsections
+                for report_section in st.session_state.report_sections:
+                    # Process section content for headers if it exists
+                    if report_section.content:
+                        lines = report_section.content.split('\n')
+                        current_paragraph = []
+                        
+                        for line in lines:
+                            if line.startswith('###'):
+                                if current_paragraph:
+                                    process_paragraph_text('\n\n'.join(current_paragraph))
+                                    current_paragraph = []
+                                doc.add_heading(line.replace('###', '').strip(), level=3)
+                            elif line.startswith('##'):
+                                if current_paragraph:
+                                    process_paragraph_text('\n\n'.join(current_paragraph))
+                                    current_paragraph = []
+                                doc.add_heading(line.replace('##', '').strip(), level=2)
+                            else:
+                                if line.strip():
+                                    current_paragraph.append(line)
+                        
+                        if current_paragraph:
+                            process_paragraph_text('\n\n'.join(current_paragraph))
+
+                    # Add variables subsection
+                    if report_section.variables:
+                        doc.add_heading("Variables Analizadas", level=2)
+                        for _, variable_data in report_section.variables.items():
+                            p = doc.add_paragraph()
+                            # Add variable description and interpretation
+                            p.add_run(f"{variable_data.description}: ").bold = True
+                            p.add_run(variable_data.interpretation)
+
+            # Save to bytes buffer
+            docx_buffer = io.BytesIO()
+            doc.save(docx_buffer)
+            docx_buffer.seek(0)
+            return docx_buffer
+
         # Download buttons
         st.sidebar.markdown("### 💾 Descargar Reporte")
         col1, col2 = st.sidebar.columns(2)
         with col1:
+            unedited_docx = create_word_doc(edited=False)
             st.download_button(
-                label="📊 Sin Editar - JSON",
-                data=st.session_state.json_str,
-                file_name="reporte_zasca.json",
-                mime="application/json",
-                help="Descarga el reporte sin editar en formato JSON",
+                label="📊 Sin Editar - Word",
+                data=unedited_docx,
+                file_name="reporte_zasca_sin_editar.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                help="Descarga el reporte sin editar en formato Word",
             )
         with col2:
+            edited_docx = create_word_doc(edited=True)
             st.download_button(
-                label="📝 Editado - Markdown",
-                data=st.session_state.markdown_content,
-                file_name="reporte_zasca.md",
-                mime="text/markdown",
-                help="Descarga el reporte editado en formato Markdown",
+                label="📝 Editado - Word",
+                data=edited_docx,
+                file_name="reporte_zasca_editado.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                help="Descarga el reporte editado en formato Word",
             )
 
         # Results display
@@ -420,7 +520,9 @@ with st.container():
                     st.markdown(section.content)
                     st.markdown("#### Variables procesadas")
                     for var_name, var_data in section.variables.items():
-                        st.markdown(f"**{var_data.description}**: {var_data.interpretation}")
+                        st.markdown(
+                            f"**{var_data.description}**: {var_data.interpretation}"
+                        )
                         st.markdown("---")
 
 
