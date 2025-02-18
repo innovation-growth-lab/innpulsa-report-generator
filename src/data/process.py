@@ -129,20 +129,6 @@ def aggregate_data(
 
                 variable_data_obj = processor.process(df, var_pair, metadata)
 
-                # # Use base name as key
-                # if var_type == "indicator":
-                #     if isinstance(final_nums, list):
-                #         dict_key = [num.replace("c", "") for num in final_nums]
-                #     else:
-                #         dict_key = final_nums.replace("c", "")
-                # else:
-                #     cierre_var = var_pair[1]
-                #     dict_key = (
-                #         cierre_var[0].rsplit("1", 1)[0]
-                #         if isinstance(cierre_var, list)
-                #         else cierre_var
-                #     )
-
                 variable_data[metadata["description"]] = variable_data_obj
 
                 logger.info(
