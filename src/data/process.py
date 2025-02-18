@@ -66,8 +66,9 @@ def aggregate_data(
                 # Special handling for efficiency indicator type
                 if var_type == "indicator":
                     # Unpack the indicator structure
-                    (initial_nums, initial_denoms), (final_num, final_denom) = var_pair
-
+                    (initial_nums, initial_denoms), (final_nums, final_denoms) = (
+                        var_pair
+                    )
                     # Check initial period columns
                     if isinstance(initial_nums, list):
                         missing_nums = [
@@ -83,11 +84,28 @@ def aggregate_data(
                             continue
 
                     # Check final period columns
-                    if final_num not in df.columns or final_denom not in df.columns:
-                        missing_variables.append(
-                            f"{section_title}: Missing final columns - numerator: {final_num}, denominator: {final_denom}"
-                        )
-                        continue
+                    if isinstance(final_nums, list):
+                        missing_nums = [
+                            col for col in final_nums if col not in df.columns
+                        ]
+                        missing_denoms = [
+                            col for col in final_denoms if col not in df.columns
+                        ]
+                        if missing_nums or missing_denoms:
+                            missing_variables.append(
+                                f"{section_title}: Missing final columns - numerators: {missing_nums}, denominators: {missing_denoms}"
+                            )
+                            continue
+                    else:
+                        # Check final period columns
+                        if (
+                            final_nums not in df.columns
+                            or final_denoms not in df.columns
+                        ):
+                            missing_variables.append(
+                                f"{section_title}: Missing final columns - numerator: {final_nums}, denominator: {final_denoms}"
+                            )
+                            continue
 
                 else:
                     # Original column existence check for other variable types
@@ -111,22 +129,25 @@ def aggregate_data(
 
                 variable_data_obj = processor.process(df, var_pair, metadata)
 
-                # Use base name as key
-                if var_type == "indicator":
-                    dict_key = final_num.replace("c", "")
-                else:
-                    cierre_var = var_pair[1]
-                    dict_key = (
-                        cierre_var[0].rsplit("1", 1)[0]
-                        if isinstance(cierre_var, list)
-                        else cierre_var
-                    )
+                # # Use base name as key
+                # if var_type == "indicator":
+                #     if isinstance(final_nums, list):
+                #         dict_key = [num.replace("c", "") for num in final_nums]
+                #     else:
+                #         dict_key = final_nums.replace("c", "")
+                # else:
+                #     cierre_var = var_pair[1]
+                #     dict_key = (
+                #         cierre_var[0].rsplit("1", 1)[0]
+                #         if isinstance(cierre_var, list)
+                #         else cierre_var
+                #     )
 
-                variable_data[dict_key] = variable_data_obj
+                variable_data[metadata["description"]] = variable_data_obj
 
                 logger.info(
                     "Variable %s processed successfully: initial=%s, final=%s, change=%s",
-                    dict_key,
+                    metadata["description"],
                     variable_data_obj.value_initial_intervention,
                     variable_data_obj.value_final_intervention,
                     variable_data_obj.percentage_change,

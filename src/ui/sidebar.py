@@ -21,11 +21,16 @@ def render_file_uploader() -> Optional[IO]:
     Returns:
         Uploaded file object if successful, None otherwise
     """
-    return st.sidebar.file_uploader(
+    uploaded_file = st.sidebar.file_uploader(
         "Cargar archivo Excel",
         type=ALLOWED_EXTENSIONS,
         help=HELP_TEXTS["file_upload"]
     )
+    
+    if not uploaded_file:
+        st.sidebar.info(MESSAGES["errors"]["no_file"])
+    
+    return uploaded_file
 
 def render_sidebar_controls() -> Tuple[str, bool]:
     """

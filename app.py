@@ -8,6 +8,7 @@ from src.utils.state import init_session_state
 from src.utils.errors import safe_operation, show_error
 from src.utils.constants import MESSAGES
 
+
 async def main() -> None:
     """Main application function."""
     # Initialize session state
@@ -15,9 +16,7 @@ async def main() -> None:
 
     # Page config
     st.set_page_config(
-        layout="centered",
-        page_title="Generador de Reportes ZASCA",
-        page_icon="📊"
+        layout="centered", page_title="Generador de Reportes ZASCA", page_icon="📊"
     )
 
     # Header
@@ -40,40 +39,37 @@ async def main() -> None:
 
             # Render data tabs
             data_tab1, data_tab2, data_tab3 = tabs.render_data_tabs()
-            
+
             with data_tab1:
                 cohort_info = data_tabs.render_cohort_info()
-            
+
             with data_tab2:
                 data_tabs.render_data_preview(df)
-                
+
             with data_tab3:
                 data_tabs.render_variable_selector(df)
-            
+
             if generate_report:
                 error_message = await sidebar.handle_report_generation(
                     df, cohort_info, model_name
                 )
                 if error_message:
                     show_error(error_message)
-            
+
             # Show variable exclusion warning if needed
             sidebar.show_variable_exclusion_warning()
-            
+
             # Display download buttons and results if report is finalized
             if session_state.report_finalized:
                 # Show persistent success message
                 if session_state.success_message:
                     st.sidebar.success(session_state.success_message)
-                
+
                 report.render_download_buttons(session_state)
                 report.render_report_results(session_state)
 
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-except
             show_error(MESSAGES["errors"]["unexpected_error"].format(str(e)))
-    else:
-        # Show instructions when no file is uploaded
-        st.info(MESSAGES["errors"]["no_file"])
 
     # Footer with Logos
     st.markdown("---")
@@ -82,6 +78,7 @@ async def main() -> None:
         st.image("assets/innpulsa_logo.png", use_container_width=True)
     with col3:
         st.image("assets/igl_logo.png", use_container_width=True)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
