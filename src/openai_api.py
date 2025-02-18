@@ -55,7 +55,7 @@ async def call_openai_api(
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": prompt},
                     {"role": "system", "content": generated_text},
-                    {"role": "user", "content": "Continue."},
+                    {"role": "user", "content": "Continua generando el contenido."},
                 ],
                 temperature=0.5,
             )

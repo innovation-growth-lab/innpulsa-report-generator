@@ -394,7 +394,89 @@ def process_array_variable(
     )
 
 
-def aggregate_data(df: pd.DataFrame, sections_config: dict) -> Tuple[List[ReportSection], List[str]]:
+def process_efficiency_indicator_variable(
+    df: pd.DataFrame,
+    var_pair: Tuple[
+        Tuple[Union[List[str], str], Union[List[str], str]],
+        Tuple[Union[List[str], str], Union[List[str], str]],
+    ],
+    metadata: Dict,
+) -> VariableData:
+    """Process indicator variables that compare actual vs target values.
+
+    Calculates efficiency ratios and averages for both initial and final periods.
+
+    Args:
+        df: DataFrame containing the measurements
+        var_pair: Tuple of ((initial_numerators, initial_denominators), (final_numerator, final_denominators))
+        metadata: Dictionary containing variable description
+
+    Returns:
+        VariableData object containing calculated indicators and interpretation
+    """
+    (initial_nums, initial_denoms), (final_nums, final_denoms) = var_pair
+    description = metadata["description"]
+    calculation = metadata["calculation"]
+
+    # Calculate ratios for both periods
+    initial_value = _calculate_efficiency_ratios(df, initial_nums, initial_denoms)
+    final_value = _calculate_efficiency_ratios(df, final_nums, final_denoms)
+
+    # Format values as percentages
+    initial_value = int(initial_value * 100)
+    final_value = int(final_value * 100)
+    pct_change = calculate_percentage_change(initial_value, final_value)
+
+    interpretation = (
+        f"{description}. {calculation} El promedio del índice de eficiencia pasó del {initial_value}% "
+        f"al {final_value}%."
+    )
+
+    return VariableData(
+        variable=(
+            final_nums.replace("c", "")
+            if isinstance(final_nums, str)
+            else final_nums[0].replace("c", "")
+        ),
+        description=description,
+        value_initial_intervention=initial_value,
+        value_final_intervention=final_value,
+        percentage_change=pct_change,
+        interpretation=interpretation,
+    )
+
+
+def _calculate_efficiency_ratios(df, numerators, denominators):
+    """Helper function to calculate efficiency ratios for a period."""
+    ratios = []
+    if isinstance(numerators, list) and isinstance(denominators, list):
+        for num_col, denom_col in zip(numerators, denominators):
+            assert (
+                num_col in df.columns and denom_col in df.columns
+            ), f"Columns {num_col} and {denom_col} must exist in DataFrame"
+            df[f"{num_col}_ratio"] = df[num_col] / df[denom_col]
+            df[f"{num_col}_ratio"] = df[f"{num_col}_ratio"].where(df[denom_col] != 0)
+            ratios.append(f"{num_col}_ratio")
+        return np.nanmean(df[ratios].values.flatten())
+    elif isinstance(numerators, str) and isinstance(denominators, str):
+        assert (
+            numerators in df.columns and denominators in df.columns
+        ), f"Columns {numerators} and {denominators} must exist in DataFrame"
+        df[f"{numerators}_ratio"] = df[numerators] / df[denominators]
+        df[f"{numerators}_ratio"] = df[f"{numerators}_ratio"].where(
+            df[denominators] != 0
+        )
+        return df[f"{numerators}_ratio"].mean()
+    else:
+        raise KeyError(
+            "Numerators and denominators must be either both lists or both strings"
+        )
+
+
+
+def aggregate_data(
+    df: pd.DataFrame, sections_config: dict
+) -> Tuple[List[ReportSection], List[str]]:
     """Aggregate data into report sections based on configuration.
 
     Processes all variables defined in sections_config according to their types and organizes them
@@ -402,7 +484,8 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> Tuple[List[Report
 
     Args:
         df: DataFrame containing all measurements
-        sections_config: Dictionary defining sections and their variables with processing instructions
+        sections_config: Dictionary defining sections and their variables with processing
+            instructions
 
     Returns:
         Tuple containing:
@@ -416,51 +499,102 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> Tuple[List[Report
         variable_data = {}
         for var_config in variables:
             var_pair, var_type, metadata = var_config
-            
-            # Check if columns exist before processing
-            initial_col, final_col = var_pair
-            if isinstance(initial_col, list):
-                if not any(col in df.columns for col in initial_col):
-                    missing_variables.append(f"{section_title}: {initial_col}")
-                    continue
-            elif initial_col and initial_col not in df.columns:
-                missing_variables.append(f"{section_title}: {initial_col}")
-                continue
-            
-            if final_col not in df.columns:
-                missing_variables.append(f"{section_title}: {final_col}")
-                continue
 
             try:
-                if var_type == "numeric":
-                    variable_data_obj = process_numeric_variable(df, var_pair, metadata)
-                elif var_type == "boolean":
-                    variable_data_obj = process_boolean_variable(df, var_pair, metadata)
-                elif var_type == "dummy":
-                    variable_data_obj = process_dummy_variable(df, var_pair, metadata)
-                elif var_type == "categorical":
-                    variable_data_obj = process_categorical_variable(df, var_pair, metadata)
-                elif var_type == "array":
-                    variable_data_obj = process_array_variable(df, var_pair, metadata)
+                # Special handling for efficiency indicator type
+                if var_type == "efficiency_indicator":
+                    # Unpack the indicator structure
+                    (initial_nums, initial_denoms), (final_num, final_denom) = var_pair
+
+                    # Check initial period columns
+                    if isinstance(initial_nums, list):
+                        missing_nums = [
+                            col for col in initial_nums if col not in df.columns
+                        ]
+                        missing_denoms = [
+                            col for col in initial_denoms if col not in df.columns
+                        ]
+                        if missing_nums or missing_denoms:
+                            missing_variables.append(
+                                f"{section_title}: Missing initial columns - numerators: {missing_nums}, denominators: {missing_denoms}"
+                            )
+                            continue
+
+                    # Check final period columns
+                    if final_num not in df.columns or final_denom not in df.columns:
+                        missing_variables.append(
+                            f"{section_title}: Missing final columns - numerator: {final_num}, denominator: {final_denom}"
+                        )
+                        continue
+
+                    variable_data_obj = process_efficiency_indicator_variable(
+                        df, var_pair, metadata
+                    )
                 else:
-                    raise ValueError(f"Unknown variable type: {var_type}")
+                    # Original column existence check for other variable types
+                    initial_col, final_col = var_pair
+                    if isinstance(initial_col, list):
+                        if not any(col in df.columns for col in initial_col):
+                            missing_variables.append(f"{section_title}: {initial_col}")
+                            continue
+                    elif initial_col and initial_col not in df.columns:
+                        missing_variables.append(f"{section_title}: {initial_col}")
+                        continue
+
+                    if final_col not in df.columns:
+                        missing_variables.append(f"{section_title}: {final_col}")
+                        continue
+
+                    # Process other variable types as before
+                    if var_type == "numeric":
+                        variable_data_obj = process_numeric_variable(
+                            df, var_pair, metadata
+                        )
+                    elif var_type == "boolean":
+                        variable_data_obj = process_boolean_variable(
+                            df, var_pair, metadata
+                        )
+                    elif var_type == "dummy":
+                        variable_data_obj = process_dummy_variable(
+                            df, var_pair, metadata
+                        )
+                    elif var_type == "categorical":
+                        variable_data_obj = process_categorical_variable(
+                            df, var_pair, metadata
+                        )
+                    elif var_type == "array":
+                        variable_data_obj = process_array_variable(
+                            df, var_pair, metadata
+                        )
+                    else:
+                        raise ValueError(f"Unknown variable type: {var_type}")
 
                 # Use base name as key
-                cierre_var = var_pair[1]
-                dict_key = cierre_var[0].rsplit("1", 1)[0] if isinstance(cierre_var, list) else cierre_var
+                if var_type == "efficiency_indicator":
+                    dict_key = final_num.replace("c", "")
+                else:
+                    cierre_var = var_pair[1]
+                    dict_key = (
+                        cierre_var[0].rsplit("1", 1)[0]
+                        if isinstance(cierre_var, list)
+                        else cierre_var
+                    )
+
                 variable_data[dict_key] = variable_data_obj
 
                 logger.info(
                     "Variable %s processed successfully: initial=%s, final=%s, change=%s",
-                    cierre_var,
+                    dict_key,
                     variable_data_obj.value_initial_intervention,
                     variable_data_obj.value_final_intervention,
                     variable_data_obj.percentage_change,
                 )
 
-            except Exception as e: # pylint: disable=broad-exception-caught
+            except Exception as e:  # pylint: disable=broad-exception-caught
                 logger.error("Error processing variable %s: %s", var_pair, str(e))
-                missing_variables.append(f"{section_title}: {var_pair} (Error: {str(e)})")
+                missing_variables.append(
+                    f"{section_title}: {var_pair} (Error: {str(e)})"
+                )
                 continue
 
         report_sections.append(

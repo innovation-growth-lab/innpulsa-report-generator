@@ -6,6 +6,8 @@ BOOLEAN = "boolean"
 CATEGORICAL = "categorical"
 ARRAY = "array"
 DUMMY = "dummy"
+INDICATOR = "indicator"  # New variable type for efficiency calculations
+EFFICIENCY_INDICATOR = "efficiency_indicator"
 
 # Categorical value mappings for interpretation
 CATEGORICAL_MAPPINGS = {
@@ -42,38 +44,48 @@ CATEGORICAL_MAPPINGS = {
     ],
 }
 
-def generate_prevmonth_vars(base_name: str, num_months: int = 4) -> List[str]:
+def generate_product_vars(base_name: str, num_months: int = 4) -> List[str]:
     """Generate list of prevmonth variables."""
     return [f"{base_name}{i}" for i in range(1, num_months + 1)]
 
 sections_config = {
     "Optimización operativa": [
-        # Producción y metas (usando varias pre-variables)
+        # Production efficiency indicator
         [
-            (generate_prevmonth_vars("producedunits_prevmonth", 4), "producedunits_prevmonthc"),
-            NUMERIC,
-            {"description": "Número de unidades producidas por mes"},
+            ((generate_product_vars("producedunits_prevmonth", 4), generate_product_vars("targetunits_prevmonth", 4)), 
+             ("producedunits_prevmonthc", "targetunits_prevmonthc")),
+            EFFICIENCY_INDICATOR,
+            {
+                "description": "Eficiencia de producción",
+                "calculation": "El ratio de eficiencia de producción es el ratio entre el número de unidades producidas y el número de unidades objetivo."
+            },
         ],
-        [
-            (generate_prevmonth_vars("targetunits_prevmonth", 4), "targetunits_prevmonthc"),
-            NUMERIC,
-            {"description": "Meta de producción mensual"},
-        ],
-        [
-            (generate_prevmonth_vars("defectiveunits_prevmonth", 4), "defectiveunits_prevmonthc"),
-            NUMERIC,
-            {"description": "Unidades defectuosas por mes"},
-        ],
-        [
-            (generate_prevmonth_vars("estimated_prod_time", 4), "estimated_prod_timec"),
-            NUMERIC,
-            {"description": "Tiempo estimado de producción"},
-        ],
-        [
-            (generate_prevmonth_vars("actual_avg_prod_time", 4), "actual_avg_prod_timec"),
-            NUMERIC,
-            {"description": "Tiempo real promedio de producción"},
-        ],
+        # Original producedunits variables for raw data
+        # [
+        #     (generate_product_vars("producedunits_prevmonth", 4), "producedunits_prevmonthc"),
+        #     NUMERIC,
+        #     {"description": "Número de unidades producidas por mes"},
+        # ],
+        # [
+        #     (generate_product_vars("targetunits_prevmonth", 4), "targetunits_prevmonthc"),
+        #     NUMERIC,
+        #     {"description": "Meta de producción mensual"},
+        # ],
+        # [
+        #     (generate_product_vars("defectiveunits_prevmonth", 4), "defectiveunits_prevmonthc"),
+        #     NUMERIC,
+        #     {"description": "Unidades defectuosas por mes"},
+        # ],
+        # [
+        #     (generate_product_vars("estimated_prod_time", 4), "estimated_prod_timec"),
+        #     NUMERIC,
+        #     {"description": "Tiempo estimado de producción"},
+        # ],
+        # [
+        #     (generate_product_vars("actual_avg_prod_time", 4), "actual_avg_prod_timec"),
+        #     NUMERIC,
+        #     {"description": "Tiempo real promedio de producción"},
+        # ],
         # Distribución y espacio
         [
             ("observ_productionplant", "observ_productionplantc"),
