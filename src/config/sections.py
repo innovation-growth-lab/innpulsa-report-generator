@@ -73,7 +73,7 @@ sections_config = {
             ),
             INDICATOR,
             {
-                "description": "Eficiencia de producción",
+                "description": "Eficiencia de producción (número _c = 1)",
                 "calculation": (
                     "El ratio de eficiencia de producción es el ratio entre el"
                     " número de unidades producidas y el número de unidades objetivo."
@@ -93,7 +93,7 @@ sections_config = {
             ),
             INDICATOR,
             {
-                "description": "Eficiencia de producción",
+                "description": "Eficiencia de producción (número _c = 4)",
                 "calculation": (
                     "El ratio de eficiencia de producción es el ratio entre el"
                     " número de unidades producidas y el número de unidades objetivo."
