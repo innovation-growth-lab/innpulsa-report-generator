@@ -32,7 +32,7 @@ PROCESSORS = {
     "categorical": CategoricalProcessor(),
     "array": ArrayProcessor(),
     "dummy": DummyProcessor(),
-    "efficiency_indicator": IndicatorProcessor(),
+    "indicator": IndicatorProcessor(),
 }
 
 
@@ -64,7 +64,7 @@ def aggregate_data(
 
             try:
                 # Special handling for efficiency indicator type
-                if var_type == "efficiency_indicator":
+                if var_type == "indicator":
                     # Unpack the indicator structure
                     (initial_nums, initial_denoms), (final_num, final_denom) = var_pair
 
@@ -112,7 +112,7 @@ def aggregate_data(
                 variable_data_obj = processor.process(df, var_pair, metadata)
 
                 # Use base name as key
-                if var_type == "efficiency_indicator":
+                if var_type == "indicator":
                     dict_key = final_num.replace("c", "")
                 else:
                     cierre_var = var_pair[1]

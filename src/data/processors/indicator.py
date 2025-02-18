@@ -28,7 +28,7 @@ class IndicatorProcessor(BaseProcessor):
         pct_change = calculate_percentage_change(initial_value, final_value)
 
         interpretation = (
-            f"{description}. {calculation} El promedio del índice de eficiencia pasó del {initial_value}% "
+            f"{description}. {calculation} El promedio del índice pasó del {initial_value}% "
             f"al {final_value}%."
         )
 
