@@ -1,16 +1,16 @@
 # Imports
 import asyncio
 import streamlit as st
-from src.sections_config import sections_config
-from src.utils import load_data, aggregate_data, generate_json_output
-from src.feedback import save_suggestion
-from src.openai_helpers import (
+from src.config.sections import sections_config
+from src.data.process import aggregate_data
+from src.data.loaders import load_data
+from src.utils.output import generate_json_output
+from src.services.feedback import save_suggestion
+from src.services.openai_helpers import (
     generate_section_contents,
     generate_executive_summary,
     edit_report_sections,
 )
-import json
-from typing import List
 
 # Initialize session state
 if 'report_generated' not in st.session_state:

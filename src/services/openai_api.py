@@ -4,8 +4,8 @@ import asyncio
 from typing import Union
 import logging
 from openai import OpenAI
-from .models import ReportSection, APIResponse
-from .prompts_config import SYSTEM_PROMPT
+from ..models.sections import ReportSection, APIResponse
+from ..config.prompts import SYSTEM_PROMPT
 
 logger = logging.getLogger(__name__)
 client = OpenAI()

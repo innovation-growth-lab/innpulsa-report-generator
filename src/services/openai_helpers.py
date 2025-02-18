@@ -2,9 +2,9 @@
 
 import asyncio
 from typing import List
-from src.models import ReportSection
-from src.openai_api import call_openai_api
-from src.prompts_config import (
+from src.models.sections import ReportSection
+from src.services.openai_api import call_openai_api
+from src.config.prompts import (
     executive_summary_prompt,
     final_edit_prompt,
     section_prompts,
