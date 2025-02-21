@@ -62,6 +62,7 @@ Alternative H2 Header
 ## Images
 ![Alt text](assets/igl_logo.png)
 ![Alt text](assets/innpulsa_logo.png "Image title")
+![Alt text](assets/zasca_logo.png "Image title")
 
 ## Code
 ### Inline Code
