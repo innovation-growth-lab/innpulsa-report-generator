@@ -3,7 +3,7 @@
 from typing import Dict, Tuple, Any
 import streamlit as st
 import pandas as pd
-from src.config.sections import sections_config
+from src.config.sections import get_sections_config
 
 
 def render_cohort_info() -> str:
@@ -99,8 +99,12 @@ def render_variable_selector(df: pd.DataFrame) -> None:
     if "variable_selections" not in st.session_state:
         st.session_state.variable_selections = {}
 
+    # Generate config based on available data
     if not st.session_state.filtered_sections_config:
-        st.session_state.filtered_sections_config = sections_config.copy()
+        sections_config = get_sections_config(df)
+        st.session_state.filtered_sections_config = sections_config
+    else:
+        sections_config = st.session_state.filtered_sections_config
 
     # Process each section
     for section_title, variables in sections_config.items():

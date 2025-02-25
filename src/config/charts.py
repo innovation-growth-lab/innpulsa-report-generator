@@ -6,41 +6,21 @@ from src.charts.percentage_change import create_percentage_change_chart
 # Define all possible charts and their requirements
 chart_config = {
     # Optimización operativa
-    "production_efficiency_c1": {
+    "production_efficiency": {
         "type": "percentage_change",
         "section": "Optimización operativa",
         "chart_func": create_percentage_change_chart,
-        "required_variables": ["production_efficiency_c1"],
+        "required_variables": ["production_efficiency"],
         "params": {
             "title": "Evolución de la eficiencia de producción",
             "y_label": "Porcentaje de eficiencia (%)",
         },
     },
-    "production_efficiency_c4": {
+    "defective_units": {
         "type": "percentage_change",
         "section": "Optimización operativa",
         "chart_func": create_percentage_change_chart,
-        "required_variables": ["production_efficiency_c4"],
-        "params": {
-            "title": "Evolución de la eficiencia de producción",
-            "y_label": "Porcentaje de eficiencia (%)",
-        },
-    },
-    "defective_units_c1": {
-        "type": "percentage_change",
-        "section": "Optimización operativa",
-        "chart_func": create_percentage_change_chart,
-        "required_variables": ["defective_units_rate_c1"],
-        "params": {
-            "title": "Evolución de la tasa de unidades defectuosas",
-            "y_label": "Porcentaje de unidades defectuosas (%)",
-        },
-    },
-    "defective_units_c4": {
-        "type": "percentage_change",
-        "section": "Optimización operativa",
-        "chart_func": create_percentage_change_chart,
-        "required_variables": ["defective_units_rate_c4"],
+        "required_variables": ["defective_units_rate"],
         "params": {
             "title": "Evolución de la tasa de unidades defectuosas",
             "y_label": "Porcentaje de unidades defectuosas (%)",
