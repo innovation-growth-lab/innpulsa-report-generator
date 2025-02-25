@@ -1,7 +1,7 @@
 """UI components for the main tabs."""
 
 import streamlit as st
-from typing import List, Tuple
+from typing import Any, Tuple
 from src.services.feedback import save_suggestion
 from src.utils.constants import MESSAGES, BACKGROUND_COLOR
 from src.utils.errors import safe_operation
@@ -190,7 +190,7 @@ def render_info_tabs() -> None:
     with tab4:
         render_feedback_tab()
 
-def render_data_tabs() -> Tuple[st.tabs, st.tabs, st.tabs]:
+def render_data_tabs() -> Tuple[Any, Any, Any]:
     """
     Render the data processing tabs.
     
