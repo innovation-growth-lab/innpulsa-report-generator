@@ -115,7 +115,8 @@ def render_variable_selector(df: pd.DataFrame) -> None:
                 if is_available:
                     available_vars.append(var_config)
                 else:
-                    missing_vars.append(metadata["description"])
+                    var_name = f"{metadata['description']} ({metadata['name']})"
+                    missing_vars.append(var_name)
 
             if available_vars:
                 # Create selection table
@@ -133,12 +134,13 @@ def render_variable_selector(df: pd.DataFrame) -> None:
                 for var_config in available_vars:
                     _, var_type, metadata = var_config
                     desc = metadata["description"]
+                    name = metadata["name"]
                     selection_data.append(
                         {
                             "Incluir": st.session_state.variable_selections[
                                 section_key
                             ][desc],
-                            "Descripción": desc,
+                            "Descripción": f"{desc} ({name})",
                             "Tipo": var_type,
                         }
                     )

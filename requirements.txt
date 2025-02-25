@@ -4,3 +4,5 @@ openai
 pydantic
 logfire
 python-docx
+plotly
+kaleido

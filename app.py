@@ -67,6 +67,9 @@ async def main() -> None:
 
                 report.render_download_buttons(session_state)
                 report.render_report_results(session_state)
+                
+                # Add visualisation downloads to sidebar
+                sidebar.render_download_visualisations(session_state)
 
         except Exception as e:  # pylint: disable=broad-except
             show_error(MESSAGES["errors"]["unexpected_error"].format(str(e)))

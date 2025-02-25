@@ -129,11 +129,11 @@ def aggregate_data(
 
                 variable_data_obj = processor.process(df, var_pair, metadata)
 
-                variable_data[metadata["description"]] = variable_data_obj
+                variable_data[metadata["name"]] = variable_data_obj
 
                 logger.info(
                     "Variable %s processed successfully: initial=%s, final=%s, change=%s",
-                    metadata["description"],
+                    metadata["name"],
                     variable_data_obj.value_initial_intervention,
                     variable_data_obj.value_final_intervention,
                     variable_data_obj.percentage_change,

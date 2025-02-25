@@ -43,18 +43,6 @@ def render_download_buttons(session_state: Dict[str, Any]) -> None:
                 help=HELP_TEXTS["edited_download"],
             )
 
-    # JSON download
-    st.sidebar.markdown("---")
-    if session_state.json_str:
-        st.sidebar.download_button(
-            label="📥 Descargar JSON",
-            data=session_state.json_str,
-            file_name="reporte_zasca.json",
-            mime=MIME_TYPES["json"],
-            help=HELP_TEXTS["json_download"],
-        )
-
-
 def render_report_section(section: Any) -> None:
     """
     Render a single report section.

@@ -1,5 +1,6 @@
 """UI components for the sidebar."""
 
+import base64
 from typing import Tuple, Optional, IO, Any
 import streamlit as st
 import pandas as pd
@@ -13,6 +14,8 @@ from src.utils.output import generate_json_output
 from src.utils.constants import MODEL_OPTIONS, HELP_TEXTS, MESSAGES, ALLOWED_EXTENSIONS
 from src.utils.errors import safe_operation, ReportGenerationError
 from src.utils.state import update_report_state
+from src.utils.plot_downloads import create_downloadable_chart
+from src.config.charts import get_available_charts
 
 
 def render_file_uploader() -> Optional[IO]:
@@ -166,11 +169,39 @@ def show_variable_exclusion_warning() -> None:
             for section_title, variables in st.session_state.filtered_sections_config.items()
             for var_config in variables
             if not st.session_state.get(f"section_{section_title}", {}).get(
-                var_config[2]["description"], True
+                var_config[2]["name"], True
             )
         )
         if excluded_count > 0:
             st.sidebar.markdown(
                 f"ℹ️ {excluded_count} variable{'s' if excluded_count != 1 else ''} "
                 f"excluida{'s' if excluded_count != 1 else ''} del reporte"
+            )
+
+
+def render_download_visualisations(session_state):
+    """Render visualisation download options in the sidebar."""
+    if not session_state.report_finalized or not session_state.report_sections:
+        return
+
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### 📊 Gráficos disponibles")
+
+    # Get all variables from all sections
+    all_variables = {}
+    for section in session_state.report_sections:
+        all_variables.update(section.variables)
+
+    # Get available charts based on variables
+    available_charts = get_available_charts(all_variables)
+
+    for chart_id, config in available_charts.items():
+        chart, b64_str = create_downloadable_chart(chart_id, all_variables)
+        if chart and b64_str:
+            st.sidebar.download_button(
+                label=f"📊 {config['params']['title']}",
+                data=base64.b64decode(b64_str),
+                file_name=f"{chart_id}.png",
+                mime="image/png",
+                key=f"download_viz_{chart_id}",
             )

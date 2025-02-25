@@ -73,7 +73,8 @@ sections_config = {
             ),
             INDICATOR,
             {
-                "description": "Eficiencia de producción (número _c = 1)",
+                "name": "production_efficiency_c1",
+                "description": "Eficiencia de producción",
                 "calculation": (
                     "El ratio de eficiencia de producción es el ratio entre el"
                     " número de unidades producidas y el número de unidades objetivo."
@@ -93,7 +94,8 @@ sections_config = {
             ),
             INDICATOR,
             {
-                "description": "Eficiencia de producción (número _c = 4)",
+                "name": "production_efficiency_c4",
+                "description": "Eficiencia de producción",
                 "calculation": (
                     "El ratio de eficiencia de producción es el ratio entre el"
                     " número de unidades producidas y el número de unidades objetivo."
@@ -104,7 +106,10 @@ sections_config = {
         [
             ("knows_standardtime", "standard_timec"),
             BOOLEAN,
-            {"description": "Conoce el tiempo estándar de producción"},
+            {
+                "name": "knows_standardtime",
+                "description": "Conoce el tiempo estándar de producción",
+            },
         ],
         # Unidades Defectuosas
         [
@@ -117,6 +122,7 @@ sections_config = {
             ),
             INDICATOR,
             {
+                "name": "defective_units_rate_c1",
                 "description": "Tasa de Unidades defectuosas",
                 "calculation": (
                     "La tasa de unidades defectuosas es el ratio entre el número de "
@@ -137,6 +143,7 @@ sections_config = {
             ),
             INDICATOR,
             {
+                "name": "defective_units_rate_c4",
                 "description": "Tasa de Unidades defectuosas",
                 "calculation": (
                     "La tasa de unidades defectuosas es el ratio entre el número de "
@@ -149,6 +156,7 @@ sections_config = {
             ("observ_productionplant", "observ_productionplantc"),
             CATEGORICAL,
             {
+                "name": "observ_productionplant",
                 "description": "Estado de la distribución del espacio",
                 "mapping": CATEGORICAL_MAPPINGS["observ_productionplant"],
             },
@@ -158,6 +166,7 @@ sections_config = {
             ("invent_control", "invent_controlc"),
             CATEGORICAL,
             {
+                "name": "invent_control",
                 "description": "Realiza control de inventario",
                 "mapping": CATEGORICAL_MAPPINGS["invent_control"],
             },
@@ -165,23 +174,32 @@ sections_config = {
         [
             ("knowsinput", "knowsinputc"),
             BOOLEAN,
-            {"description": "Conoce niveles óptimos de inventario"},
+            {
+                "name": "knowsinput",
+                "description": "Conoce niveles óptimos de inventario",
+            },
         ],
         # Indicadores
         [
             ("indicadores_eficiencia", "indicadores_eficienciac"),
             DUMMY,
-            {"description": "Tiene indicadores de eficiencia"},
+            {
+                "name": "indicadores_eficiencia",
+                "description": "Tiene indicadores de eficiencia",
+            },
         ],
         [
             ("indicadores_productividad", "indicadores_productividadc"),
             DUMMY,
-            {"description": "Tiene indicadores de productividad"},
+            {
+                "name": "indicadores_productividad",
+                "description": "Tiene indicadores de productividad",
+            },
         ],
         [
             ("index", "hasindicatorsc"),
             BOOLEAN,
-            {"description": "Tiene indicadores generales"},
+            {"name": "index", "description": "Tiene indicadores generales"},
         ],
     ],
     "Mayor Calidad del Producto": [
@@ -190,28 +208,32 @@ sections_config = {
             ("qualityprocess_sample", "qualityprocess_samplec"),
             DUMMY,
             {
-                "description": "Para garantizar la calidad de los productos: Realiza muestra y contramuestra"
+                "name": "qualityprocess_sample",
+                "description": "Para garantizar la calidad de los productos: Realiza muestra y contramuestra",
             },
         ],
         [
             ("qualityprocess_set_machinery", "qualityprocess_set_machineryc"),
             DUMMY,
             {
-                "description": "Para garantizar la calidad de los productos: Realiza preparación de máquinas"
+                "name": "qualityprocess_set_machinery",
+                "description": "Para garantizar la calidad de los productos: Realiza preparación de máquinas",
             },
         ],
         [
             ("qualityprocess_control_quality", "qualityprocess_control_qualityc"),
             DUMMY,
             {
-                "description": "Para garantizar la calidad de los productos: Tiene controles de calidad"
+                "name": "qualityprocess_control_quality",
+                "description": "Para garantizar la calidad de los productos: Tiene controles de calidad",
             },
         ],
         [
             ("qualityprocess_none", "qualityprocess_nonec"),
             DUMMY,
             {
-                "description": "Para garantizar la calidad de los productos: No tiene procesos de calidad"
+                "name": "qualityprocess_none",
+                "description": "Para garantizar la calidad de los productos: No tiene procesos de calidad",
             },
         ],
         # [
@@ -224,6 +246,7 @@ sections_config = {
             ("newideas_datasheet", "newideas_designc"),
             CATEGORICAL,
             {
+                "name": "newideas_datasheet",
                 "description": "Las ideas de los nuevos diseños se registran en una ficha técnica",
                 "mapping": CATEGORICAL_MAPPINGS["newideas_datasheet"],
             },
@@ -233,6 +256,7 @@ sections_config = {
             ("packaging", "packagingc"),
             CATEGORICAL,
             {
+                "name": "packaging",
                 "description": "Cómo funciona en general el empaque en el negocio",
                 "mapping": CATEGORICAL_MAPPINGS["packaging"],
             },
@@ -242,19 +266,24 @@ sections_config = {
             ("software_design", "software_designc"),
             BOOLEAN,
             {
-                "description": "El negocio utiliza algún software especializado para el diseño de sus productos"
+                "name": "software_design",
+                "description": "El negocio utiliza algún software especializado para el diseño de sus productos",
             },
         ],
         [
             ("patterns_digitized", "digital_patternc"),
             BOOLEAN,
-            {"description": "Los patrones están digitalizados"},
+            {
+                "name": "patterns_digitized",
+                "description": "Los patrones están digitalizados",
+            },
         ],
         [
             ("patterns_prevcollections", "prev_patternc"),
             BOOLEAN,
             {
-                "description": "El negocio usualmente guarda los patrones de colecciones anteriores"
+                "name": "patterns_prevcollections",
+                "description": "El negocio usualmente guarda los patrones de colecciones anteriores",
             },
         ],
     ],
@@ -264,24 +293,31 @@ sections_config = {
             ("emp_ft", "emp_ftc"),
             NUMERIC,
             {
-                "description": "Empleados de nómina (afiliados por el negocio al sistema de salud y pensión)"
+                "name": "emp_ft",
+                "description": "Empleados de nómina (afiliados por el negocio al sistema de salud y pensión)",
             },
         ],
         [
             ("emp_total", "emp_totalc"),
             NUMERIC,
-            {"description": "Empleados totales"},
+            {"name": "emp_total", "description": "Empleados totales"},
         ],
         # Salary information
         [
             ("hassalary", "hassalaryc"),
             BOOLEAN,
-            {"description": "Postulante recibe sueldo fijo del negocio"},
+            {
+                "name": "hassalary",
+                "description": "Postulante recibe sueldo fijo del negocio",
+            },
         ],
         [
             ("income", "incomec"),
             NUMERIC,
-            {"description": "Cuánto recibe de sueldo fijo en un mes promedio"},
+            {
+                "name": "income",
+                "description": "Cuánto recibe de sueldo fijo en un mes promedio",
+            },
         ],
     ],
     "Practicas Gerenciales": [
@@ -290,6 +326,7 @@ sections_config = {
             ("price_system", "price_systemc"),
             CATEGORICAL,
             {
+                "name": "price_system",
                 "description": "Los precios se fijan con base en",
                 "mapping": CATEGORICAL_MAPPINGS["price_system"],
             },
@@ -299,35 +336,40 @@ sections_config = {
             ("knows_production_cost", "knows_production_costc"),
             DUMMY,
             {
-                "description": "En el negocio conoce: El costo de producir cada unidad de producto o servicio"
+                "name": "knows_production_cost",
+                "description": "En el negocio conoce: El costo de producir cada unidad de producto o servicio",
             },
         ],
         [
             ("knows_max_production", "knows_max_productionc"),
             DUMMY,
             {
-                "description": "En el negocio conoce: Cantidad máxima de productos que puedes generar u ofrecer en un periodo determinado (por ejemplo: diaria, semanal, mensual)"
+                "name": "knows_max_production",
+                "description": "En el negocio conoce: Cantidad máxima de productos que puedes generar u ofrecer en un periodo determinado (por ejemplo: diaria, semanal, mensual)",
             },
         ],
         [
             ("knows_profit_margin", "knows_profit_marginc"),
             DUMMY,
             {
-                "description": "En el negocio conoce: Porcentaje o margen de ganancia de cada producto o servicio"
+                "name": "knows_profit_margin",
+                "description": "En el negocio conoce: Porcentaje o margen de ganancia de cada producto o servicio",
             },
         ],
         [
             ("knows_sales_frequency", "knows_sales_frequencyc"),
             DUMMY,
             {
-                "description": "En el negocio conoce: Periodicidad de las ventas de tus productos o servicios (ej.: diaria, semanal, mensual)"
+                "name": "knows_sales_frequency",
+                "description": "En el negocio conoce: Periodicidad de las ventas de tus productos o servicios (ej.: diaria, semanal, mensual)",
             },
         ],
         [
             ("knows_detailed_income", "knows_detailed_incomec"),
             DUMMY,
             {
-                "description": "En el negocio conoce: Ingresos del negocio de manera detallada"
+                "name": "knows_detailed_income",
+                "description": "En el negocio conoce: Ingresos del negocio de manera detallada",
             },
         ],
         # [
@@ -340,21 +382,24 @@ sections_config = {
             ("productcost_materials", "productcost_materialsc"),
             DUMMY,
             {
-                "description": "Para costo de producto se calcula: Costo total materiales directos"
+                "name": "productcost_materials",
+                "description": "Para costo de producto se calcula: Costo total materiales directos",
             },
         ],
         [
             ("productcost_handwork", "productcost_handworkc"),
             DUMMY,
             {
-                "description": "Para costo de producto se calcula: Costo total mano de obra directa"
+                "name": "productcost_handwork",
+                "description": "Para costo de producto se calcula: Costo total mano de obra directa",
             },
         ],
         [
             ("productcost_fabrication", "productcost_fabricationc"),
             DUMMY,
             {
-                "description": "Para costo de producto se calcula: Gastos generales de fabricación"
+                "name": "productcost_fabrication",
+                "description": "Para costo de producto se calcula: Gastos generales de fabricación",
             },
         ],
         # [
@@ -368,43 +413,57 @@ sections_config = {
         [
             ("sales2023q1s", "sales2024q1s"),
             NUMERIC,
-            {"description": "Ventas trimestrales, 2023T1-vs-2024T1"},
+            {
+                "name": "sales2023q1s",
+                "description": "Ventas trimestrales, 2023T1-vs-2024T1",
+            },
         ],
         [
             (None, "salesaverage2024"),
             NUMERIC,
-            {"description": "Valor promedio mensual de las ventas del 2024"},
+            {
+                "name": "salesaverage2024",
+                "description": "Valor promedio mensual de las ventas del 2024",
+            },
         ],
         # Financial connections
         [
             (None, "participate_commercial"),
             BOOLEAN,
-            {"description": "Participó en alguna rueda comercial del programa"},
+            {
+                "name": "participate_commercial",
+                "description": "Participó en alguna rueda comercial del programa",
+            },
         ],
         [
             (None, "connection_commercial"),
             BOOLEAN,
             {
-                "description": "Generó conexiones durante el desarrollo de la rueda comercial"
+                "name": "connection_commercial",
+                "description": "Generó conexiones durante el desarrollo de la rueda comercial",
             },
         ],
         [
             (None, "participate_financial"),
             BOOLEAN,
-            {"description": "Participó en alguna rueda financiera del programa"},
+            {
+                "name": "participate_financial",
+                "description": "Participó en alguna rueda financiera del programa",
+            },
         ],
         [
             (None, "connection_financial"),
             BOOLEAN,
             {
-                "description": "Generó conexiones durante el desarrollo de la rueda financiera"
+                "name": "connection_financial",
+                "description": "Generó conexiones durante el desarrollo de la rueda financiera",
             },
         ],
         # Banking and bookkeeping
         [
             ("banked", "bankedc"),
             BOOLEAN,
-            {"description": "Tiene cuenta bancaria"},
+            {"name": "banked", "description": "Tiene cuenta bancaria"},
         ],
         [
             ("bookkeeping", "bookkeepingc"),
@@ -412,6 +471,7 @@ sections_config = {
             {
                 "mapping": CATEGORICAL_MAPPINGS["bookkeeping"],
                 "description": "Forma de llevar las cuentas del negocio",
+                "name": "bookkeeping",
             },
         ],
     ],
@@ -420,55 +480,65 @@ sections_config = {
             ("knows_associationways", "knows_associationwaysc"),
             BOOLEAN,
             {
-                "description": "El líder del negocio conoce cómo establecer y formalizar los diferentes mecanismos de asociatividad empresarial"
+                "name": "knows_associationways",
+                "description": "El líder del negocio conoce cómo establecer y formalizar los diferentes mecanismos de asociatividad empresarial",
             },
         ],
         [
             ("association_group_training", "association_group_trainingc"),
             DUMMY,
             {
-                "description": "Se ha asociado para realizar: Sí, para tomar capacitaciones grupales"
+                "name": "association_group_training",
+                "description": "Se ha asociado para realizar: Sí, para tomar capacitaciones grupales",
             },
         ],
         [
             ("association_new_machinery", "association_new_machineryc"),
             DUMMY,
             {
-                "description": "Se ha asociado para realizar: Sí, para adquirir maquinaria y equipos modernos"
+                "name": "association_new_machinery",
+                "description": "Se ha asociado para realizar: Sí, para adquirir maquinaria y equipos modernos",
             },
         ],
         [
             ("association_buy_supplies", "association_buy_suppliesc"),
             DUMMY,
             {
-                "description": "Se ha asociado para realizar: Sí, para comprar insumos y así reducir costos"
+                "name": "association_buy_supplies",
+                "description": "Se ha asociado para realizar: Sí, para comprar insumos y así reducir costos",
             },
         ],
         [
             ("association_use_machinery_nobuy", "association_use_machinery_nobuyc"),
             DUMMY,
             {
-                "description": "Se ha asociado para realizar: Sí, para utilizar maquinaria sin tener que comprarla"
+                "name": "association_use_machinery_nobuy",
+                "description": "Se ha asociado para realizar: Sí, para utilizar maquinaria sin tener que comprarla",
             },
         ],
         [
             ("association_new_markets", "association_new_marketsc"),
             DUMMY,
             {
-                "description": "Se ha asociado para realizar: Sí, para acceder a nuevos mercados"
+                "name": "association_new_markets",
+                "description": "Se ha asociado para realizar: Sí, para acceder a nuevos mercados",
             },
         ],
         [
             ("association_distribution", "association_distributionc"),
             DUMMY,
             {
-                "description": "Se ha asociado para realizar: Sí, para procesos logísticos y de distribución"
+                "name": "association_distribution",
+                "description": "Se ha asociado para realizar: Sí, para procesos logísticos y de distribución",
             },
         ],
         [
             ("association_have_not", "association_have_notc"),
             DUMMY,
-            {"description": "Se ha asociado para realizar: No me he asociado"},
+            {
+                "name": "association_have_not",
+                "description": "Se ha asociado para realizar: No me he asociado",
+            },
         ],
     ],
 }

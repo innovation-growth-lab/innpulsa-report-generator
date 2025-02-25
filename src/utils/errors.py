@@ -1,6 +1,7 @@
 """Error handling utilities."""
 
 from typing import Optional, Any
+import traceback
 import streamlit as st
 from src.utils.constants import MESSAGES
 
@@ -19,13 +20,13 @@ def handle_error(error: Exception, error_type: str) -> str:
         error_type: Type of error (file, data, report, unexpected)
 
     Returns:
-        Formatted error message
+        Formatted error message with full traceback
     """
-    error_msg = str(error)
+    error_traceback = ''.join(traceback.format_exception(type(error), error, error.__traceback__))
     return (
         MESSAGES["errors"]
         .get(error_type, MESSAGES["errors"]["unexpected_error"])
-        .format(error_msg)
+        .format(error_traceback)
     )
 
 

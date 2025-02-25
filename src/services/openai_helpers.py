@@ -18,7 +18,7 @@ async def generate_section_contents(
     # Track sections that need processing
     sections_to_process = []
     tasks = []
-    
+
     # Create tasks and track corresponding sections
     for section in sections:
         prompt_template = section_prompts.get(section.title)
@@ -26,13 +26,15 @@ async def generate_section_contents(
             sections_to_process.append(section)
             # Include cohort details in the prompt
             prompt_template = prompt_template.replace("{cohort_details}", cohort_info)
-            task = asyncio.create_task(call_openai_api(section, prompt_template, model_name))
+            task = asyncio.create_task(
+                call_openai_api(section, prompt_template, model_name)
+            )
             tasks.append(task)
 
     total_sections = len(tasks)
     if total_sections == 0:
         return
-        
+
     if progress_bar:
         progress_bar.progress(
             0, f"Iniciando generación de {total_sections} secciones..."
@@ -41,12 +43,10 @@ async def generate_section_contents(
     # Process responses as they complete
     completed = 0
     pending = set(tasks)
-    
+
     while pending:
-        done, pending = await asyncio.wait(
-            pending, return_when=asyncio.FIRST_COMPLETED
-        )
-        
+        done, pending = await asyncio.wait(pending, return_when=asyncio.FIRST_COMPLETED)
+
         for task in done:
             response = await task
             # Update the corresponding section
@@ -56,7 +56,7 @@ async def generate_section_contents(
                 if response and response.status == "success"
                 else "Error generando el contenido."
             )
-            
+
             completed += 1
             if progress_bar:
                 progress_bar.progress(
@@ -85,19 +85,24 @@ async def generate_executive_summary(
     )
 
 
-async def edit_report_sections(sections: List[ReportSection], model_name: str) -> str:
+async def edit_report_sections(
+    sections: List[ReportSection], model_name: str, disable_api_call: bool = False
+) -> str:
     """Edit the content of all sections for consistency and logical flow."""
     sections_content = "\n\n".join(
         [f"{section.title}\n{section.content}" for section in sections]
     )
     prompt = final_edit_prompt.format(sections_content=sections_content)
 
-    response = await call_openai_api(None, prompt, model_name)
+    if not disable_api_call:
+        response = await call_openai_api(None, prompt, model_name)
 
-    edited_content = (
-        response.data.get("content", "Error editing content.")
-        if response and response.status == "success"
-        else "Error editing content."
-    )
+        edited_content = (
+            response.data.get("content", "Error editing content.")
+            if response and response.status == "success"
+            else "Error editing content."
+        )
+    else:
+        edited_content = sections_content
 
     return edited_content
