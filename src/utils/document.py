@@ -1,10 +1,10 @@
 """Utilities for document generation."""
 
+import io
 from typing import List, Dict, Any
 from docx import Document
 from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-import io
 
 
 def process_paragraph_text(doc: Document, text: str) -> None:

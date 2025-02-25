@@ -1,3 +1,4 @@
+"""Utilities for generating JSON output."""
 import json
 from typing import List
 from src.models.sections import ReportSection  # Import VariableData from models

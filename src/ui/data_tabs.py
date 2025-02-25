@@ -161,14 +161,14 @@ def render_variable_selector(df: pd.DataFrame) -> None:
 
                 # Update selections and filtered config
                 selected_vars = []
-                for idx, row in edited_df.iterrows():
+                for indx, row in edited_df.iterrows():
                     desc = row["Descripción"]
                     is_selected = row["Incluir"]
                     st.session_state.variable_selections[section_key][
                         desc
                     ] = is_selected
                     if is_selected:
-                        selected_vars.append(available_vars[idx])
+                        selected_vars.append(available_vars[indx])
 
                 st.session_state.filtered_sections_config[section_title] = selected_vars
 

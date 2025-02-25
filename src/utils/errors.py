@@ -58,7 +58,7 @@ def safe_operation(
     """
     try:
         return operation(*args, **kwargs)
-    except Exception as e:
+    except Exception as e:  # pylint: disable=W0718
         error_msg = handle_error(e, error_type)
         show_error(error_msg)
         return None

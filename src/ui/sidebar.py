@@ -14,28 +14,28 @@ from src.utils.constants import MODEL_OPTIONS, HELP_TEXTS, MESSAGES, ALLOWED_EXT
 from src.utils.errors import safe_operation, ReportGenerationError
 from src.utils.state import update_report_state
 
+
 def render_file_uploader() -> Optional[IO]:
     """
     Render the file uploader in the sidebar.
-    
+
     Returns:
         Uploaded file object if successful, None otherwise
     """
     uploaded_file = st.sidebar.file_uploader(
-        "Cargar archivo Excel",
-        type=ALLOWED_EXTENSIONS,
-        help=HELP_TEXTS["file_upload"]
+        "Cargar archivo Excel", type=ALLOWED_EXTENSIONS, help=HELP_TEXTS["file_upload"]
     )
-    
+
     if not uploaded_file:
         st.sidebar.info(MESSAGES["errors"]["no_file"])
-    
+
     return uploaded_file
+
 
 def render_sidebar_controls() -> Tuple[str, bool]:
     """
     Render the sidebar controls.
-    
+
     Returns:
         Tuple containing the selected model name and whether to generate report
     """
@@ -45,7 +45,7 @@ def render_sidebar_controls() -> Tuple[str, bool]:
         list(MODEL_OPTIONS.keys()),
         format_func=lambda x: MODEL_OPTIONS[x],
         index=0,
-        help=HELP_TEXTS["model_select"]
+        help=HELP_TEXTS["model_select"],
     )
 
     st.sidebar.markdown("<br>", unsafe_allow_html=True)
@@ -57,10 +57,11 @@ def render_sidebar_controls() -> Tuple[str, bool]:
 
     return model_name, generate_report
 
+
 def render_progress_indicators() -> Tuple[Any, Any]:
     """
     Render the progress indicators in the sidebar.
-    
+
     Returns:
         Tuple containing the progress bar and status text container
     """
@@ -68,19 +69,18 @@ def render_progress_indicators() -> Tuple[Any, Any]:
     status_text = st.empty()
     return progress_bar, status_text
 
+
 async def handle_report_generation(
-    df: pd.DataFrame,
-    cohort_info: str,
-    model_name: str
+    df: pd.DataFrame, cohort_info: str, model_name: str
 ) -> Optional[str]:
     """
     Handle the report generation process.
-    
+
     Args:
         df: DataFrame containing the data
         cohort_info: String containing cohort information
         model_name: Name of the OpenAI model to use
-    
+
     Returns:
         Optional error message if something goes wrong
     """
@@ -95,11 +95,11 @@ async def handle_report_generation(
                 aggregate_data,
                 "data_error",
                 df,
-                st.session_state.filtered_sections_config
+                st.session_state.filtered_sections_config,
             )
             if report_sections is None:
                 raise ReportGenerationError("Failed to aggregate data")
-        except Exception as e: # pylint:
+        except Exception as e:  # pylint: disable=W0718
             return MESSAGES["errors"]["data_error"].format(str(e))
 
         # Show warning in sidebar if variables are missing
@@ -138,7 +138,7 @@ async def handle_report_generation(
                 status_text.info(MESSAGES["info"]["preparing_json"])
             json_str = generate_json_output(report_sections, resumen_ejecutivo)
 
-        except Exception as e:
+        except Exception as e:  # pylint: disable=W0718
             return MESSAGES["errors"]["report_error"].format(str(e))
 
         # Clear progress indicators and update state
@@ -149,13 +149,14 @@ async def handle_report_generation(
                 json_str=json_str,
                 resumen_ejecutivo=resumen_ejecutivo,
                 edited_output=edited_output,
-                report_sections=report_sections
+                report_sections=report_sections,
             )
 
         return None
 
-    except Exception as e:
+    except Exception as e:  # pylint: disable=W0718
         return MESSAGES["errors"]["unexpected_error"].format(str(e))
+
 
 def show_variable_exclusion_warning() -> None:
     """Show warning about excluded variables."""
@@ -172,4 +173,4 @@ def show_variable_exclusion_warning() -> None:
             st.sidebar.markdown(
                 f"ℹ️ {excluded_count} variable{'s' if excluded_count != 1 else ''} "
                 f"excluida{'s' if excluded_count != 1 else ''} del reporte"
-            ) 
+            )
