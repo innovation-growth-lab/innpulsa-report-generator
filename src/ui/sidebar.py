@@ -35,12 +35,15 @@ def render_file_uploader() -> Optional[IO]:
     return uploaded_file
 
 
-def render_sidebar_controls() -> Tuple[str, bool]:
+def render_sidebar_controls() -> Tuple[str, bool, bool]:
     """
     Render the sidebar controls.
 
     Returns:
-        Tuple containing the selected model name and whether to generate report
+        Tuple containing:
+        - selected model name
+        - whether to generate report
+        - whether to skip report editing
     """
     st.sidebar.markdown("---")
     model_name = st.sidebar.selectbox(
@@ -51,6 +54,14 @@ def render_sidebar_controls() -> Tuple[str, bool]:
         help=HELP_TEXTS["model_select"],
     )
 
+    # Add advanced settings expander
+    with st.sidebar.expander("⚙️ Configuración avanzada"):
+        skip_editing = st.toggle(
+            "Omitir edición del reporte",
+            value=True,
+            help="Activa esta opción para reducir el consumo de tokens de la API"
+        )
+
     st.sidebar.markdown("<br>", unsafe_allow_html=True)
     generate_report = st.sidebar.button(
         "🚀 Generar Reporte",
@@ -58,7 +69,7 @@ def render_sidebar_controls() -> Tuple[str, bool]:
         use_container_width=True,
     )
 
-    return model_name, generate_report
+    return model_name, generate_report, skip_editing
 
 
 def render_progress_indicators() -> Tuple[Any, Any]:
@@ -74,7 +85,7 @@ def render_progress_indicators() -> Tuple[Any, Any]:
 
 
 async def handle_report_generation(
-    df: pd.DataFrame, cohort_info: str, model_name: str
+    df: pd.DataFrame, cohort_info: str, model_name: str, skip_editing: bool = True
 ) -> Optional[str]:
     """
     Handle the report generation process.
@@ -83,6 +94,7 @@ async def handle_report_generation(
         df: DataFrame containing the data
         cohort_info: String containing cohort information
         model_name: Name of the OpenAI model to use
+        skip_editing: Whether to skip the report editing step
 
     Returns:
         Optional error message if something goes wrong
@@ -127,17 +139,16 @@ async def handle_report_generation(
             # Generate executive summary
             with st.sidebar:
                 status_text.info(MESSAGES["info"]["generating_summary"])
-            # resumen_ejecutivo = await generate_executive_summary(
-            #     report_sections, cohort_info, model_name
-            # )
-            resumen_ejecutivo = "" # [HACK: Reduce cost]
+            resumen_ejecutivo = await generate_executive_summary(
+                report_sections, cohort_info, model_name
+            )
 
             # Edit report sections
             with st.sidebar:
                 status_text.info(MESSAGES["info"]["editing_report"])
             edited_output = await edit_report_sections(
-                report_sections, model_name, True
-            )  # [HACK: Reduce cost]
+                report_sections, model_name, skip_editing
+            )
 
             # Prepare JSON output
             with st.sidebar:

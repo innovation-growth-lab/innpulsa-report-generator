@@ -28,7 +28,7 @@ async def main() -> None:
 
     # Render sidebar elements
     uploaded_file = sidebar.render_file_uploader()
-    model_name, generate_report = sidebar.render_sidebar_controls()
+    model_name, generate_report, skip_editing = sidebar.render_sidebar_controls()
 
     if uploaded_file:
         try:
@@ -50,11 +50,11 @@ async def main() -> None:
                 data_tabs.render_variable_selector(df)
 
             if generate_report:
-                error_message = await sidebar.handle_report_generation(
-                    df, cohort_info, model_name
+                error = await sidebar.handle_report_generation(
+                    df, cohort_info, model_name, skip_editing
                 )
-                if error_message:
-                    show_error(error_message)
+                if error:
+                    st.error(error)
 
             # Show variable exclusion warning if needed
             sidebar.show_variable_exclusion_warning()
