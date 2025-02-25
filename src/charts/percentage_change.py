@@ -13,14 +13,14 @@ COLORS = {
 }
 
 
-def create_before_after_chart(data: pd.DataFrame, params: dict) -> go.Figure:
+def create_percentage_change_chart(data: pd.DataFrame, params: dict) -> go.Figure:
     """Creates a publication-quality chart for before and after variables."""
     fig = go.Figure(
         data=[
             go.Bar(
                 x=data["period"],
                 y=data["value"],
-                text=[f"{float(v):.1f}" for v in data["value"]],
+                text=[f"{v:.1f}%" for v in data["value"]],
                 textposition="auto",
                 marker_color=[COLORS["blue"], COLORS["coral"]],
                 width=0.6,

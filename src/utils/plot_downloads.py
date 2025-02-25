@@ -43,7 +43,7 @@ def create_downloadable_chart(chart_id: str, variables_dict: dict):
             )
         data = pd.DataFrame(rows)
 
-    elif config["type"] == "efficiency":
+    elif config["type"] == "percentage_change":
         var = variables_dict[config["required_variables"][0]]
         data = pd.DataFrame(
             {

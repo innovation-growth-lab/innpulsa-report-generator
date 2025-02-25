@@ -127,14 +127,17 @@ async def handle_report_generation(
             # Generate executive summary
             with st.sidebar:
                 status_text.info(MESSAGES["info"]["generating_summary"])
-            resumen_ejecutivo = await generate_executive_summary(
-                report_sections, cohort_info, model_name
-            )
+            # resumen_ejecutivo = await generate_executive_summary(
+            #     report_sections, cohort_info, model_name
+            # )
+            resumen_ejecutivo = "" # [HACK: Reduce cost]
 
             # Edit report sections
             with st.sidebar:
                 status_text.info(MESSAGES["info"]["editing_report"])
-            edited_output = await edit_report_sections(report_sections, model_name)
+            edited_output = await edit_report_sections(
+                report_sections, model_name, True
+            )  # [HACK: Reduce cost]
 
             # Prepare JSON output
             with st.sidebar:
@@ -195,13 +198,25 @@ def render_download_visualisations(session_state):
     # Get available charts based on variables
     available_charts = get_available_charts(all_variables)
 
+    # Group charts by section
+    charts_by_section = {}
     for chart_id, config in available_charts.items():
-        chart, b64_str = create_downloadable_chart(chart_id, all_variables)
-        if chart and b64_str:
-            st.sidebar.download_button(
-                label=f"📊 {config['params']['title']}",
-                data=base64.b64decode(b64_str),
-                file_name=f"{chart_id}.png",
-                mime="image/png",
-                key=f"download_viz_{chart_id}",
-            )
+        section = config.get("section", "Otros indicadores")
+        if section not in charts_by_section:
+            charts_by_section[section] = {}
+        charts_by_section[section][chart_id] = config
+
+    # Create expandable sections
+    for section_name, section_charts in charts_by_section.items():
+        if section_charts:
+            with st.sidebar.expander(f"📈 {section_name}"):
+                for chart_id, config in section_charts.items():
+                    chart, b64_str = create_downloadable_chart(chart_id, all_variables)
+                    if chart and b64_str:
+                        st.download_button(
+                            label=f"📊 {config['params']['title']}",
+                            data=base64.b64decode(b64_str),
+                            file_name=f"{chart_id}.png",
+                            mime="image/png",
+                            key=f"download_viz_{chart_id}",
+                        )
