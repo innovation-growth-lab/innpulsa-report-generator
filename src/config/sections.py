@@ -111,6 +111,14 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 ("knows_standardtime", "standard_timec"),
                 BOOLEAN,
                 {
+                    "name": "knows_standardtime_old",
+                    "description": "Conoce el tiempo estándar de producción",
+                },
+            ],
+            [
+                ("knows_standardtime", "knows_standardtimec"),
+                BOOLEAN,
+                {
                     "name": "knows_standardtime",
                     "description": "Conoce el tiempo estándar de producción",
                 },
@@ -268,248 +276,248 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 },
             ],
         ],
-        # "Talento Humano": [
-        #     # Employment metrics
-        #     [
-        #         ("emp_ft", "emp_ftc"),
-        #         NUMERIC,
-        #         {
-        #             "name": "emp_ft",
-        #             "description": "Empleados de nómina (afiliados por el negocio al sistema de salud y pensión)",
-        #         },
-        #     ],
-        #     [
-        #         ("emp_total", "emp_totalc"),
-        #         NUMERIC,
-        #         {"name": "emp_total", "description": "Empleados totales"},
-        #     ],
-        #     # Salary information
-        #     [
-        #         ("hassalary", "hassalaryc"),
-        #         BOOLEAN,
-        #         {
-        #             "name": "hassalary",
-        #             "description": "Postulante recibe sueldo fijo del negocio",
-        #         },
-        #     ],
-        #     [
-        #         ("income", "incomec"),
-        #         NUMERIC,
-        #         {
-        #             "name": "income",
-        #             "description": "Cuánto recibe de sueldo fijo en un mes promedio",
-        #         },
-        #     ],
-        # ],
-        # "Practicas Gerenciales": [
-        #     # Pricing and costs
-        #     [
-        #         ("price_system", "price_systemc"),
-        #         CATEGORICAL,
-        #         {
-        #             "name": "price_system",
-        #             "description": "Los precios se fijan con base en",
-        #             "mapping": CATEGORICAL_MAPPINGS["price_system"],
-        #         },
-        #     ],
-        #     # Knowledge indicators
-        #     [
-        #         ("knows_production_cost", "knows_production_costc"),
-        #         DUMMY,
-        #         {
-        #             "name": "knows_production_cost",
-        #             "description": "En el negocio conoce: El costo de producir cada unidad de producto o servicio",
-        #         },
-        #     ],
-        #     [
-        #         ("knows_max_production", "knows_max_productionc"),
-        #         DUMMY,
-        #         {
-        #             "name": "knows_max_production",
-        #             "description": "En el negocio conoce: Cantidad máxima de productos que puedes generar u ofrecer en un periodo determinado (por ejemplo: diaria, semanal, mensual)",
-        #         },
-        #     ],
-        #     [
-        #         ("knows_profit_margin", "knows_profit_marginc"),
-        #         DUMMY,
-        #         {
-        #             "name": "knows_profit_margin",
-        #             "description": "En el negocio conoce: Porcentaje o margen de ganancia de cada producto o servicio",
-        #         },
-        #     ],
-        #     [
-        #         ("knows_sales_frequency", "knows_sales_frequencyc"),
-        #         DUMMY,
-        #         {
-        #             "name": "knows_sales_frequency",
-        #             "description": "En el negocio conoce: Periodicidad de las ventas de tus productos o servicios (ej.: diaria, semanal, mensual)",
-        #         },
-        #     ],
-        #     [
-        #         ("knows_detailed_income", "knows_detailed_incomec"),
-        #         DUMMY,
-        #         {
-        #             "name": "knows_detailed_income",
-        #             "description": "En el negocio conoce: Ingresos del negocio de manera detallada",
-        #         },
-        #     ],
-        #     # Cost tracking
-        #     [
-        #         ("productcost_materials", "productcost_materialsc"),
-        #         DUMMY,
-        #         {
-        #             "name": "productcost_materials",
-        #             "description": "Para costo de producto se calcula: Costo total materiales directos",
-        #         },
-        #     ],
-        #     [
-        #         ("productcost_handwork", "productcost_handworkc"),
-        #         DUMMY,
-        #         {
-        #             "name": "productcost_handwork",
-        #             "description": "Para costo de producto se calcula: Costo total mano de obra directa",
-        #         },
-        #     ],
-        #     [
-        #         ("productcost_fabrication", "productcost_fabricationc"),
-        #         DUMMY,
-        #         {
-        #             "name": "productcost_fabrication",
-        #             "description": "Para costo de producto se calcula: Gastos generales de fabricación",
-        #         },
-        #     ],
-        # ],
-        # "Financiero": [
-        #     # Sales metrics
-        #     [
-        #         ("sales2023q1s", "sales2024q1s"),
-        #         NUMERIC,
-        #         {
-        #             "name": "sales2023q1s",
-        #             "description": "Ventas trimestrales, 2023T1-vs-2024T1",
-        #         },
-        #     ],
-        #     [
-        #         (None, "salesaverage2024"),
-        #         NUMERIC,
-        #         {
-        #             "name": "salesaverage2024",
-        #             "description": "Valor promedio mensual de las ventas del 2024",
-        #         },
-        #     ],
-        #     # Financial connections
-        #     [
-        #         (None, "participate_commercial"),
-        #         BOOLEAN,
-        #         {
-        #             "name": "participate_commercial",
-        #             "description": "Participó en alguna rueda comercial del programa",
-        #         },
-        #     ],
-        #     [
-        #         (None, "connection_commercial"),
-        #         BOOLEAN,
-        #         {
-        #             "name": "connection_commercial",
-        #             "description": "Generó conexiones durante el desarrollo de la rueda comercial",
-        #         },
-        #     ],
-        #     [
-        #         (None, "participate_financial"),
-        #         BOOLEAN,
-        #         {
-        #             "name": "participate_financial",
-        #             "description": "Participó en alguna rueda financiera del programa",
-        #         },
-        #     ],
-        #     [
-        #         (None, "connection_financial"),
-        #         BOOLEAN,
-        #         {
-        #             "name": "connection_financial",
-        #             "description": "Generó conexiones durante el desarrollo de la rueda financiera",
-        #         },
-        #     ],
-        #     # Banking and bookkeeping
-        #     [
-        #         ("banked", "bankedc"),
-        #         BOOLEAN,
-        #         {"name": "banked", "description": "Tiene cuenta bancaria"},
-        #     ],
-        #     [
-        #         ("bookkeeping", "bookkeepingc"),
-        #         CATEGORICAL,
-        #         {
-        #             "mapping": CATEGORICAL_MAPPINGS["bookkeeping"],
-        #             "description": "Forma de llevar las cuentas del negocio",
-        #             "name": "bookkeeping",
-        #         },
-        #     ],
-        # ],
-        # "Asociatividad": [
-        #     [
-        #         ("knows_associationways", "knows_associationwaysc"),
-        #         BOOLEAN,
-        #         {
-        #             "name": "knows_associationways",
-        #             "description": "El líder del negocio conoce cómo establecer y formalizar los diferentes mecanismos de asociatividad empresarial",
-        #         },
-        #     ],
-        #     [
-        #         ("association_group_training", "association_group_trainingc"),
-        #         DUMMY,
-        #         {
-        #             "name": "association_group_training",
-        #             "description": "Se ha asociado para realizar: Sí, para tomar capacitaciones grupales",
-        #         },
-        #     ],
-        #     [
-        #         ("association_new_machinery", "association_new_machineryc"),
-        #         DUMMY,
-        #         {
-        #             "name": "association_new_machinery",
-        #             "description": "Se ha asociado para realizar: Sí, para adquirir maquinaria y equipos modernos",
-        #         },
-        #     ],
-        #     [
-        #         ("association_buy_supplies", "association_buy_suppliesc"),
-        #         DUMMY,
-        #         {
-        #             "name": "association_buy_supplies",
-        #             "description": "Se ha asociado para realizar: Sí, para comprar insumos y así reducir costos",
-        #         },
-        #     ],
-        #     [
-        #         ("association_use_machinery_nobuy", "association_use_machinery_nobuyc"),
-        #         DUMMY,
-        #         {
-        #             "name": "association_use_machinery_nobuy",
-        #             "description": "Se ha asociado para realizar: Sí, para utilizar maquinaria sin tener que comprarla",
-        #         },
-        #     ],
-        #     [
-        #         ("association_new_markets", "association_new_marketsc"),
-        #         DUMMY,
-        #         {
-        #             "name": "association_new_markets",
-        #             "description": "Se ha asociado para realizar: Sí, para acceder a nuevos mercados",
-        #         },
-        #     ],
-        #     [
-        #         ("association_distribution", "association_distributionc"),
-        #         DUMMY,
-        #         {
-        #             "name": "association_distribution",
-        #             "description": "Se ha asociado para realizar: Sí, para procesos logísticos y de distribución",
-        #         },
-        #     ],
-        #     [
-        #         ("association_have_not", "association_have_notc"),
-        #         DUMMY,
-        #         {
-        #             "name": "association_have_not",
-        #             "description": "Se ha asociado para realizar: No me he asociado",
-        #         },
-        #     ],
-        # ],
+        "Talento Humano": [
+            # Employment metrics
+            [
+                ("emp_ft", "emp_ftc"),
+                NUMERIC,
+                {
+                    "name": "emp_ft",
+                    "description": "Empleados de nómina (afiliados por el negocio al sistema de salud y pensión)",
+                },
+            ],
+            [
+                ("emp_total", "emp_totalc"),
+                NUMERIC,
+                {"name": "emp_total", "description": "Empleados totales"},
+            ],
+            # Salary information
+            [
+                ("hassalary", "hassalaryc"),
+                BOOLEAN,
+                {
+                    "name": "hassalary",
+                    "description": "Postulante recibe sueldo fijo del negocio",
+                },
+            ],
+            [
+                ("income", "incomec"),
+                NUMERIC,
+                {
+                    "name": "income",
+                    "description": "Cuánto recibe de sueldo fijo en un mes promedio",
+                },
+            ],
+        ],
+        "Practicas Gerenciales": [
+            # Pricing and costs
+            [
+                ("price_system", "price_systemc"),
+                CATEGORICAL,
+                {
+                    "name": "price_system",
+                    "description": "Los precios se fijan con base en",
+                    "mapping": CATEGORICAL_MAPPINGS["price_system"],
+                },
+            ],
+            # Knowledge indicators
+            [
+                ("knows_production_cost", "knows_production_costc"),
+                DUMMY,
+                {
+                    "name": "knows_production_cost",
+                    "description": "En el negocio conoce: El costo de producir cada unidad de producto o servicio",
+                },
+            ],
+            [
+                ("knows_max_production", "knows_max_productionc"),
+                DUMMY,
+                {
+                    "name": "knows_max_production",
+                    "description": "En el negocio conoce: Cantidad máxima de productos que puedes generar u ofrecer en un periodo determinado (por ejemplo: diaria, semanal, mensual)",
+                },
+            ],
+            [
+                ("knows_profit_margin", "knows_profit_marginc"),
+                DUMMY,
+                {
+                    "name": "knows_profit_margin",
+                    "description": "En el negocio conoce: Porcentaje o margen de ganancia de cada producto o servicio",
+                },
+            ],
+            [
+                ("knows_sales_frequency", "knows_sales_frequencyc"),
+                DUMMY,
+                {
+                    "name": "knows_sales_frequency",
+                    "description": "En el negocio conoce: Periodicidad de las ventas de tus productos o servicios (ej.: diaria, semanal, mensual)",
+                },
+            ],
+            [
+                ("knows_detailed_income", "knows_detailed_incomec"),
+                DUMMY,
+                {
+                    "name": "knows_detailed_income",
+                    "description": "En el negocio conoce: Ingresos del negocio de manera detallada",
+                },
+            ],
+            # Cost tracking
+            [
+                ("productcost_materials", "productcost_materialsc"),
+                DUMMY,
+                {
+                    "name": "productcost_materials",
+                    "description": "Para costo de producto se calcula: Costo total materiales directos",
+                },
+            ],
+            [
+                ("productcost_handwork", "productcost_handworkc"),
+                DUMMY,
+                {
+                    "name": "productcost_handwork",
+                    "description": "Para costo de producto se calcula: Costo total mano de obra directa",
+                },
+            ],
+            [
+                ("productcost_fabrication", "productcost_fabricationc"),
+                DUMMY,
+                {
+                    "name": "productcost_fabrication",
+                    "description": "Para costo de producto se calcula: Gastos generales de fabricación",
+                },
+            ],
+        ],
+        "Financiero": [
+            # Sales metrics
+            [
+                ("sales2023q1s", "sales2024q1s"),
+                NUMERIC,
+                {
+                    "name": "sales2023q1s",
+                    "description": "Ventas trimestrales, 2023T1-vs-2024T1",
+                },
+            ],
+            [
+                (None, "salesaverage2024"),
+                NUMERIC,
+                {
+                    "name": "salesaverage2024",
+                    "description": "Valor promedio mensual de las ventas del 2024",
+                },
+            ],
+            # Financial connections
+            [
+                (None, "participate_commercial"),
+                BOOLEAN,
+                {
+                    "name": "participate_commercial",
+                    "description": "Participó en alguna rueda comercial del programa",
+                },
+            ],
+            [
+                (None, "connection_commercial"),
+                BOOLEAN,
+                {
+                    "name": "connection_commercial",
+                    "description": "Generó conexiones durante el desarrollo de la rueda comercial",
+                },
+            ],
+            [
+                (None, "participate_financial"),
+                BOOLEAN,
+                {
+                    "name": "participate_financial",
+                    "description": "Participó en alguna rueda financiera del programa",
+                },
+            ],
+            [
+                (None, "connection_financial"),
+                BOOLEAN,
+                {
+                    "name": "connection_financial",
+                    "description": "Generó conexiones durante el desarrollo de la rueda financiera",
+                },
+            ],
+            # Banking and bookkeeping
+            [
+                ("banked", "bankedc"),
+                BOOLEAN,
+                {"name": "banked", "description": "Tiene cuenta bancaria"},
+            ],
+            [
+                ("bookkeeping", "bookkeepingc"),
+                CATEGORICAL,
+                {
+                    "mapping": CATEGORICAL_MAPPINGS["bookkeeping"],
+                    "description": "Forma de llevar las cuentas del negocio",
+                    "name": "bookkeeping",
+                },
+            ],
+        ],
+        "Asociatividad": [
+            [
+                ("knows_associationways", "knows_associationwaysc"),
+                BOOLEAN,
+                {
+                    "name": "knows_associationways",
+                    "description": "El líder del negocio conoce cómo establecer y formalizar los diferentes mecanismos de asociatividad empresarial",
+                },
+            ],
+            [
+                ("association_group_training", "association_group_trainingc"),
+                DUMMY,
+                {
+                    "name": "association_group_training",
+                    "description": "Se ha asociado para realizar: Sí, para tomar capacitaciones grupales",
+                },
+            ],
+            [
+                ("association_new_machinery", "association_new_machineryc"),
+                DUMMY,
+                {
+                    "name": "association_new_machinery",
+                    "description": "Se ha asociado para realizar: Sí, para adquirir maquinaria y equipos modernos",
+                },
+            ],
+            [
+                ("association_buy_supplies", "association_buy_suppliesc"),
+                DUMMY,
+                {
+                    "name": "association_buy_supplies",
+                    "description": "Se ha asociado para realizar: Sí, para comprar insumos y así reducir costos",
+                },
+            ],
+            [
+                ("association_use_machinery_nobuy", "association_use_machinery_nobuyc"),
+                DUMMY,
+                {
+                    "name": "association_use_machinery_nobuy",
+                    "description": "Se ha asociado para realizar: Sí, para utilizar maquinaria sin tener que comprarla",
+                },
+            ],
+            [
+                ("association_new_markets", "association_new_marketsc"),
+                DUMMY,
+                {
+                    "name": "association_new_markets",
+                    "description": "Se ha asociado para realizar: Sí, para acceder a nuevos mercados",
+                },
+            ],
+            [
+                ("association_distribution", "association_distributionc"),
+                DUMMY,
+                {
+                    "name": "association_distribution",
+                    "description": "Se ha asociado para realizar: Sí, para procesos logísticos y de distribución",
+                },
+            ],
+            [
+                ("association_have_not", "association_have_notc"),
+                DUMMY,
+                {
+                    "name": "association_have_not",
+                    "description": "Se ha asociado para realizar: No me he asociado",
+                },
+            ],
+        ],
     }

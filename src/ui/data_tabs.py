@@ -155,7 +155,7 @@ def render_variable_selector(df: pd.DataFrame) -> None:
         }
 
     # Process each section
-    for section_title in st.session_state.sections_config.keys():
+    for section_title, _ in st.session_state.sections_config.items():
         with st.expander(f"### {section_title}"):
             available_vars = st.session_state.available_vars.get(section_title, [])
 
@@ -174,14 +174,12 @@ def render_variable_selector(df: pd.DataFrame) -> None:
                 # Create selection data
                 for var_config in available_vars:
                     _, var_type, metadata = var_config
-                    desc = metadata["description"]
-                    name = metadata["name"]
                     selection_data.append(
                         {
                             "Incluir": st.session_state.variable_selections[
                                 section_key
-                            ][desc],
-                            "Descripción": f"{desc} ({name})",
+                            ][metadata["description"]],
+                            "Descripción": f"{metadata["description"]} ({metadata["name"]})",
                             "Tipo": var_type,
                         }
                     )
@@ -205,12 +203,10 @@ def render_variable_selector(df: pd.DataFrame) -> None:
                 # Update selections and filtered config
                 selected_vars = []
                 for indx, row in edited_df.iterrows():
-                    desc = row["Descripción"]
-                    is_selected = row["Incluir"]
                     st.session_state.variable_selections[section_key][
-                        desc
-                    ] = is_selected
-                    if is_selected:
+                        row["Descripción"]
+                    ] = row["Incluir"]
+                    if row["Incluir"]:
                         selected_vars.append(available_vars[indx])
 
                 st.session_state.filtered_sections_config[section_title] = selected_vars

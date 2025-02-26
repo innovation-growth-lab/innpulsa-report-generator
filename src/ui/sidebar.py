@@ -7,7 +7,7 @@ import pandas as pd
 from src.data.process import aggregate_data
 from src.services.openai_helpers import (
     generate_section_contents,
-    # generate_executive_summary,
+    generate_executive_summary,
     edit_report_sections,
 )
 from src.utils.output import generate_json_output
@@ -128,10 +128,9 @@ async def handle_report_generation(
             # Generate executive summary
             with st.sidebar:
                 status_text.info(MESSAGES["info"]["generating_summary"])
-            # resumen_ejecutivo = await generate_executive_summary(
-            #     report_sections, cohort_info, model_name
-            # )
-            resumen_ejecutivo = ""
+            resumen_ejecutivo = await generate_executive_summary(
+                report_sections, cohort_info, model_name
+            )
 
             # Edit report sections
             with st.sidebar:

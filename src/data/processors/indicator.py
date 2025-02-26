@@ -47,25 +47,26 @@ class IndicatorProcessor(BaseProcessor):
 
     def _calculate_indicator_ratios(self, df, numerators, denominators):
         """Helper function to calculate indicator ratios for a period."""
+        df_copy = df.copy()
         ratios = []
         if isinstance(numerators, list) and isinstance(denominators, list):
             for num_col, denom_col in zip(numerators, denominators):
                 assert (
-                    num_col in df.columns and denom_col in df.columns
+                    num_col in df_copy.columns and denom_col in df_copy.columns
                 ), f"Columns {num_col} and {denom_col} must exist in DataFrame"
-                df[f"{num_col}_ratio"] = df[num_col] / df[denom_col]
-                df[f"{num_col}_ratio"] = df[f"{num_col}_ratio"].where(df[denom_col] != 0)
+                df_copy[f"{num_col}_ratio"] = df_copy[num_col] / df_copy[denom_col]
+                df_copy[f"{num_col}_ratio"] = df_copy[f"{num_col}_ratio"].where(df_copy[denom_col] != 0)
                 ratios.append(f"{num_col}_ratio")
-            return np.nanmean(df[ratios].mean(axis=1))
+            return np.nanmean(df_copy[ratios].mean(axis=1))
         elif isinstance(numerators, str) and isinstance(denominators, str):
             assert (
-                numerators in df.columns and denominators in df.columns
+                numerators in df_copy.columns and denominators in df_copy.columns
             ), f"Columns {numerators} and {denominators} must exist in DataFrame"
-            df[f"{numerators}_ratio"] = df[numerators] / df[denominators]
-            df[f"{numerators}_ratio"] = df[f"{numerators}_ratio"].where(
-                df[denominators] != 0
+            df_copy[f"{numerators}_ratio"] = df_copy[numerators] / df_copy[denominators]
+            df_copy[f"{numerators}_ratio"] = df_copy[f"{numerators}_ratio"].where(
+                df_copy[denominators] != 0
             )
-            return df[f"{numerators}_ratio"].mean()
+            return df_copy[f"{numerators}_ratio"].mean()
         else:
             raise KeyError(
                 "Numerators and denominators must be either both lists or both strings"
