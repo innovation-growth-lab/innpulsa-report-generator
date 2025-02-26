@@ -44,6 +44,7 @@ def render_data_preview(df: pd.DataFrame) -> None:
     st.dataframe(df, use_container_width=True)
 
 
+@st.cache_data
 def check_variable_availability(
     df: pd.DataFrame, var_config: Tuple
 ) -> Tuple[bool, Dict[str, Any]]:
@@ -86,6 +87,43 @@ def check_variable_availability(
     return is_available, metadata
 
 
+def process_sections_config(df: pd.DataFrame) -> Tuple[dict, dict, dict]:
+    """
+    Process sections configuration once to identify available and missing variables.
+
+    Args:
+        df: DataFrame containing the data
+
+    Returns:
+        Tuple containing:
+        - Dictionary of sections configuration
+        - Dictionary of available variables by section
+        - Dictionary of missing variables by section
+    """
+    sections_config = get_sections_config(df)
+    available_vars = {}
+    missing_vars = {}
+
+    for section_title, variables in sections_config.items():
+        section_available = []
+        section_missing = []
+
+        for var_config in variables:
+            is_available, metadata = check_variable_availability(df, var_config)
+            if is_available:
+                section_available.append(var_config)
+            else:
+                var_name = f"{metadata['description']} ({metadata['name']})"
+                section_missing.append(var_name)
+
+        if section_available:
+            available_vars[section_title] = section_available
+        if section_missing:
+            missing_vars[section_title] = section_missing
+
+    return sections_config, available_vars, missing_vars
+
+
 def render_variable_selector(df: pd.DataFrame) -> None:
     """
     Render the variable selection interface.
@@ -99,35 +137,34 @@ def render_variable_selector(df: pd.DataFrame) -> None:
     if "variable_selections" not in st.session_state:
         st.session_state.variable_selections = {}
 
-    # Generate config based on available data
-    if not st.session_state.filtered_sections_config:
-        sections_config = get_sections_config(df)
-        st.session_state.filtered_sections_config = sections_config
-    else:
-        sections_config = st.session_state.filtered_sections_config
+    # Process config and identify variables only once
+    if (
+        "sections_config" not in st.session_state
+        or "available_vars" not in st.session_state
+        or "missing_vars" not in st.session_state
+    ):
+        (
+            st.session_state.sections_config,
+            st.session_state.available_vars,
+            st.session_state.missing_vars,
+        ) = process_sections_config(df)
+
+        # Initialize filtered config
+        st.session_state.filtered_sections_config = {
+            section: vars for section, vars in st.session_state.available_vars.items()
+        }
 
     # Process each section
-    for section_title, variables in sections_config.items():
+    for section_title in st.session_state.sections_config.keys():
         with st.expander(f"### {section_title}"):
-            # Separate available and missing variables
-            available_vars = []
-            missing_vars = []
-
-            # Check which variables are available in the data
-            for var_config in variables:
-                is_available, metadata = check_variable_availability(df, var_config)
-                if is_available:
-                    available_vars.append(var_config)
-                else:
-                    var_name = f"{metadata['description']} ({metadata['name']})"
-                    missing_vars.append(var_name)
+            available_vars = st.session_state.available_vars.get(section_title, [])
 
             if available_vars:
                 # Create selection table
                 selection_data = []
                 section_key = f"section_{section_title}"
 
-                # Initialize section selections if not exists
+                # Initialise section selections if not exists
                 if section_key not in st.session_state.variable_selections:
                     st.session_state.variable_selections[section_key] = {
                         var_config[2]["description"]: True
@@ -178,9 +215,9 @@ def render_variable_selector(df: pd.DataFrame) -> None:
 
                 st.session_state.filtered_sections_config[section_title] = selected_vars
 
-            # Show missing variables
-            if missing_vars:
+            # Show missing variables from session state
+            if section_title in st.session_state.missing_vars:
                 st.markdown("---")
                 st.markdown("**Variables no disponibles en los datos:**")
-                for var_name in missing_vars:
+                for var_name in st.session_state.missing_vars[section_title]:
                     st.markdown(f"- {var_name}")

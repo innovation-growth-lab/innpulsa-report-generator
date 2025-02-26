@@ -56,9 +56,6 @@ async def main() -> None:
                 if error:
                     st.error(error)
 
-            # Show variable exclusion warning if needed
-            sidebar.show_variable_exclusion_warning()
-
             # Display download buttons and results if report is finalized
             if session_state.report_finalized:
                 # Show persistent success message

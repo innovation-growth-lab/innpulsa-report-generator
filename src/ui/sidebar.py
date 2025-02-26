@@ -7,7 +7,7 @@ import pandas as pd
 from src.data.process import aggregate_data
 from src.services.openai_helpers import (
     generate_section_contents,
-    generate_executive_summary,
+    # generate_executive_summary,
     edit_report_sections,
 )
 from src.utils.output import generate_json_output
@@ -59,7 +59,7 @@ def render_sidebar_controls() -> Tuple[str, bool, bool]:
         skip_editing = st.toggle(
             "Omitir edición del reporte",
             value=True,
-            help="Activa esta opción para reducir el consumo de tokens de la API"
+            help="Activa esta opción para reducir el consumo de tokens de la API",
         )
 
     st.sidebar.markdown("<br>", unsafe_allow_html=True)
@@ -106,7 +106,7 @@ async def handle_report_generation(
 
         # Generate sections using filtered config
         try:
-            report_sections, missing_variables = safe_operation(
+            report_sections = safe_operation(
                 aggregate_data,
                 "data_error",
                 df,
@@ -116,17 +116,6 @@ async def handle_report_generation(
                 raise ReportGenerationError("Failed to aggregate data")
         except Exception as e:  # pylint: disable=W0718
             return MESSAGES["errors"]["data_error"].format(str(e))
-
-        # Show warning in sidebar if variables are missing
-        if missing_variables:
-            with st.sidebar:
-                st.markdown("### Variables no encontradas")
-                st.warning(
-                    MESSAGES["info"]["missing_variables"],
-                    icon="⚠️",
-                )
-                for var in missing_variables:
-                    st.markdown(f"- {var}")
 
         try:
             # Generate section contents
@@ -139,9 +128,10 @@ async def handle_report_generation(
             # Generate executive summary
             with st.sidebar:
                 status_text.info(MESSAGES["info"]["generating_summary"])
-            resumen_ejecutivo = await generate_executive_summary(
-                report_sections, cohort_info, model_name
-            )
+            # resumen_ejecutivo = await generate_executive_summary(
+            #     report_sections, cohort_info, model_name
+            # )
+            resumen_ejecutivo = ""
 
             # Edit report sections
             with st.sidebar:
@@ -173,24 +163,6 @@ async def handle_report_generation(
 
     except Exception as e:  # pylint: disable=W0718
         return MESSAGES["errors"]["unexpected_error"].format(str(e))
-
-
-def show_variable_exclusion_warning() -> None:
-    """Show warning about excluded variables."""
-    if st.session_state.get("report_generated"):
-        excluded_count = sum(
-            1
-            for section_title, variables in st.session_state.filtered_sections_config.items()
-            for var_config in variables
-            if not st.session_state.get(f"section_{section_title}", {}).get(
-                var_config[2]["name"], True
-            )
-        )
-        if excluded_count > 0:
-            st.sidebar.markdown(
-                f"ℹ️ {excluded_count} variable{'s' if excluded_count != 1 else ''} "
-                f"excluida{'s' if excluded_count != 1 else ''} del reporte"
-            )
 
 
 def render_download_visualisations(session_state):

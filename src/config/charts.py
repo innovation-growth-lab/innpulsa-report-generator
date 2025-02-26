@@ -1,29 +1,31 @@
 """Configuration for chart definitions and their required variables."""
 
 from src.charts.multi_response import create_multi_response_chart
-from src.charts.percentage_change import create_percentage_change_chart
+from src.charts.simple_change import create_simple_change_chart
 
 # Define all possible charts and their requirements
 chart_config = {
     # Optimización operativa
     "production_efficiency": {
-        "type": "percentage_change",
+        "type": "simple_change",
         "section": "Optimización operativa",
-        "chart_func": create_percentage_change_chart,
+        "chart_func": create_simple_change_chart,
         "required_variables": ["production_efficiency"],
         "params": {
             "title": "Evolución de la eficiencia de producción",
             "y_label": "Porcentaje de eficiencia (%)",
+            "text_format": "{:.1f}%",
         },
     },
     "defective_units": {
-        "type": "percentage_change",
+        "type": "simple_change",
         "section": "Optimización operativa",
-        "chart_func": create_percentage_change_chart,
+        "chart_func": create_simple_change_chart,
         "required_variables": ["defective_units_rate"],
         "params": {
             "title": "Evolución de la tasa de unidades defectuosas",
             "y_label": "Porcentaje de unidades defectuosas (%)",
+            "text_format": "{:.1f}%",
         },
     },
     "indicators_usage": {
@@ -84,13 +86,14 @@ chart_config = {
     },
     # Talento Humano
     "employment_metrics": {
-        "type": "percentage_change",
+        "type": "simple_change",
         "section": "Talento Humano",
-        "chart_func": create_percentage_change_chart,
+        "chart_func": create_simple_change_chart,
         "required_variables": ["emp_ft"],
         "params": {
             "title": "Evolución del empleo total",
             "y_label": "Número de empleados",
+            "text_format": "{:.1f}",
         },
     },
     # Practicas Gerenciales
@@ -138,13 +141,14 @@ chart_config = {
     },
     # Financiero
     "sales_evolution": {
-        "type": "percentage_change",
+        "type": "simple_change",
         "section": "Financiero",
-        "chart_func": create_percentage_change_chart,
+        "chart_func": create_simple_change_chart,
         "required_variables": ["sales2023q1s"],
         "params": {
             "title": "Evolución de ventas trimestrales",
-            "y_label": "Ventas (millones COP)",
+            "y_label": "Ventas (millones COP)", 
+            "text_format": "{:d}",
         },
     },
     "financial_connections": {

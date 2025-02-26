@@ -13,14 +13,25 @@ COLORS = {
 }
 
 
-def create_percentage_change_chart(data: pd.DataFrame, params: dict) -> go.Figure:
-    """Creates a publication-quality chart for before and after variables."""
+def create_simple_change_chart(data: pd.DataFrame, params: dict) -> go.Figure:
+    """Creates a publication-quality chart for before and after variables.
+    
+    Args:
+        data: DataFrame with 'period' and 'value' columns
+        params: Dictionary containing:
+            - y_label: Label for y-axis
+            - text_format: Optional format string (e.g. '{:.1f}%' or '{:,.0f}')
+                         Defaults to '{:.1f}%' for percentages
+    """
+    # Get text format from params or use percentage as default
+    text_format = params.get('text_format', '{:.1f}%')
+    
     fig = go.Figure(
         data=[
             go.Bar(
                 x=data["period"],
                 y=data["value"],
-                text=[f"{v:.1f}%" for v in data["value"]],
+                text=[text_format.format(v) for v in data["value"]],
                 textposition="auto",
                 marker_color=[COLORS["blue"], COLORS["coral"]],
                 width=0.6,

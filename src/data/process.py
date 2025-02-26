@@ -36,9 +36,7 @@ PROCESSORS = {
 }
 
 
-def aggregate_data(
-    df: pd.DataFrame, sections_config: dict
-) -> Tuple[List[ReportSection], List[str]]:
+def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSection]:
     """Aggregate data into report sections based on configuration.
 
     Processes all variables defined in sections_config according to their types and organizes them
@@ -49,13 +47,10 @@ def aggregate_data(
         sections_config: Dictionary defining sections and their variables with processing
             instructions
 
-    Returns:
-        Tuple containing:
-        - List of ReportSection objects containing processed variables and their interpretations
-        - List of missing variable names for reporting
+    Returns: List of ReportSection objects containing processed variables and their 
+        interpretations
     """
     report_sections = []
-    missing_variables = []
 
     for section_title, variables in sections_config.items():
         variable_data = {}
@@ -63,65 +58,6 @@ def aggregate_data(
             var_pair, var_type, metadata = var_config
 
             try:
-                # Special handling for efficiency indicator type
-                if var_type == "indicator":
-                    # Unpack the indicator structure
-                    (initial_nums, initial_denoms), (final_nums, final_denoms) = (
-                        var_pair
-                    )
-                    # Check initial period columns
-                    if isinstance(initial_nums, list):
-                        missing_nums = [
-                            col for col in initial_nums if col not in df.columns
-                        ]
-                        missing_denoms = [
-                            col for col in initial_denoms if col not in df.columns
-                        ]
-                        if missing_nums or missing_denoms:
-                            missing_variables.append(
-                                f"{section_title}: Missing initial columns - numerators: {missing_nums}, denominators: {missing_denoms}"
-                            )
-                            continue
-
-                    # Check final period columns
-                    if isinstance(final_nums, list):
-                        missing_nums = [
-                            col for col in final_nums if col not in df.columns
-                        ]
-                        missing_denoms = [
-                            col for col in final_denoms if col not in df.columns
-                        ]
-                        if missing_nums or missing_denoms:
-                            missing_variables.append(
-                                f"{section_title}: Missing final columns - numerators: {missing_nums}, denominators: {missing_denoms}"
-                            )
-                            continue
-                    else:
-                        # Check final period columns
-                        if (
-                            final_nums not in df.columns
-                            or final_denoms not in df.columns
-                        ):
-                            missing_variables.append(
-                                f"{section_title}: Missing final columns - numerator: {final_nums}, denominator: {final_denoms}"
-                            )
-                            continue
-
-                else:
-                    # Original column existence check for other variable types
-                    initial_col, final_col = var_pair
-                    if isinstance(initial_col, list):
-                        if not any(col in df.columns for col in initial_col):
-                            missing_variables.append(f"{section_title}: {initial_col}")
-                            continue
-                    elif initial_col and initial_col not in df.columns:
-                        missing_variables.append(f"{section_title}: {initial_col}")
-                        continue
-
-                    if final_col not in df.columns:
-                        missing_variables.append(f"{section_title}: {final_col}")
-                        continue
-
                 # Process variable using appropriate processor
                 processor = PROCESSORS.get(var_type)
                 if not processor:
@@ -141,9 +77,6 @@ def aggregate_data(
 
             except Exception as e:  # pylint: disable=broad-exception-caught
                 logger.error("Error processing variable %s: %s", var_pair, str(e))
-                missing_variables.append(
-                    f"{section_title}: {var_pair} (Error: {str(e)})"
-                )
                 continue
 
         report_sections.append(
@@ -154,4 +87,4 @@ def aggregate_data(
             )
         )
 
-    return report_sections, missing_variables
+    return report_sections

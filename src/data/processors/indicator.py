@@ -56,7 +56,7 @@ class IndicatorProcessor(BaseProcessor):
                 df[f"{num_col}_ratio"] = df[num_col] / df[denom_col]
                 df[f"{num_col}_ratio"] = df[f"{num_col}_ratio"].where(df[denom_col] != 0)
                 ratios.append(f"{num_col}_ratio")
-            return np.nanmean(df[ratios].values.flatten())
+            return np.nanmean(df[ratios].mean(axis=1))
         elif isinstance(numerators, str) and isinstance(denominators, str):
             assert (
                 numerators in df.columns and denominators in df.columns
