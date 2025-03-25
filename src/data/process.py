@@ -40,43 +40,53 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSectio
     """Aggregate data into report sections based on configuration.
 
     Processes all variables defined in sections_config according to their types and organizes them
-    into report sections. Skips variables with missing columns instead of defaulting to zero.
+    into report sections. For each variable, tries each possible column name combination until one works.
+    Skips variables with missing columns instead of defaulting to zero.
 
     Args:
         df: DataFrame containing all measurements
-        sections_config: Dictionary defining sections and their variables with processing
-            instructions
+        sections_config: Dictionary defining sections and their variables. Each section contains
+            a dictionary of variables, where each variable has:
+            - var_pairs: List of possible column name combinations
+            - type: Variable type (NUMERIC, BOOLEAN, etc.)
+            - metadata: Variable metadata (name, description, etc.)
 
-    Returns: List of ReportSection objects containing processed variables and their 
+    Returns: List of ReportSection objects containing processed variables and their
         interpretations
     """
     report_sections = []
 
     for section_title, variables in sections_config.items():
         variable_data = {}
-        for var_config in variables:
-            var_pair, var_type, metadata = var_config
-
+        for var_name, var_config in variables.items():
             try:
                 # Process variable using appropriate processor
-                processor = PROCESSORS.get(var_type)
+                processor = PROCESSORS.get(var_config["type"])
                 if not processor:
-                    raise ValueError(f"Unknown variable type: {var_type}")
+                    raise ValueError(f"Unknown variable type: {var_config['type']}")
 
-                variable_data_obj = processor.process(df, var_pair, metadata)
+                # Try each variable pair until one works
+                for var_pair in var_config["var_pairs"]:
+                    try:
+                        variable_data_obj = processor.process(
+                            df, var_pair, var_config["metadata"]
+                        )
+                        variable_data[var_name] = variable_data_obj
 
-                variable_data[metadata["name"]] = variable_data_obj
-
-                logger.info(
-                    "Variable %s processed successfully: initial=%s, final=%s, change=%s",
-                    metadata["name"],
-                    variable_data_obj.value_initial_intervention,
-                    variable_data_obj.value_final_intervention,
-                    variable_data_obj.percentage_change,
-                )
+                        logger.info(
+                            "Variable %s processed successfully: initial=%s, final=%s, change=%s",
+                            var_name,
+                            variable_data_obj.value_initial_intervention,
+                            variable_data_obj.value_final_intervention,
+                            variable_data_obj.percentage_change,
+                        )
+                        break  # Stop trying pairs if one works
+                    except Exception as e:  # pylint: disable=broad-exception-caught
+                        logger.debug("Variable pair %s failed: %s", var_pair, str(e))
+                        continue
 
             except Exception as e:  # pylint: disable=broad-exception-caught
-                logger.error("Error processing variable %s: %s", var_pair, str(e))
+                logger.error("Error processing variable %s: %s", var_name, str(e))
                 continue
 
         report_sections.append(

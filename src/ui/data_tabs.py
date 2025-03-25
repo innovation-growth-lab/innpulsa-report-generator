@@ -46,45 +46,64 @@ def render_data_preview(df: pd.DataFrame) -> None:
 
 @st.cache_data
 def check_variable_availability(
-    df: pd.DataFrame, var_config: Tuple
+    df: pd.DataFrame, var_config: dict
 ) -> Tuple[bool, Dict[str, Any]]:
     """
     Check if variables are available in the dataframe.
 
     Args:
         df: DataFrame containing the data
-        var_config: Tuple containing variable configuration
+        var_config: Dictionary containing variable configuration
 
     Returns:
         Tuple containing:
         - Boolean indicating if variable is available
         - Dictionary with variable metadata
     """
-    var_pair, var_type, metadata = var_config
-    is_available = True
+    var_type = var_config["type"]
+    metadata = var_config["metadata"]
+    var_pairs = var_config["var_pairs"]
 
-    if var_type == "indicator":
-        (initial_nums, _), (final_num, _) = var_pair
-        if isinstance(initial_nums, list):
-            if not any(col in df.columns for col in initial_nums):
-                is_available = False
-        if isinstance(final_num, list):
-            if not any(col in df.columns for col in final_num):
-                is_available = False
-        elif final_num not in df.columns:
-            is_available = False
-    else:
-        initial, final = var_pair
-        if initial:
-            if isinstance(initial, list):
-                if not any(col in df.columns for col in initial):
+    # Try each variable pair until we find one that works
+    for var_pair in var_pairs:
+        is_available = True
+
+        if not isinstance(var_type, list):
+            var_type = [var_type]
+
+        for var_type in var_type:
+            if var_type == "indicator":
+                (initial_nums, initial_denoms), (final_nums, final_denoms) = var_pair
+                if isinstance(initial_nums, list):
+                    if not any(col in df.columns for col in initial_nums):
+                        is_available = False
+                    if not any(col in df.columns for col in initial_denoms):
+                        is_available = False
+                elif initial_nums not in df.columns or initial_denoms not in df.columns:
                     is_available = False
-            elif initial not in df.columns:
-                is_available = False
-        if final not in df.columns:
-            is_available = False
 
-    return is_available, metadata
+                if isinstance(final_nums, list):
+                    if not any(col in df.columns for col in final_nums):
+                        is_available = False
+                    if not any(col in df.columns for col in final_denoms):
+                        is_available = False
+                elif final_nums not in df.columns or final_denoms not in df.columns:
+                    is_available = False
+            else:
+                initial, final = var_pair
+                if initial:
+                    if isinstance(initial, list):
+                        if not any(col in df.columns for col in initial):
+                            is_available = False
+                    elif initial not in df.columns:
+                        is_available = False
+                if final not in df.columns:
+                    is_available = False
+
+            if is_available:
+                return True, metadata
+
+    return False, metadata
 
 
 def process_sections_config(df: pd.DataFrame) -> Tuple[dict, dict, dict]:
@@ -105,16 +124,16 @@ def process_sections_config(df: pd.DataFrame) -> Tuple[dict, dict, dict]:
     missing_vars = {}
 
     for section_title, variables in sections_config.items():
-        section_available = []
+        section_available = {}
         section_missing = []
 
-        for var_config in variables:
+        for var_name, var_config in variables.items():
             is_available, metadata = check_variable_availability(df, var_config)
             if is_available:
-                section_available.append(var_config)
+                section_available[var_name] = var_config
             else:
-                var_name = f"{metadata['description']} ({metadata['name']})"
-                section_missing.append(var_name)
+                var_desc = f"{metadata['description']} ({metadata['name']})"
+                section_missing.append(var_desc)
 
         if section_available:
             available_vars[section_title] = section_available
@@ -157,7 +176,7 @@ def render_variable_selector(df: pd.DataFrame) -> None:
     # Process each section
     for section_title, _ in st.session_state.sections_config.items():
         with st.expander(f"### {section_title}"):
-            available_vars = st.session_state.available_vars.get(section_title, [])
+            available_vars = st.session_state.available_vars.get(section_title, {})
 
             if available_vars:
                 # Create selection table
@@ -167,20 +186,20 @@ def render_variable_selector(df: pd.DataFrame) -> None:
                 # Initialise section selections if not exists
                 if section_key not in st.session_state.variable_selections:
                     st.session_state.variable_selections[section_key] = {
-                        var_config[2]["description"]: True
-                        for var_config in available_vars
+                        var_config["metadata"]["description"]: True
+                        for var_config in available_vars.values()
                     }
 
                 # Create selection data
-                for var_config in available_vars:
-                    _, var_type, metadata = var_config
+                for var_name, var_config in available_vars.items():
+                    metadata = var_config["metadata"]
                     selection_data.append(
                         {
                             "Incluir": st.session_state.variable_selections[
                                 section_key
                             ][metadata["description"]],
-                            "Descripción": f"{metadata["description"]} ({metadata["name"]})",
-                            "Tipo": var_type,
+                            "Descripción": f"{metadata['description']} ({metadata['name']})",
+                            "Tipo": var_config["type"],
                         }
                     )
 
@@ -201,13 +220,15 @@ def render_variable_selector(df: pd.DataFrame) -> None:
                 )
 
                 # Update selections and filtered config
-                selected_vars = []
+                selected_vars = {}
                 for indx, row in edited_df.iterrows():
+                    var_name = list(available_vars.keys())[indx]
+                    metadata = available_vars[var_name]["metadata"]
                     st.session_state.variable_selections[section_key][
-                        row["Descripción"]
+                        metadata["description"]
                     ] = row["Incluir"]
                     if row["Incluir"]:
-                        selected_vars.append(available_vars[indx])
+                        selected_vars[var_name] = available_vars[var_name]
 
                 st.session_state.filtered_sections_config[section_title] = selected_vars
 

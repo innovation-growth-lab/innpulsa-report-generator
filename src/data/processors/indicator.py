@@ -7,19 +7,24 @@ from src.models.variables import VariableData
 from src.utils.calculations import calculate_percentage_change
 from .base import BaseProcessor
 
+
 class IndicatorProcessor(BaseProcessor):
     def process(
         self,
         df: pd.DataFrame,
-        var_pair: Tuple[Tuple[Union[List[str], str], Union[List[str], str]], Tuple[str, str]],
-        metadata: Dict
+        var_pair: Tuple[
+            Tuple[Union[List[str], str], Union[List[str], str]], Tuple[str, str]
+        ],
+        metadata: Dict,
     ) -> VariableData:
         (initial_nums, initial_denoms), (final_nums, final_denoms) = var_pair
         description = metadata["description"]
         calculation = metadata["calculation"]
 
         # Calculate ratios for both periods
-        initial_value = self._calculate_indicator_ratios(df, initial_nums, initial_denoms)
+        initial_value = self._calculate_indicator_ratios(
+            df, initial_nums, initial_denoms
+        )
         final_value = self._calculate_indicator_ratios(df, final_nums, final_denoms)
 
         # Format values as percentages
@@ -55,7 +60,9 @@ class IndicatorProcessor(BaseProcessor):
                     num_col in df_copy.columns and denom_col in df_copy.columns
                 ), f"Columns {num_col} and {denom_col} must exist in DataFrame"
                 df_copy[f"{num_col}_ratio"] = df_copy[num_col] / df_copy[denom_col]
-                df_copy[f"{num_col}_ratio"] = df_copy[f"{num_col}_ratio"].where(df_copy[denom_col] != 0)
+                df_copy[f"{num_col}_ratio"] = df_copy[f"{num_col}_ratio"].where(
+                    df_copy[denom_col] != 0
+                )
                 ratios.append(f"{num_col}_ratio")
             return np.nanmean(df_copy[ratios].mean(axis=1))
         elif isinstance(numerators, str) and isinstance(denominators, str):
@@ -70,4 +77,4 @@ class IndicatorProcessor(BaseProcessor):
         else:
             raise KeyError(
                 "Numerators and denominators must be either both lists or both strings"
-            ) 
+            )
