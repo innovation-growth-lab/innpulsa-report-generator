@@ -7,7 +7,7 @@ class VariableData(BaseModel):
 
     variable: str = Field(..., description="Name of the variable.")
     description: str = Field(..., description="Description of what the variable measures.")
-    value_initial_intervention: Optional[Union[float, Dict[str, float]]] = Field(
+    value_initial_intervention: Optional[Union[str, float, Dict[str, float]]] = Field(
         None, description="Initial value - either average or category percentages."
     )
     value_final_intervention: Union[float, Dict[str, float]] = Field(

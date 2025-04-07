@@ -77,7 +77,6 @@ def render_sidebar_controls() -> Tuple[str, bool, bool]:
             format_func=lambda x: GEMINI_MODEL_OPTIONS[x],
             index=0,
             help=HELP_TEXTS["gemini_model_select"],
-            disabled=True,
         )
 
     # Add advanced settings expander

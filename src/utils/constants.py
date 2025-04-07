@@ -41,7 +41,7 @@ OAI_MODEL_OPTIONS = {
 
 GEMINI_MODEL_OPTIONS = {
     "gemini-2.0-flash": "Gemini 2.0 Flash (Más rápido)",
-    "gemini-2.5-pro-exp-03-25": "Gemini 2.5 Pro (Experimental)",
+    # "gemini-2.5-pro-exp-03-25": "Gemini 2.5 Pro (Experimental)",
 }
 
 # Help texts

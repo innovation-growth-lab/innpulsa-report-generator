@@ -39,9 +39,9 @@ class IndicatorProcessor(BaseProcessor):
 
         return VariableData(
             variable=(
-                final_nums.replace("c", "")
+                final_nums.rsplit("_", 1)[0]
                 if isinstance(final_nums, str)
-                else final_nums[0].replace("c", "")
+                else final_nums[0].rsplit("_", 1)[0]
             ),
             description=description,
             value_initial_intervention=initial_value,

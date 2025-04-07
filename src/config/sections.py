@@ -215,7 +215,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 ],
                 "type": BOOLEAN,
                 "metadata": {
-                    "name": "Utiliza indicadores.",
+                    "name": "hasindicators",
                     "description": "Tiene indicadores generales",
                 },
             },
