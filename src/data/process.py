@@ -1,7 +1,7 @@
 """Data processing module."""
 
 import logging
-from typing import List, Tuple
+from typing import List
 import pandas as pd
 from src.models.sections import ReportSection
 from src.data.processors import (
@@ -40,8 +40,8 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSectio
     """Aggregate data into report sections based on configuration.
 
     Processes all variables defined in sections_config according to their types and organizes them
-    into report sections. For each variable, tries each possible column name combination until one works.
-    Skips variables with missing columns instead of defaulting to zero.
+    into report sections. For each variable, tries each possible column name combination until
+    one works. Skips variables with missing columns instead of defaulting to zero.
 
     Args:
         df: DataFrame containing all measurements
@@ -58,32 +58,58 @@ def aggregate_data(df: pd.DataFrame, sections_config: dict) -> List[ReportSectio
 
     for section_title, variables in sections_config.items():
         variable_data = {}
+        processed_successfully = False
         for var_name, var_config in variables.items():
             try:
-                # Process variable using appropriate processor
-                processor = PROCESSORS.get(var_config["type"])
-                if not processor:
-                    raise ValueError(f"Unknown variable type: {var_config['type']}")
+                if not isinstance(var_config["type"], list):
+                    var_config["type"] = [var_config["type"]]
 
                 # Try each variable pair until one works
                 for var_pair in var_config["var_pairs"]:
-                    try:
-                        variable_data_obj = processor.process(
-                            df, var_pair, var_config["metadata"]
-                        )
-                        variable_data[var_name] = variable_data_obj
+                    processed_successfully = False
+                    for var_type in var_config["type"]:
+                        processor = PROCESSORS.get(var_type)
+                        try:  # this now works BUT
+                            variable_data_obj = processor.process(
+                                df, var_pair, var_config["metadata"]
+                            )
 
-                        logger.info(
-                            "Variable %s processed successfully: initial=%s, final=%s, change=%s",
-                            var_name,
-                            variable_data_obj.value_initial_intervention,
-                            variable_data_obj.value_final_intervention,
-                            variable_data_obj.percentage_change,
-                        )
-                        break  # Stop trying pairs if one works
-                    except Exception as e:  # pylint: disable=broad-exception-caught
-                        logger.debug("Variable pair %s failed: %s", var_pair, str(e))
-                        continue
+                            # Check if the core results are NaN. If so, try the next type.
+                            if pd.isna(
+                                variable_data_obj.value_initial_intervention
+                            ) and pd.isna(variable_data_obj.value_final_intervention):
+                                logger.debug(
+                                    "Processor %s for %s produced NaN for both initial and final."
+                                    " Trying next type.",
+                                    var_type,
+                                    var_name,
+                                )
+                                continue
+
+                            variable_data[var_name] = variable_data_obj
+                            logger.info(
+                                "Variable %s processed successfully with type %s:"
+                                " initial=%s, final=%s, change=%s",
+                                var_name,
+                                var_type,  # Log the successful type
+                                variable_data_obj.value_initial_intervention,
+                                variable_data_obj.value_final_intervention,
+                                variable_data_obj.percentage_change,
+                            )
+                            processed_successfully = True
+                            break  # Stop trying types if one works and is not entirely nan
+
+                        except Exception as e:  # pylint: disable=broad-exception-caught
+                            logger.debug(
+                                "Processor %s for variable pair %s failed: %s",
+                                var_type,
+                                var_pair,
+                                str(e),
+                            )
+                            continue
+
+                    if processed_successfully:
+                        break  # Stop trying var_pairs if one worked
 
             except Exception as e:  # pylint: disable=broad-exception-caught
                 logger.error("Error processing variable %s: %s", var_name, str(e))

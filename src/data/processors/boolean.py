@@ -18,13 +18,18 @@ class BooleanProcessor(BaseProcessor):
             raise ValueError(f"Column {final_col} not found in dataframe")
 
         if initial_col is None:
-            final_value = round(df[final_col].map({"Sí": 1, "No": 0}).mean() * 100, 2)
-            interpretation = f"Para {description}, {final_value}% de las empresas respondieron afirmativamente"
+            final_value = round(
+                df[final_col].map({"Sí": 1, "No": 0, "SI": 1, "NO": 0}).mean() * 100, 2
+            )
+            interpretation = (
+                f"Para {description}, {final_value}% de las empresas respondieron afirmativamente "
+                "tras su participación en el programa."
+            )
 
             return VariableData(
                 variable=final_col,
                 description=description,
-                value_initial_intervention=0,
+                value_initial_intervention="N/A",
                 value_final_intervention=final_value,
                 percentage_change="N/A",
                 interpretation=interpretation,
@@ -33,8 +38,12 @@ class BooleanProcessor(BaseProcessor):
         if initial_col not in df.columns:
             raise ValueError(f"Column {initial_col} not found in dataframe")
 
-        initial_value = round(df[initial_col].map({"Sí": 1, "No": 0}).mean() * 100, 2)
-        final_value = round(df[final_col].map({"Sí": 1, "No": 0}).mean() * 100, 2)
+        initial_value = round(
+            df[initial_col].map({"Sí": 1, "No": 0, "SI": 1, "NO": 0}).mean() * 100, 2
+        )
+        final_value = round(
+            df[final_col].map({"Sí": 1, "No": 0, "SI": 1, "NO": 0}).mean() * 100, 2
+        )
         pct_change = calculate_percentage_change(initial_value, final_value)
 
         interpretation = (

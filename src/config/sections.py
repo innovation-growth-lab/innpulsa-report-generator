@@ -13,6 +13,12 @@ INDICATOR = "indicator"
 
 # Categorical value mappings for interpretation
 CATEGORICAL_MAPPINGS = {
+    "software_design": [
+        "Diseño asistido por computadora (CAD), diseño en 3D, prototipado virtual",
+        "Diseño digital o semi-digital usando software especializado de dibujo en 2D",
+        "Diseño manual y dibujo a mano",
+        "Otros",
+    ],
     "observ_productionplant": [
         "Hay congestión por deficiente utilización de espacio.",
         "Hay suficiente espacio para manipular los productos, materias primas e insumos.",
@@ -43,6 +49,11 @@ CATEGORICAL_MAPPINGS = {
         "Excel",
         "Libro contable",
         "Software contable",
+        "Contador externo: Delegamos la gestión y registro de la información financiera a un contador externo",
+        "Hojas de cálculo (Excel) o aplicación móvil para control de las cuentas del negocio",
+        "Manualmente: Llevamos registros financieros utilizando métodos manuales como cuaderno, libros contables, cartillas o registros en papel.",
+        "Ninguna: La gestión y registro de la información financiera no se realiza de ninguna manera y estamos buscando mejorar este aspecto.",
+        "Software de contabilidad: Utilizamos software especializado de contabilidad para gestionar y registrar nuestras transacciones financieras.",
     ],
 }
 
@@ -177,9 +188,10 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "indicadores_eficiencia": {
                 "var_pairs": [
-                    ("indicadores_eficiencia", "indicadores_eficienciac")
+                    ("indicadores_eficiencia", "indicadores_eficienciac"),
+                    (None, "indicadores_eficienciac")
                 ],
-                "type": [DUMMY, BOOLEAN],
+                "type": DUMMY,
                 "metadata": {
                     "name": "indicadores_eficiencia",
                     "description": "Tiene indicadores de eficiencia",
@@ -187,9 +199,10 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "indicadores_productividad": {
                 "var_pairs": [
-                    ("indicadores_productividad", "indicadores_productividadc")
+                    ("indicadores_productividad", "indicadores_productividadc"),
+                    (None, "indicadores_productividadc")
                 ],
-                "type": [DUMMY, BOOLEAN],
+                "type": DUMMY,
                 "metadata": {
                     "name": "indicadores_productividad",
                     "description": "Tiene indicadores de productividad",
@@ -197,11 +210,12 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "index": {
                 "var_pairs": [
-                    ("index", "hasindicatorsc")
+                    ("index", "hasindicatorsc"),
+                    ("hasindicators", "hasindicatorsc")
                 ],
-                "type": [DUMMY, BOOLEAN],
+                "type": BOOLEAN,
                 "metadata": {
-                    "name": "index",
+                    "name": "Utiliza indicadores.",
                     "description": "Tiene indicadores generales",
                 },
             },
@@ -249,7 +263,8 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "newideas_datasheet": {
                 "var_pairs": [
-                    ("newideas_datasheet", "newideas_designc")
+                    ("newideas_datasheet", "newideas_designc"),
+                    ("newideas_datasheet", "newideas_datasheetc")
                 ],
                 "type": CATEGORICAL,
                 "metadata": {
@@ -273,10 +288,11 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "var_pairs": [
                     ("software_design", "software_designc")
                 ],
-                "type": BOOLEAN,
+                "type": [BOOLEAN, CATEGORICAL],
                 "metadata": {
                     "name": "software_design",
                     "description": "El negocio utiliza algún software especializado para el diseño de sus productos",
+                    "mapping": CATEGORICAL_MAPPINGS["software_design"],
                 },
             },
             "patterns_digitized": {
@@ -446,6 +462,16 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                     "description": "Ventas trimestrales, 2023T1-vs-2024T1",
                 },
             },
+            "sales2023": {
+                "var_pairs": [
+                    ("sales2023", "sales2024c")
+                ],
+                "type": NUMERIC,
+                "metadata": {
+                    "name": "sales2023-2024",
+                    "description": "Ventas anuales, 2023-vs-2024",
+                },
+            },
             "salesaverage2024": {
                 "var_pairs": [
                     (None, "salesaverage2024")
@@ -508,7 +534,8 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "bookkeeping": {
                 "var_pairs": [
-                    ("bookkeeping", "bookkeepingc")
+                    ("bookkeeping", "bookkeepingc"),
+                    ("new_bookkeeping", "new_bookkeepingc")
                 ],
                 "type": CATEGORICAL,
                 "metadata": {
