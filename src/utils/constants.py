@@ -34,14 +34,20 @@ MIME_TYPES = {
 }
 
 # Model options
-MODEL_OPTIONS = {
+OAI_MODEL_OPTIONS = {
     "gpt-3.5-turbo": "GPT-3.5 Turbo (Más rápido)",
     "gpt-4-0125-preview": "GPT-4 (Más preciso)",
 }
 
+GEMINI_MODEL_OPTIONS = {
+    "gemini-2.0-flash": "Gemini 2.0 Flash (Más rápido)",
+    "gemini-2.5-pro-exp-03-25": "Gemini 2.5 Pro (Experimental)",
+}
+
 # Help texts
 HELP_TEXTS = {
-    "model_select": "Selecciona el modelo de OpenAI a utilizar. GPT-4 es más potente pero más lento.",
+    "oai_model_select": "Selecciona el modelo de OpenAI a utilizar. GPT-4 es más potente pero más lento.",
+    "gemini_model_select": "Selecciona el modelo de Google Gemini a utilizar. Actualmente solo Gemini 2.0 Flash, ya que Gemini 2.5 Pro es más potente pero tiene un rate limit demasiado bajo en el free tier.",
     "generate_button": "Haz clic para generar el reporte basado en los datos y detalles proporcionados",
     "file_upload": "Selecciona un archivo Excel (.xlsx) con los datos del centro ZASCA",
     "unedited_download": "Descarga el reporte sin editar en formato Word",

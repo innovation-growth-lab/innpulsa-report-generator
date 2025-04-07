@@ -20,6 +20,7 @@ def init_session_state() -> Dict[str, Any]:
         st.session_state.edited_output = None
         st.session_state.report_sections = None
         st.session_state.success_message = None
+        st.session_state.loaded_data = None
         st.session_state.filtered_sections_config = {}
         st.session_state.variable_selections = {}
         st.session_state.missing_variables = {}

@@ -5,13 +5,19 @@ from typing import Tuple, Optional, IO, Any
 import streamlit as st
 import pandas as pd
 from src.data.process import aggregate_data
-from src.services.openai_helpers import (
+from src.services.api_helpers import (
     generate_section_contents,
     generate_executive_summary,
     edit_report_sections,
 )
 from src.utils.output import generate_json_output
-from src.utils.constants import MODEL_OPTIONS, HELP_TEXTS, MESSAGES, ALLOWED_EXTENSIONS
+from src.utils.constants import (
+    OAI_MODEL_OPTIONS,
+    GEMINI_MODEL_OPTIONS,
+    HELP_TEXTS,
+    MESSAGES,
+    ALLOWED_EXTENSIONS,
+)
 from src.utils.errors import safe_operation, ReportGenerationError
 from src.utils.state import update_report_state
 from src.utils.plot_downloads import create_downloadable_chart
@@ -29,7 +35,9 @@ def render_file_uploader() -> Optional[IO]:
         "Cargar archivo Excel", type=ALLOWED_EXTENSIONS, help=HELP_TEXTS["file_upload"]
     )
 
-    if not uploaded_file:
+    if uploaded_file:
+        st.session_state.loaded_data = pd.read_excel(uploaded_file)
+    else:
         st.sidebar.info(MESSAGES["errors"]["no_file"])
 
     return uploaded_file
@@ -46,13 +54,31 @@ def render_sidebar_controls() -> Tuple[str, bool, bool]:
         - whether to skip report editing
     """
     st.sidebar.markdown("---")
-    model_name = st.sidebar.selectbox(
-        "Modelo de OpenAI",
-        list(MODEL_OPTIONS.keys()),
-        format_func=lambda x: MODEL_OPTIONS[x],
-        index=0,
-        help=HELP_TEXTS["model_select"],
+
+    # Model provider selection
+    provider = st.sidebar.radio(
+        "Proveedor de IA",
+        ["OpenAI", "Google Gemini"],
+        help="Selecciona el proveedor de IA a utilizar",
     )
+
+    if provider == "OpenAI":
+        model_name = st.sidebar.selectbox(
+            "Modelo de OpenAI",
+            list(OAI_MODEL_OPTIONS.keys()),
+            format_func=lambda x: OAI_MODEL_OPTIONS[x],
+            index=0,
+            help=HELP_TEXTS["oai_model_select"],
+        )
+    else:
+        model_name = st.sidebar.selectbox(
+            "Modelo de Google Gemini",
+            list(GEMINI_MODEL_OPTIONS.keys()),
+            format_func=lambda x: GEMINI_MODEL_OPTIONS[x],
+            index=0,
+            help=HELP_TEXTS["gemini_model_select"],
+            disabled=True,
+        )
 
     # Add advanced settings expander
     with st.sidebar.expander("⚙️ Configuración avanzada"):
@@ -63,10 +89,15 @@ def render_sidebar_controls() -> Tuple[str, bool, bool]:
         )
 
     st.sidebar.markdown("<br>", unsafe_allow_html=True)
+
+    # Check if file has been uploaded and processed
+    file_uploaded = st.session_state.loaded_data is not None
+
     generate_report = st.sidebar.button(
         "🚀 Generar Reporte",
         help=HELP_TEXTS["generate_button"],
         use_container_width=True,
+        disabled=not file_uploaded,  # Disable if no file has been uploaded
     )
 
     return model_name, generate_report, skip_editing

@@ -6,3 +6,4 @@ logfire
 python-docx
 plotly
 kaleido
+google-genai

@@ -152,7 +152,7 @@ def render_variable_selector(df: pd.DataFrame) -> None:
     """
     st.markdown("### Selección de Variables por Sección")
 
-    # Initialize selection states if not exists
+    # Initialise selection states if not exists
     if "variable_selections" not in st.session_state:
         st.session_state.variable_selections = {}
 
@@ -168,7 +168,7 @@ def render_variable_selector(df: pd.DataFrame) -> None:
             st.session_state.missing_vars,
         ) = process_sections_config(df)
 
-        # Initialize filtered config
+        # Initialise filtered config
         st.session_state.filtered_sections_config = {
             section: vars for section, vars in st.session_state.available_vars.items()
         }

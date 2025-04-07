@@ -12,7 +12,7 @@ client = OpenAI()
 
 
 async def call_openai_api(
-    section: ReportSection, prompt_template: str, model_name: str
+    section: Union[ReportSection, None], prompt_template: str, model_name: str
 ) -> Union[APIResponse, None]:
     """Asynchronously call the OpenAI API to generate content for a given report section."""
     if section:
