@@ -56,15 +56,15 @@ async def main() -> None:
                 if error:
                     st.error(error)
 
-            # Display download buttons and results if report is finalized
-            if session_state.report_finalized:
+            # Display download buttons and results if report is finalised
+            if session_state.report_finalised:
                 # Show persistent success message
                 if session_state.success_message:
                     st.sidebar.success(session_state.success_message)
 
                 report.render_download_buttons(session_state)
                 report.render_report_results(session_state)
-                
+
                 # Add visualisation downloads to sidebar
                 sidebar.render_download_visualisations(session_state)
 

@@ -208,7 +208,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                     "description": "Tiene indicadores de productividad",
                 },
             },
-            "index": {
+            "hasindicators": {
                 "var_pairs": [
                     ("index", "hasindicatorsc"),
                     ("hasindicators", "hasindicatorsc")

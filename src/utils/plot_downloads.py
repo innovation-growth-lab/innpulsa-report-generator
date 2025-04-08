@@ -51,6 +51,28 @@ def create_downloadable_chart(chart_id: str, variables_dict: dict):
                 "value": [var.value_initial_intervention, var.value_final_intervention],
             }
         )
+
+    elif config["type"] == "categorical":
+        var = variables_dict[config["required_variables"][0]]
+        # create a row for each category and period
+        rows = []
+        for category in var.value_final_intervention.keys():
+            rows.extend(
+                [
+                    {
+                        "category": category,
+                        "period": "Línea Base",
+                        "value": var.value_initial_intervention[category],
+                    },
+                    {
+                        "category": category,
+                        "period": "Cierre de la intervención",
+                        "value": var.value_final_intervention[category],
+                    },
+                ]
+            )
+        data = pd.DataFrame(rows)
+
     else:
         raise ValueError(f"Unsupported chart type: {config['type']}")
 

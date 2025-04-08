@@ -58,7 +58,7 @@ def render_sidebar_controls() -> Tuple[str, bool, bool]:
     # Model provider selection
     provider = st.sidebar.radio(
         "Proveedor de IA",
-        ["OpenAI", "Google Gemini"],
+        ["Google Gemini", "OpenAI"],
         help="Selecciona el proveedor de IA a utilizar",
     )
 
@@ -196,7 +196,7 @@ async def handle_report_generation(
 
 def render_download_visualisations(session_state):
     """Render visualisation download options in the sidebar."""
-    if not session_state.report_finalized or not session_state.report_sections:
+    if not session_state.report_finalised or not session_state.report_sections:
         return
 
     st.sidebar.markdown("---")

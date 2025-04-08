@@ -13,7 +13,7 @@ def init_session_state() -> Dict[str, Any]:
     """
     if "report_generated" not in st.session_state:
         st.session_state.report_generated = False
-        st.session_state.report_finalized = False
+        st.session_state.report_finalised = False
         st.session_state.json_str = None
         st.session_state.markdown_content = None
         st.session_state.resumen_ejecutivo = None
@@ -44,7 +44,7 @@ def update_report_state(
         report_sections: List of report sections
     """
     st.session_state.report_generated = True
-    st.session_state.report_finalized = True
+    st.session_state.report_finalised = True
     st.session_state.json_str = json_str
     st.session_state.resumen_ejecutivo = resumen_ejecutivo
     st.session_state.edited_output = edited_output
