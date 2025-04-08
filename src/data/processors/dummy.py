@@ -29,7 +29,7 @@ class DummyProcessor(BaseProcessor):
     - Generates an interpretation describing the final state
 
     The processor handles missing data by treating empty strings and dots as null values.
-    All percentages are rounded to 2 decimal places.
+    All percentages are integers.
     """
 
     @staticmethod
@@ -40,15 +40,14 @@ class DummyProcessor(BaseProcessor):
             series: Pandas series to analyze
 
         Returns:
-            Percentage of non-null values rounded to 2 decimal places
+            Percentage of non-null values as an integer
         """
-        return round(
+        return int(
             series.replace({"": np.nan, ".": np.nan})
             .infer_objects(copy=False)
             .notna()
             .mean()
-            * 100,
-            2,
+            * 100
         )
 
     def process(

@@ -22,7 +22,7 @@ class NumericProcessor(BaseProcessor):
 
         # Handle case where we only have final value
         if initial_cols is None:
-            final_value = int(round(df[final_col].mean(), 2))
+            final_value = int(df[final_col].mean())
             interpretation = f"Para {description}, el valor promedio es {final_value}"
 
             return VariableData(
@@ -39,13 +39,13 @@ class NumericProcessor(BaseProcessor):
             valid_cols = [col for col in initial_cols if col in df.columns]
             if not valid_cols:
                 raise ValueError(f"None of the columns {initial_cols} found in dataframe")
-            initial_value = int(round(df[valid_cols].apply(np.mean, axis=1).mean(), 2))
+            initial_value = int(df[valid_cols].apply(np.mean, axis=1).mean())
         else:
             if initial_cols not in df.columns:
                 raise ValueError(f"Column {initial_cols} not found in dataframe")
-            initial_value = int(round(df[initial_cols].mean(), 2))
+            initial_value = int(df[initial_cols].mean())
 
-        final_value = int(round(df[final_col].mean(), 2))
+        final_value = int(df[final_col].mean())
         pct_change = calculate_percentage_change(initial_value, final_value)
 
         # Create interpretation
