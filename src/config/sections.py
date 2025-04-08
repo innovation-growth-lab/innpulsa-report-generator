@@ -551,7 +551,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
         "Asociatividad": {
             "knows_associationways": {
                 "var_pairs": [
-                    ("knows_associationways", "knows_associationwaysc")
+                    ("knows_associationways", "knows_associationwaysc"),
                 ],
                 "type": BOOLEAN,
                 "metadata": {
@@ -561,7 +561,8 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "association_group_training": {
                 "var_pairs": [
-                    ("association_group_training", "association_group_trainingc")
+                    ("association_group_training", "association_group_trainingc"),
+                    ("dassociation_group_training", "association_group_trainingc")
                 ],
                 "type": DUMMY,
                 "metadata": {
@@ -571,7 +572,8 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "association_new_machinery": {
                 "var_pairs": [
-                    ("association_new_machinery", "association_new_machineryc")
+                    ("association_new_machinery", "association_new_machineryc"),
+                    ("dassociation_new_machinery", "association_new_machineryc")
                 ],
                 "type": DUMMY,
                 "metadata": {
@@ -591,7 +593,8 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "association_use_machinery_nobuy": {
                 "var_pairs": [
-                    ("association_use_machinery_nobuy", "association_use_machinery_nobuyc")
+                    ("association_use_machinery_nobuy", "association_use_machinery_nobuyc"),
+                    ("dassociation_use_machinery_nobuy", "association_use_machinery_nobuyc")
                 ],
                 "type": DUMMY,
                 "metadata": {
@@ -601,7 +604,8 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "association_new_markets": {
                 "var_pairs": [
-                    ("association_new_markets", "association_new_marketsc")
+                    ("association_new_markets", "association_new_marketsc"),
+                    ("dassociation_new_markets", "association_new_marketsc")
                 ],
                 "type": DUMMY,
                 "metadata": {
@@ -611,7 +615,8 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "association_distribution": {
                 "var_pairs": [
-                    ("association_distribution", "association_distributionc")
+                    ("association_distribution", "association_distributionc"),
+                    ("dassociation_distribution", "association_distributionc")
                 ],
                 "type": DUMMY,
                 "metadata": {
@@ -621,7 +626,8 @@ def get_sections_config(df: pd.DataFrame) -> dict:
             },
             "association_have_not": {
                 "var_pairs": [
-                    ("association_have_not", "association_have_notc")
+                    ("association_have_not", "association_have_notc"),
+                    ("dassociation_have_not", "association_have_notc")
                 ],
                 "type": DUMMY,
                 "metadata": {
