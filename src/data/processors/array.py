@@ -36,7 +36,7 @@ class ArrayProcessor(BaseProcessor):
                 selected = str(x).split(";")
                 for opt in selected:
                     counts[opt] += 1
-            return {opt: round((count / total) * 100, 2) for opt, count in counts.items()}
+            return {opt: int((count / total) * 100) for opt, count in counts.items()}
 
         initial_values = (
             calculate_percentages(df[initial_col])

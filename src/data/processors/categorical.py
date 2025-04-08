@@ -31,9 +31,9 @@ class CategoricalProcessor(BaseProcessor):
 
         # Create dictionaries with percentages for each category
         initial_values = {
-            cat: round(initial_counts.get(cat, 0), 2) for cat in categories
+            cat: int(initial_counts.get(cat, 0)) for cat in categories
         }
-        final_values = {cat: round(final_counts.get(cat, 0), 2) for cat in categories}
+        final_values = {cat: int(final_counts.get(cat, 0)) for cat in categories}
 
         # Calculate percentage changes for each category
         pct_changes = {
