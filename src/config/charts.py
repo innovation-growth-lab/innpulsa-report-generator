@@ -362,9 +362,6 @@ chart_config = {
     },
 }
 
-# TODO: Numeric (currently false %s) & Categoricals
-
-
 def get_available_charts(variables_dict: dict) -> dict:
     """
     Determine which charts can be created based on available variables.
