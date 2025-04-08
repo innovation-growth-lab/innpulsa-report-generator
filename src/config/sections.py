@@ -113,10 +113,9 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": INDICATOR,
                 "metadata": {
                     "name": "production_efficiency",
-                    "description": "Eficiencia de producción",
+                    "description": "Eficiencia de la producción (unidades producidas / unidades meta).",
                     "calculation": (
-                        "El ratio de eficiencia de producción es el ratio entre el"
-                        " número de unidades producidas y el número de unidades objetivo."
+                        "Calculado como la suma de unidades producidas ('producedunits_*') dividida por la suma de unidades meta ('targetunits_*') para los productos correspondientes."
                     ),
                 },
             },
@@ -128,7 +127,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "knows_standardtime",
-                    "description": "Conoce el tiempo estándar de producción",
+                    "description": "Indica si el negocio calcula/conoce el tiempo estándar de producción.",
                 },
             },
             "defective_units_rate": {
@@ -147,10 +146,9 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": INDICATOR,
                 "metadata": {
                     "name": "defective_units_rate",
-                    "description": "Tasa de Unidades defectuosas",
+                    "description": "Tasa de unidades defectuosas (unidades defectuosas / unidades producidas).",
                     "calculation": (
-                        "La tasa de unidades defectuosas es el ratio entre el número de "
-                        "unidades defectuosas y el número total de unidades producidas."
+                        "Calculado como la suma de unidades defectuosas ('defectiveunits_*') dividida por la suma total de unidades producidas ('producedunits_*') para los productos correspondientes."
                     ),
                 },
             },
@@ -161,7 +159,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": CATEGORICAL,
                 "metadata": {
                     "name": "observ_productionplant",
-                    "description": "Estado de la distribución del espacio",
+                    "description": "Observación sobre la distribución y congestión del espacio en la planta de producción.",
                     "mapping": CATEGORICAL_MAPPINGS["observ_productionplant"],
                 },
             },
@@ -172,7 +170,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": CATEGORICAL,
                 "metadata": {
                     "name": "invent_control",
-                    "description": "Realiza control de inventario",
+                    "description": "Frecuencia y exactitud del control de inventario realizado por el negocio.",
                     "mapping": CATEGORICAL_MAPPINGS["invent_control"],
                 },
             },
@@ -183,40 +181,43 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "knowsinput",
-                    "description": "Conoce niveles óptimos de inventario",
+                    "description": "Indica si el negocio conoce sus niveles óptimos de inventario de insumos/productos.",
                 },
             },
             "indicadores_eficiencia": {
                 "var_pairs": [
                     ("indicadores_eficiencia", "indicadores_eficienciac"),
+                    # control variable might exist even if baseline doesn't
                     (None, "indicadores_eficienciac")
                 ],
                 "type": DUMMY,
                 "metadata": {
                     "name": "indicadores_eficiencia",
-                    "description": "Tiene indicadores de eficiencia",
+                    "description": "Indica si el negocio utiliza indicadores específicos de eficiencia.",
                 },
             },
             "indicadores_productividad": {
                 "var_pairs": [
+                    # no pre-intervention variable for some cohorts / centers
                     ("indicadores_productividad", "indicadores_productividadc"),
                     (None, "indicadores_productividadc")
                 ],
                 "type": DUMMY,
                 "metadata": {
                     "name": "indicadores_productividad",
-                    "description": "Tiene indicadores de productividad",
+                    "description": "Indica si el negocio utiliza indicadores específicos de productividad.",
                 },
             },
             "hasindicators": {
                 "var_pairs": [
+                    # variable renamed between cohorts / centers
                     ("index", "hasindicatorsc"),
                     ("hasindicators", "hasindicatorsc")
                 ],
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "hasindicators",
-                    "description": "Tiene indicadores generales",
+                    "description": "Indica si el negocio utiliza y hace seguimiento periódico de indicadores (más allá de los financieros).",
                 },
             },
         },
@@ -228,7 +229,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "qualityprocess_sample",
-                    "description": "Para garantizar la calidad de los productos: Realiza muestra y contramuestra",
+                    "description": "Indica si se utiliza el método de muestra y contramuestra para garantizar la calidad.",
                 },
             },
             "qualityprocess_set_machinery": {
@@ -238,7 +239,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "qualityprocess_set_machinery",
-                    "description": "Para garantizar la calidad de los productos: Realiza preparación de máquinas",
+                    "description": "Indica si se realiza preparación de máquinas y control de tiempo para garantizar la calidad.",
                 },
             },
             "qualityprocess_control_quality": {
@@ -248,7 +249,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "qualityprocess_control_quality",
-                    "description": "Para garantizar la calidad de los productos: Tiene controles de calidad",
+                    "description": "Indica si existen controles de calidad para materias primas, producto en proceso y producto terminado.",
                 },
             },
             "qualityprocess_none": {
@@ -258,18 +259,19 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "qualityprocess_none",
-                    "description": "Para garantizar la calidad de los productos: No tiene procesos de calidad",
+                    "description": "Indica si el negocio no aplica ningún proceso específico para garantizar la calidad.",
                 },
             },
             "newideas_datasheet": {
                 "var_pairs": [
+                    # variable renamed between cohorts
                     ("newideas_datasheet", "newideas_designc"),
                     ("newideas_datasheet", "newideas_datasheetc")
                 ],
                 "type": CATEGORICAL,
                 "metadata": {
                     "name": "newideas_datasheet",
-                    "description": "Las ideas de los nuevos diseños se registran en una ficha técnica",
+                    "description": "Forma de registrar las ideas de nuevos diseños (verbal, muestra física, ficha técnica).",
                     "mapping": CATEGORICAL_MAPPINGS["newideas_datasheet"],
                 },
             },
@@ -280,7 +282,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": CATEGORICAL,
                 "metadata": {
                     "name": "packaging",
-                    "description": "Cómo funciona en general el empaque en el negocio",
+                    "description": "Nivel de desarrollo y personalización del empaque del producto (genérico, estándar, distintivo).",
                     "mapping": CATEGORICAL_MAPPINGS["packaging"],
                 },
             },
@@ -288,10 +290,11 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "var_pairs": [
                     ("software_design", "software_designc")
                 ],
+                # Can be interpreted as boolean (uses vs not uses) or categorical (type of software) - depnds on cohort / center
                 "type": [BOOLEAN, CATEGORICAL],
                 "metadata": {
                     "name": "software_design",
-                    "description": "El negocio utiliza algún software especializado para el diseño de sus productos",
+                    "description": "Uso de software especializado para el diseño de productos (CAD, 2D, manual).",
                     "mapping": CATEGORICAL_MAPPINGS["software_design"],
                 },
             },
@@ -302,7 +305,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "patterns_digitized",
-                    "description": "Los patrones están digitalizados",
+                    "description": "Indica si los patrones de diseño están digitalizados.",
                 },
             },
             "patterns_prevcollections": {
@@ -312,7 +315,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "patterns_prevcollections",
-                    "description": "El negocio usualmente guarda los patrones de colecciones anteriores",
+                    "description": "Indica si el negocio guarda los patrones de colecciones anteriores.",
                 },
             },
         },
@@ -324,7 +327,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": NUMERIC,
                 "metadata": {
                     "name": "emp_ft",
-                    "description": "Empleados de nómina (afiliados por el negocio al sistema de salud y pensión)",
+                    "description": "Número de empleados de nómina (con afiliación a salud y pensión).",
                 },
             },
             "emp_total": {
@@ -334,7 +337,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": NUMERIC,
                 "metadata": {
                     "name": "emp_total",
-                    "description": "Empleados totales",
+                    "description": "Número total de empleados del negocio (suma de todas las modalidades).",
                 },
             },
             "hassalary": {
@@ -344,7 +347,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "hassalary",
-                    "description": "Postulante recibe sueldo fijo del negocio",
+                    "description": "Indica si el postulante (líder) recibe un sueldo fijo del negocio.",
                 },
             },
             "income": {
@@ -354,7 +357,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": NUMERIC,
                 "metadata": {
                     "name": "income",
-                    "description": "Cuánto recibe de sueldo fijo en un mes promedio",
+                    "description": "Monto del sueldo fijo mensual promedio que recibe el postulante (líder).",
                 },
             },
         },
@@ -366,7 +369,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": CATEGORICAL,
                 "metadata": {
                     "name": "price_system",
-                    "description": "Los precios se fijan con base en",
+                    "description": "Método utilizado para la fijación de precios (competencia, costos, margen).",
                     "mapping": CATEGORICAL_MAPPINGS["price_system"],
                 },
             },
@@ -377,7 +380,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "knows_production_cost",
-                    "description": "En el negocio conoce: El costo de producir cada unidad de producto o servicio",
+                    "description": "Indica si el negocio conoce el costo unitario de producción.",
                 },
             },
             "knows_max_production": {
@@ -387,7 +390,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "knows_max_production",
-                    "description": "En el negocio conoce: Cantidad máxima de productos que puedes generar u ofrecer en un periodo determinado (por ejemplo: diaria, semanal, mensual)",
+                    "description": "Indica si el negocio conoce su capacidad máxima de producción periódica.",
                 },
             },
             "knows_profit_margin": {
@@ -397,7 +400,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "knows_profit_margin",
-                    "description": "En el negocio conoce: Porcentaje o margen de ganancia de cada producto o servicio",
+                    "description": "Indica si el negocio conoce el margen de ganancia por producto/servicio.",
                 },
             },
             "knows_sales_frequency": {
@@ -407,7 +410,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "knows_sales_frequency",
-                    "description": "En el negocio conoce: Periodicidad de las ventas de tus productos o servicios (ej.: diaria, semanal, mensual)",
+                    "description": "Indica si el negocio conoce la periodicidad de sus ventas.",
                 },
             },
             "knows_detailed_income": {
@@ -417,7 +420,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "knows_detailed_income",
-                    "description": "En el negocio conoce: Ingresos del negocio de manera detallada",
+                    "description": "Indica si el negocio conoce sus ingresos de forma detallada.",
                 },
             },
             "productcost_materials": {
@@ -427,7 +430,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "productcost_materials",
-                    "description": "Para costo de producto se calcula: Costo total materiales directos",
+                    "description": "Indica si se calcula el costo total de materiales directos para el costeo del producto.",
                 },
             },
             "productcost_handwork": {
@@ -437,7 +440,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "productcost_handwork",
-                    "description": "Para costo de producto se calcula: Costo total mano de obra directa",
+                    "description": "Indica si se calcula el costo total de mano de obra directa para el costeo del producto.",
                 },
             },
             "productcost_fabrication": {
@@ -447,7 +450,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "productcost_fabrication",
-                    "description": "Para costo de producto se calcula: Gastos generales de fabricación",
+                    "description": "Indica si se calculan los gastos generales de fabricación para el costeo del producto.",
                 },
             },
         },
@@ -458,28 +461,28 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 ],
                 "type": NUMERIC,
                 "metadata": {
-                    "name": "sales2023q1s",
-                    "description": "Ventas trimestrales, 2023T1-vs-2024T1",
+                    "name": "sales2023q1s_vs_2024q1s",
+                    "description": "Comparación de ventas: Enero-Abril 2023 vs Enero-Abril 2024.",
                 },
             },
-            "sales2023": {
+            "sales2023_vs_2024": {
                 "var_pairs": [
-                    ("sales2023", "sales2024c")
+                    ("sales2023", "sales2024"),
                 ],
                 "type": NUMERIC,
                 "metadata": {
-                    "name": "sales2023-2024",
-                    "description": "Ventas anuales, 2023-vs-2024",
+                    "name": "sales2023_vs_2024",
+                    "description": "Comparación de ventas: 2023 (real/proyectado) vs 2024 (promedio mensual).",
                 },
             },
             "salesaverage2024": {
-                "var_pairs": [
+                 "var_pairs": [
                     (None, "salesaverage2024")
                 ],
                 "type": NUMERIC,
                 "metadata": {
                     "name": "salesaverage2024",
-                    "description": "Valor promedio mensual de las ventas del 2024",
+                    "description": "Valor promedio mensual de ventas reportado para 2024 (cierre).",
                 },
             },
             "participate_commercial": {
@@ -489,7 +492,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "participate_commercial",
-                    "description": "Participó en alguna rueda comercial del programa",
+                    "description": "Indica si el negocio participó en ruedas comerciales del programa.",
                 },
             },
             "connection_commercial": {
@@ -499,7 +502,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "connection_commercial",
-                    "description": "Generó conexiones durante el desarrollo de la rueda comercial",
+                    "description": "Indica si se generaron conexiones comerciales durante las ruedas del programa.",
                 },
             },
             "participate_financial": {
@@ -509,7 +512,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "participate_financial",
-                    "description": "Participó en alguna rueda financiera del programa",
+                    "description": "Indica si el negocio participó en ruedas financieras del programa.",
                 },
             },
             "connection_financial": {
@@ -519,7 +522,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "connection_financial",
-                    "description": "Generó conexiones durante el desarrollo de la rueda financiera",
+                    "description": "Indica si se generaron conexiones financieras durante las ruedas del programa.",
                 },
             },
             "banked": {
@@ -529,7 +532,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "banked",
-                    "description": "Tiene cuenta bancaria",
+                    "description": "Indica si el negocio posee una cuenta bancaria.",
                 },
             },
             "bookkeeping": {
@@ -540,7 +543,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": CATEGORICAL,
                 "metadata": {
                     "mapping": CATEGORICAL_MAPPINGS["bookkeeping"],
-                    "description": "Forma de llevar las cuentas del negocio",
+                    "description": "Método utilizado para llevar la contabilidad/cuentas del negocio (manual, Excel, software, etc.).",
                     "name": "bookkeeping",
                 },
             },
@@ -553,7 +556,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": BOOLEAN,
                 "metadata": {
                     "name": "knows_associationways",
-                    "description": "El líder del negocio conoce cómo establecer y formalizar los diferentes mecanismos de asociatividad empresarial",
+                    "description": "Indica si el líder conoce mecanismos de asociatividad empresarial y cómo formalizarlos.",
                 },
             },
             "association_group_training": {
@@ -563,7 +566,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "association_group_training",
-                    "description": "Se ha asociado para realizar: Sí, para tomar capacitaciones grupales",
+                    "description": "Indica si se ha asociado para tomar capacitaciones grupales.",
                 },
             },
             "association_new_machinery": {
@@ -573,7 +576,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "association_new_machinery",
-                    "description": "Se ha asociado para realizar: Sí, para adquirir maquinaria y equipos modernos",
+                    "description": "Indica si se ha asociado para adquirir maquinaria/equipos modernos.",
                 },
             },
             "association_buy_supplies": {
@@ -583,7 +586,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "association_buy_supplies",
-                    "description": "Se ha asociado para realizar: Sí, para comprar insumos y así reducir costos",
+                    "description": "Indica si se ha asociado para comprar insumos y reducir costos.",
                 },
             },
             "association_use_machinery_nobuy": {
@@ -593,7 +596,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "association_use_machinery_nobuy",
-                    "description": "Se ha asociado para realizar: Sí, para utilizar maquinaria sin tener que comprarla",
+                    "description": "Indica si se ha asociado para utilizar maquinaria sin comprarla.",
                 },
             },
             "association_new_markets": {
@@ -603,7 +606,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "association_new_markets",
-                    "description": "Se ha asociado para realizar: Sí, para acceder a nuevos mercados",
+                    "description": "Indica si se ha asociado para acceder a nuevos mercados.",
                 },
             },
             "association_distribution": {
@@ -613,7 +616,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "association_distribution",
-                    "description": "Se ha asociado para realizar: Sí, para procesos logísticos y de distribución",
+                    "description": "Indica si se ha asociado para procesos logísticos y de distribución.",
                 },
             },
             "association_have_not": {
@@ -623,7 +626,7 @@ def get_sections_config(df: pd.DataFrame) -> dict:
                 "type": DUMMY,
                 "metadata": {
                     "name": "association_have_not",
-                    "description": "Se ha asociado para realizar: No me he asociado",
+                    "description": "Indica si el negocio no se ha asociado para ninguna actividad colaborativa.",
                 },
             },
         },
