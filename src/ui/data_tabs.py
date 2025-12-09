@@ -21,12 +21,13 @@ def render_cohort_info() -> str:
         "cohorte": st.text_input(
             "Número de la Cohorte", placeholder="Ej.: Primera Cohorte"
         ),
-        "sector": st.text_input(
-            "Sector", placeholder="Ej.: Textiles, Manufactura, Servicios, café, lácteos"
+        "sector": st.selectbox(
+        "Selecciona el sector",
+        ("Manufactura", "Café", "Lácteos")
         ),
         "informacion_adicional": st.text_input(
             "Información adicional", placeholder="Ej.: Fechas"
-        ),
+        )
     }
     return ", ".join(
         f"{key}: {value}" for key, value in cohort_details.items() if value
