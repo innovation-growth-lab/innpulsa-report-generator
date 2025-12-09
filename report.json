@@ -1,0 +1,222 @@
+{
+    "executive_summary": "El programa ZASCA, Segunda Cohorte, en Popayán, implementó una intervención en un grupo de unidades productivas, durante la cual se observaron cambios en áreas clave de su gestión. En optimización operativa, se evidenció un aumento en la proporción de empresas que utilizan y hacen seguimiento periódico de indicadores, duplicándose del 27% al 56%.\n\nEn la gestión del talento humano, se registró una disminución de 6 p.p. en la proporción de empresas donde el líder recibe un sueldo fijo, mientras que el monto del sueldo fijo mensual promedio que recibe el líder aumentó en un 11%. Respecto a las prácticas gerenciales, se observó un aumento de 48 p.p. en la proporción de unidades productivas que utilizan como método de fijación de precios \"Los costos, gastos y porcentaje de ganancia de cada producto\", alcanzando el 64%. Adicionalmente, se documentó un incremento en el conocimiento de indicadores clave del negocio, como el costo unitario de producción (aumento de 21 p.p.) y el margen de ganancia por producto/servicio (aumento de 33 p.p.). La implementación de sistemas de costeo también mostró un aumento, con un incremento de 37 p.p. en el porcentaje de empresas que calcula el costo total de materiales directos para el costeo del producto.\n\nEn cuanto al desempeño financiero y comercial, la participación en ruedas comerciales y financieras fue alta (91% en ambos casos), aunque la generación de conexiones fue más efectiva en las ruedas comerciales (67%) que en las financieras (20%). Se observó un incremento de 12 p.p. en el porcentaje de empresas que poseen una cuenta bancaria, alcanzando el 72%. Los sistemas contables experimentaron una transformación, eliminándose el uso de contadores externos y la ausencia de métodos contables, mientras que el uso de hojas de cálculo o aplicaciones móviles se duplicó. Finalmente, en asociatividad y colaboración empresarial, el conocimiento de los líderes sobre mecanismos de asociatividad empresarial y cómo formalizarlos aumentó en 41 p.p.\n\nEn resumen, el programa ZASCA, Segunda Cohorte, en Popayán, generó cambios en la gestión de procesos, el conocimiento de indicadores clave, la formalización financiera y el conocimiento sobre asociatividad empresarial entre las unidades productivas participantes.\n",
+    "sections": {
+        "Optimización operativa": {
+            "content": "## OPTIMIZACIÓN OPERATIVA\nDurante el periodo de intervención, se observaron cambios en la gestión de procesos de las unidades productivas participantes, basados en el seguimiento de indicadores.\n\n### Factores asociados a los cambios en eficiencia\nSe observó un cambio en la proporción de empresas que utilizan y hacen seguimiento periódico de indicadores (más allá de los financieros). El porcentaje de empresas que reportan esta práctica se duplicó, pasando del 27% al 56%, lo que representa un aumento del 107%. Este cambio sugiere una mayor atención a la medición y el análisis del desempeño empresarial por parte de las unidades productivas participantes.\n",
+            "variables": {
+                "hasindicators": {
+                    "description": "Indica si el negocio utiliza y hace seguimiento periódico de indicadores (más allá de los financieros).",
+                    "value_initial_intervention": 27.0,
+                    "value_final_intervention": 56.0,
+                    "percentage_change": "107%",
+                    "interpretation": "El porcentaje de empresas que Indica si el negocio utiliza y hace seguimiento periódico de indicadores (más allá de los financieros). pasó del 27% al 56%, representando un cambio del 107%."
+                }
+            }
+        },
+        "Talento Humano": {
+            "content": "## GESTIÓN DE TALENTO HUMANO\nSe observaron cambios en la gestión del talento humano durante el periodo de intervención, particularmente en la estructura salarial de los líderes y la composición del personal.\n\n### Estructura Salarial del Líder Empresarial\nLa proporción de empresas donde el líder recibe un sueldo fijo disminuyó en 6 p.p., pasando del 24% al 18%.  En contraste, el monto del sueldo fijo mensual promedio que recibe el líder aumentó en un 11%, pasando de 1011200 a 1131857.\n\n### Estabilidad en el Personal\nEl número total de empleados del negocio (sumando todas las modalidades de contratación) se mantuvo estable, con un promedio de 3 empleados antes y después de la intervención.  Similarmente, el número de empleados de nómina (con afiliación a salud y pensión) mostró un cambio mínimo, pasando de un promedio de 0 a 1.\n",
+            "variables": {
+                "emp_ft": {
+                    "description": "Número de empleados de nómina (con afiliación a salud y pensión).",
+                    "value_initial_intervention": 0.0,
+                    "value_final_intervention": 1.0,
+                    "percentage_change": "0%",
+                    "interpretation": "Para Número de empleados de nómina (con afiliación a salud y pensión)., el promedio pasó de 0 a 1, representando un cambio del 0%."
+                },
+                "emp_total": {
+                    "description": "Número total de empleados del negocio (suma de todas las modalidades).",
+                    "value_initial_intervention": 3.0,
+                    "value_final_intervention": 3.0,
+                    "percentage_change": "0%",
+                    "interpretation": "Para Número total de empleados del negocio (suma de todas las modalidades)., el promedio pasó de 3 a 3, representando un cambio del 0%."
+                },
+                "hassalary": {
+                    "description": "Indica si el postulante (líder) recibe un sueldo fijo del negocio.",
+                    "value_initial_intervention": 24.0,
+                    "value_final_intervention": 18.0,
+                    "percentage_change": "-25%",
+                    "interpretation": "El porcentaje de empresas que Indica si el postulante (líder) recibe un sueldo fijo del negocio. pasó del 24% al 18%, representando un cambio del -25%."
+                },
+                "income": {
+                    "description": "Monto del sueldo fijo mensual promedio que recibe el postulante (líder).",
+                    "value_initial_intervention": 1011200.0,
+                    "value_final_intervention": 1131857.0,
+                    "percentage_change": "11%",
+                    "interpretation": "Para Monto del sueldo fijo mensual promedio que recibe el postulante (líder)., el promedio pasó de 1011200 a 1131857, representando un cambio del 11%."
+                }
+            }
+        },
+        "Practicas Gerenciales": {
+            "content": "## PRÁCTICAS GERENCIALES\n\nSe registraron cambios en las prácticas gerenciales de las unidades productivas de Popayán, Segunda Cohorte, durante el periodo de intervención, abarcando sistemas de precios, conocimiento de indicadores y métodos de costeo.\n\n### Sistemas de Fijación de Precios y Control de Costos\n\nLos métodos utilizados para la fijación de precios experimentaron una modificación. La proporción de unidades productivas que utilizan como método \"Los costos, gastos y porcentaje de ganancia de cada producto\" aumentó en 48 p.p., alcanzando el 64%. Paralelamente, la proporción de empresas que reportaron no tener definido un mecanismo de fijación de precios aumentó al 2%.\n\n### Conocimiento y Seguimiento de Indicadores Clave del Negocio\n\nEl conocimiento de indicadores clave del negocio por parte de las empresas presentó variaciones. El porcentaje de empresas que conoce el costo unitario de producción aumentó en 21 p.p., alcanzando el 91%. Asimismo, el conocimiento del margen de ganancia por producto/servicio aumentó en 33 p.p., llegando al 72%. La proporción de empresas que conoce la periodicidad de sus ventas aumentó en 54 p.p., situándose en el 37%. Además, el porcentaje de empresas que conoce sus ingresos de forma detallada se incrementó en 79 p.p., alcanzando el 43%. Por último, el porcentaje de empresas que conoce su capacidad máxima de producción periódica tuvo un incremento de 10 p.p., llegando al 62%. Estos datos sugieren una mayor familiaridad con los aspectos financieros y operativos del negocio.\n\n### Implementación de Sistemas de Costeo\n\nLa implementación de sistemas de costeo también mostró cambios. El porcentaje de empresas que calcula el costo total de materiales directos para el costeo del producto aumentó en 37 p.p., llegando al 81%. De igual forma, el porcentaje de empresas que calcula el costo total de mano de obra directa para el costeo del producto aumentó en 62 p.p., alcanzando el 70%. El porcentaje de empresas que calcula los gastos generales de fabricación para el costeo del producto aumentó en 31 p.p., llegando al 67%. Esto indica una mayor atención al detalle en la determinación de los costos de producción.\n",
+            "variables": {
+                "price_system": {
+                    "description": "Método utilizado para la fijación de precios (competencia, costos, margen).",
+                    "value_initial_intervention": {
+                        "Ninguno - No se ha definido un mecanismo de fijación de precios": 0.0,
+                        "Los precios de mercado de los competidores": 0.0,
+                        "Los costos y gastos del negocio": 0.0,
+                        "Los costos, gastos y porcentaje de ganancia de cada producto": 43.0
+                    },
+                    "value_final_intervention": {
+                        "Ninguno - No se ha definido un mecanismo de fijación de precios": 2.0,
+                        "Los precios de mercado de los competidores": 0.0,
+                        "Los costos y gastos del negocio": 0.0,
+                        "Los costos, gastos y porcentaje de ganancia de cada producto": 64.0
+                    },
+                    "percentage_change": {
+                        "Ninguno - No se ha definido un mecanismo de fijación de precios": "0%",
+                        "Los precios de mercado de los competidores": "0%",
+                        "Los costos y gastos del negocio": "0%",
+                        "Los costos, gastos y porcentaje de ganancia de cada producto": "48%"
+                    },
+                    "interpretation": "Para Método utilizado para la fijación de precios (competencia, costos, margen).:\n- Ninguno - No se ha definido un mecanismo de fijación de precios: pasó de 0% a 2% (0%)\n- Los costos, gastos y porcentaje de ganancia de cada producto: pasó de 43% a 64% (48%)"
+                },
+                "knows_production_cost": {
+                    "description": "Indica si el negocio conoce el costo unitario de producción.",
+                    "value_initial_intervention": 75.0,
+                    "value_final_intervention": 91.0,
+                    "percentage_change": "21%",
+                    "interpretation": "El porcentaje de empresas que Indica si el negocio conoce el costo unitario de producción. pasó del 75% al 91%, representando un cambio del 21%."
+                },
+                "knows_max_production": {
+                    "description": "Indica si el negocio conoce su capacidad máxima de producción periódica.",
+                    "value_initial_intervention": 56.0,
+                    "value_final_intervention": 62.0,
+                    "percentage_change": "10%",
+                    "interpretation": "El porcentaje de empresas que Indica si el negocio conoce su capacidad máxima de producción periódica. pasó del 56% al 62%, representando un cambio del 10%."
+                },
+                "knows_profit_margin": {
+                    "description": "Indica si el negocio conoce el margen de ganancia por producto/servicio.",
+                    "value_initial_intervention": 54.0,
+                    "value_final_intervention": 72.0,
+                    "percentage_change": "33%",
+                    "interpretation": "El porcentaje de empresas que Indica si el negocio conoce el margen de ganancia por producto/servicio. pasó del 54% al 72%, representando un cambio del 33%."
+                },
+                "knows_sales_frequency": {
+                    "description": "Indica si el negocio conoce la periodicidad de sus ventas.",
+                    "value_initial_intervention": 24.0,
+                    "value_final_intervention": 37.0,
+                    "percentage_change": "54%",
+                    "interpretation": "El porcentaje de empresas que Indica si el negocio conoce la periodicidad de sus ventas. pasó del 24% al 37%, representando un cambio del 54%."
+                },
+                "knows_detailed_income": {
+                    "description": "Indica si el negocio conoce sus ingresos de forma detallada.",
+                    "value_initial_intervention": 24.0,
+                    "value_final_intervention": 43.0,
+                    "percentage_change": "79%",
+                    "interpretation": "El porcentaje de empresas que Indica si el negocio conoce sus ingresos de forma detallada. pasó del 24% al 43%, representando un cambio del 79%."
+                },
+                "productcost_materials": {
+                    "description": "Indica si se calcula el costo total de materiales directos para el costeo del producto.",
+                    "value_initial_intervention": 59.0,
+                    "value_final_intervention": 81.0,
+                    "percentage_change": "37%",
+                    "interpretation": "El porcentaje de empresas que Indica si se calcula el costo total de materiales directos para el costeo del producto. pasó del 59% al 81%, representando un cambio del 37%."
+                },
+                "productcost_handwork": {
+                    "description": "Indica si se calcula el costo total de mano de obra directa para el costeo del producto.",
+                    "value_initial_intervention": 43.0,
+                    "value_final_intervention": 70.0,
+                    "percentage_change": "62%",
+                    "interpretation": "El porcentaje de empresas que Indica si se calcula el costo total de mano de obra directa para el costeo del producto. pasó del 43% al 70%, representando un cambio del 62%."
+                },
+                "productcost_fabrication": {
+                    "description": "Indica si se calculan los gastos generales de fabricación para el costeo del producto.",
+                    "value_initial_intervention": 51.0,
+                    "value_final_intervention": 67.0,
+                    "percentage_change": "31%",
+                    "interpretation": "El porcentaje de empresas que Indica si se calculan los gastos generales de fabricación para el costeo del producto. pasó del 51% al 67%, representando un cambio del 31%."
+                }
+            }
+        },
+        "Financiero": {
+            "content": "## DESEMPEÑO FINANCIERO Y COMERCIAL\n\nEl análisis del desempeño financiero y comercial de las unidades productivas de la segunda cohorte del centro ZASCA en Popayán revela cambios en su participación en ruedas de negocios, la formalización bancaria y los métodos contables utilizados.\n\n### Conexiones Comerciales y Financieras\n\nLa participación en ruedas comerciales y financieras experimentó un alto nivel de involucramiento por parte de las empresas. Un 91% de las empresas reportó haber participado en ruedas comerciales, y un porcentaje idéntico (91%) también participó en ruedas financieras. Sin embargo, la efectividad en la generación de conexiones difiere significativamente entre ambos tipos de ruedas. Mientras que el 67% de las empresas participantes en ruedas comerciales reportaron haber generado conexiones comerciales, solo el 20% de las participantes en ruedas financieras lograron generar conexiones financieras. Esta diferencia sugiere una disparidad en la efectividad de las ruedas, o en la capacidad de las empresas para capitalizar las oportunidades presentadas en las ruedas financieras.\n\n### Formalización Financiera\n\nSe observa un incremento en la formalización bancaria. El porcentaje de empresas que poseen una cuenta bancaria aumentó en 12 p.p., pasando del 64% al 72%. Este cambio indica un avance en la inclusión financiera de las unidades productivas.\n\n### Sistemas Contables\n\nHubo una transformación notable en los métodos de contabilidad utilizados por las empresas. El uso de contadores externos se eliminó por completo, pasando del 5% al 0%. De manera similar, la proporción de empresas que no utilizaban ningún método contable también se redujo a cero, desde un 21%. Este cambio drástico sugiere una adopción generalizada de métodos de contabilidad más formales.\n\nEl uso de hojas de cálculo (Excel) o aplicaciones móviles para el control de cuentas se duplicó (aumento del 169%), pasando del 13% al 35%. Además, un 8% de las empresas comenzaron a utilizar software de contabilidad, donde antes ninguna lo hacía. Por otro lado, el uso de métodos manuales disminuyó ligeramente, pasando del 59% al 54%, una reducción del 8%. Estos cambios indican una migración hacia herramientas de contabilidad más modernas y eficientes, con una preferencia marcada por soluciones digitales como Excel y software especializado.\n",
+            "variables": {
+                "participate_commercial": {
+                    "description": "Indica si el negocio participó en ruedas comerciales del programa.",
+                    "value_initial_intervention": "N/A",
+                    "value_final_intervention": 91.0,
+                    "percentage_change": "N/A",
+                    "interpretation": "Para Indica si el negocio participó en ruedas comerciales del programa., 91% de las empresas respondieron afirmativamente tras su participación en el programa."
+                },
+                "connection_commercial": {
+                    "description": "Indica si se generaron conexiones comerciales durante las ruedas del programa.",
+                    "value_initial_intervention": "N/A",
+                    "value_final_intervention": 67.0,
+                    "percentage_change": "N/A",
+                    "interpretation": "Para Indica si se generaron conexiones comerciales durante las ruedas del programa., 67% de las empresas respondieron afirmativamente tras su participación en el programa."
+                },
+                "participate_financial": {
+                    "description": "Indica si el negocio participó en ruedas financieras del programa.",
+                    "value_initial_intervention": "N/A",
+                    "value_final_intervention": 91.0,
+                    "percentage_change": "N/A",
+                    "interpretation": "Para Indica si el negocio participó en ruedas financieras del programa., 91% de las empresas respondieron afirmativamente tras su participación en el programa."
+                },
+                "connection_financial": {
+                    "description": "Indica si se generaron conexiones financieras durante las ruedas del programa.",
+                    "value_initial_intervention": "N/A",
+                    "value_final_intervention": 20.0,
+                    "percentage_change": "N/A",
+                    "interpretation": "Para Indica si se generaron conexiones financieras durante las ruedas del programa., 20% de las empresas respondieron afirmativamente tras su participación en el programa."
+                },
+                "banked": {
+                    "description": "Indica si el negocio posee una cuenta bancaria.",
+                    "value_initial_intervention": 64.0,
+                    "value_final_intervention": 72.0,
+                    "percentage_change": "12%",
+                    "interpretation": "El porcentaje de empresas que Indica si el negocio posee una cuenta bancaria. pasó del 64% al 72%, representando un cambio del 12%."
+                },
+                "bookkeeping": {
+                    "description": "Método utilizado para llevar la contabilidad/cuentas del negocio (manual, Excel, software, etc.).",
+                    "value_initial_intervention": {
+                        "A mano": 0.0,
+                        "Excel": 0.0,
+                        "Libro contable": 0.0,
+                        "Software contable": 0.0,
+                        "Contador externo: Delegamos la gestión y registro de la información financiera a un contador externo": 5.0,
+                        "Hojas de cálculo (Excel) o aplicación móvil para control de las cuentas del negocio": 13.0,
+                        "Manualmente: Llevamos registros financieros utilizando métodos manuales como cuaderno, libros contables, cartillas o registros en papel.": 59.0,
+                        "Ninguna: La gestión y registro de la información financiera no se realiza de ninguna manera y estamos buscando mejorar este aspecto.": 21.0,
+                        "Software de contabilidad: Utilizamos software especializado de contabilidad para gestionar y registrar nuestras transacciones financieras.": 0.0
+                    },
+                    "value_final_intervention": {
+                        "A mano": 0.0,
+                        "Excel": 0.0,
+                        "Libro contable": 0.0,
+                        "Software contable": 0.0,
+                        "Contador externo: Delegamos la gestión y registro de la información financiera a un contador externo": 0.0,
+                        "Hojas de cálculo (Excel) o aplicación móvil para control de las cuentas del negocio": 35.0,
+                        "Manualmente: Llevamos registros financieros utilizando métodos manuales como cuaderno, libros contables, cartillas o registros en papel.": 54.0,
+                        "Ninguna: La gestión y registro de la información financiera no se realiza de ninguna manera y estamos buscando mejorar este aspecto.": 0.0,
+                        "Software de contabilidad: Utilizamos software especializado de contabilidad para gestionar y registrar nuestras transacciones financieras.": 8.0
+                    },
+                    "percentage_change": {
+                        "A mano": "0%",
+                        "Excel": "0%",
+                        "Libro contable": "0%",
+                        "Software contable": "0%",
+                        "Contador externo: Delegamos la gestión y registro de la información financiera a un contador externo": "-100%",
+                        "Hojas de cálculo (Excel) o aplicación móvil para control de las cuentas del negocio": "169%",
+                        "Manualmente: Llevamos registros financieros utilizando métodos manuales como cuaderno, libros contables, cartillas o registros en papel.": "-8%",
+                        "Ninguna: La gestión y registro de la información financiera no se realiza de ninguna manera y estamos buscando mejorar este aspecto.": "-100%",
+                        "Software de contabilidad: Utilizamos software especializado de contabilidad para gestionar y registrar nuestras transacciones financieras.": "0%"
+                    },
+                    "interpretation": "Para Método utilizado para llevar la contabilidad/cuentas del negocio (manual, Excel, software, etc.).:\n- Contador externo: Delegamos la gestión y registro de la información financiera a un contador externo: pasó de 5% a 0% (-100%)\n- Hojas de cálculo (Excel) o aplicación móvil para control de las cuentas del negocio: pasó de 13% a 35% (169%)\n- Manualmente: Llevamos registros financieros utilizando métodos manuales como cuaderno, libros contables, cartillas o registros en papel.: pasó de 59% a 54% (-8%)\n- Ninguna: La gestión y registro de la información financiera no se realiza de ninguna manera y estamos buscando mejorar este aspecto.: pasó de 21% a 0% (-100%)\n- Software de contabilidad: Utilizamos software especializado de contabilidad para gestionar y registrar nuestras transacciones financieras.: pasó de 0% a 8% (0%)"
+                }
+            }
+        },
+        "Asociatividad": {
+            "content": "## ASOCIATIVIDAD Y COLABORACIÓN EMPRESARIAL\nLas prácticas y el conocimiento sobre asociatividad empresarial presentaron cambios entre las unidades productivas participantes de la Segunda Cohorte en Popayán.\n\n### Capacidad y Conocimiento Asociativo\nEl conocimiento reportado por los líderes empresariales sobre mecanismos de asociatividad varió durante el programa. El porcentaje de líderes que indicó conocer mecanismos de asociatividad empresarial y cómo formalizarlos aumentó en 41 p.p., pasando del 48% al 89%. Este incremento representa un cambio del 85%, lo que sugiere una evolución en la comprensión de los líderes sobre la formalización de la asociatividad empresarial.\n",
+            "variables": {
+                "knows_associationways": {
+                    "description": "Indica si el líder conoce mecanismos de asociatividad empresarial y cómo formalizarlos.",
+                    "value_initial_intervention": 48.0,
+                    "value_final_intervention": 89.0,
+                    "percentage_change": "85%",
+                    "interpretation": "El porcentaje de empresas que Indica si el líder conoce mecanismos de asociatividad empresarial y cómo formalizarlos. pasó del 48% al 89%, representando un cambio del 85%."
+                }
+            }
+        }
+    }
+}

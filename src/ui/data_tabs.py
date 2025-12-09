@@ -22,7 +22,7 @@ def render_cohort_info() -> str:
             "Número de la Cohorte", placeholder="Ej.: Primera Cohorte"
         ),
         "sector": st.text_input(
-            "Sector", placeholder="Ej.: Textiles, Manufactura, Servicios"
+            "Sector", placeholder="Ej.: Textiles, Manufactura, Servicios, café, lácteos"
         ),
         "informacion_adicional": st.text_input(
             "Información adicional", placeholder="Ej.: Fechas"

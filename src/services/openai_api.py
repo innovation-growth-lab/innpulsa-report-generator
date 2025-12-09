@@ -8,7 +8,7 @@ from ..models.sections import ReportSection, APIResponse
 from ..config.prompts import SYSTEM_PROMPT
 
 logger = logging.getLogger(__name__)
-client = OpenAI()
+#client = OpenAI()
 
 
 async def call_openai_api(

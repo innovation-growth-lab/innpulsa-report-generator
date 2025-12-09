@@ -14,9 +14,9 @@ from src.config.prompts import (
 
 def get_api_caller(model_name: str):
     """Get the appropriate API caller based on the model name."""
-    if model_name.startswith("gpt"):
-        return call_openai_api
-    elif model_name.startswith("gemini"):
+    #if model_name.startswith("gpt"):
+    #    return call_openai_api
+    if  model_name.startswith("gemini"):
         return call_gemini_api
     else:
         raise ValueError(f"Unsupported model: {model_name}")
